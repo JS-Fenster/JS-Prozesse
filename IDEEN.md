@@ -1,6 +1,6 @@
 # Ideen für KI-Automatisierungen
 
-**Erstellt:** 2025-12-09 | **Aktualisiert:** 2025-12-12 | **Status:** Brainstorming-Phase | **Anzahl:** 62 Ideen (4 merged)
+**Erstellt:** 2025-12-09 | **Aktualisiert:** 2025-12-12 | **Status:** Brainstorming-Phase | **Anzahl:** 63 Ideen (4 merged)
 
 ---
 
@@ -23,7 +23,7 @@
 |-------|--------------|-------|
 | **0** | **INFRASTRUKTUR** - Web-Plattform, DB, Auth, Services | #58, #59, #60, #64 |
 | **1** | **BASIS-MODULE** - Erste Tools auf Plattform | #1, #4 ✅, #13, #57, #39, #40 |
-| **2** | **KERNPROZESSE** - Aufbauende Tools | #9, #10, #11, #22, #24, #28, #32, #33, #36, #37, #38, #43, #53, #55, #56, #61, #65, #66 |
+| **2** | **KERNPROZESSE** - Aufbauende Tools | #9, #10, #11, #22, #24, #28, #32, #33, #36, #37, #38, #43, #53, #55, #56, #61, #65, #66, #67 |
 | **3** | **KOMMUNIKATION** - E-Mail, CRM, Kunden | #3, #6, #12, #23, #25, #27, #30, #41, #45, #46, #47, #49, #50 |
 | **4** | **COMMAND CENTER** - Dashboard vereint alles | #14 (integriert #36, #44, #51, #52) |
 | **5** | **KI-FEATURES** - Intelligente Erweiterungen | #2, #5, #7, #8, #18, #20, #21, #29, #62, #63 |
@@ -138,6 +138,14 @@ XML aus WoT (Weru WPS on Top) aufbereiten fuer sauberen W4A-Import.
   - Positionstexte schlank halten (nur Raum, Masse, Sonder-Optionen)
   - Lieferant "Weru" je Position einfuegen (auto. Zuordnung im ERP)
 - **I/O:** XML rein → transformierte XML raus → Drag&Drop in W4A
+
+### #67 XML-Konverter (Universal → W4A) ⭐ NEU
+Universeller Konverter: Bestehende XML anpassen oder aus Text-Dokumenten XML fuer W4A-Import generieren.
+- **Input:** Beliebige XML-Dateien, Textdokumente (strukturierte Daten)
+- **Output:** W4A-kompatible XML fuer Import
+- **Features:** Auto-Mapping, Vorschau, Validierung, Template-System
+- **Verwandt:** #37 (WoT-XML speziell fuer Weru)
+- **Details:** [IDEEN_DETAILS.md](IDEEN_DETAILS.md#67)
 
 ### #38 Lagerverwaltung & Inventur
 Bestandsfuehrung, Inventur-Prozess, Wareneingangsbuchung.
@@ -415,7 +423,7 @@ Hausfoto → KI zaehlt Fenster/Tueren → grobes Budgetangebot.
 | Stufe | Tools |
 |-------|-------|
 | 🟢 Einfach | #4 ✓, #29, #49, #57 |
-| 🟡 Mittel | #1, #3, #6, #9, #10, #13, #15, #16, #19, #23, #24, #28, #31, #33, #36, #37, #38, #39, #40, #43, #47, #50, #53, #55, #65, #66 |
+| 🟡 Mittel | #1, #3, #6, #9, #10, #13, #15, #16, #19, #23, #24, #28, #31, #33, #36, #37, #38, #39, #40, #43, #47, #50, #53, #55, #65, #66, #67 |
 | 🟠 Anspruchsvoll | #2, #11, #12, #14, #17, #18, #22, #25, #26, #27, #30, #32, #34, #35, #41, #42, #44, #51, #52, #54, #56 |
 | 🔴 Komplex | #5, #7, #8, #20, #21, #62, #63 |
 | ⚫ Merged | #45→#23, #46→#24, #48→#47, #61→#28 |

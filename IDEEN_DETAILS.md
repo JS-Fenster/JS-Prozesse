@@ -1,6 +1,6 @@
 # Ideen für KI-Automatisierungen - Technische Details
 
-**Erstellt:** 2025-12-09 | **Aktualisiert:** 2025-12-12 | **Status:** Brainstorming-Phase | **Anzahl:** 62 Ideen (4 merged)
+**Erstellt:** 2025-12-09 | **Aktualisiert:** 2025-12-12 | **Status:** Brainstorming-Phase | **Anzahl:** 63 Ideen (4 merged)
 
 ---
 
@@ -86,6 +86,7 @@
 | 64 | Data Service Layer | Nicht vorhanden | Eigenbau ⭐⭐ (Phase 0) |
 | 65 | Anzahlungsrechnung-Auto | Nicht vorhanden | Eigenbau ⭐ |
 | 66 | Montageplanung + Wetter | Nicht vorhanden | Eigenbau ⭐ |
+| 67 | XML-Konverter (Universal → W4A) | Nicht vorhanden | Eigenbau |
 
 **Legende:** Eigenbau = Selbst entwickeln | Erweitern = W4A-Funktion ausbauen | Pruefen = W4A-Status klaeren | ⭐ = Prioritaet | ⭐⭐ = Infrastruktur (ZUERST) | 🔴 = KI-Komplex
 
@@ -1926,4 +1927,62 @@ def check_montage_wetter(termin_datum, plz):
 
 ### Status
 **Idee** - Mittel | **Phase:** 2 (Kernprozesse) | **Prioritaet:** Normal
+
+---
+
+## #67 XML-Konverter (Universal → W4A)
+
+### Kurzbeschreibung
+Universeller Konverter: Bestehende XML anpassen oder aus Text-Dokumenten XML fuer W4A-Import generieren.
+
+### Problem (IST-Zustand)
+- Verschiedene Quellen liefern XML in unterschiedlichen Formaten
+- W4A erwartet spezifisches XML-Schema fuer Import
+- Manuelle Anpassung zeitaufwaendig und fehleranfaellig
+- Textdokumente (strukturierte Daten) muessen haendisch in W4A eingegeben werden
+
+### Loesung
+1. **XML-Transformation:** Beliebige XML → W4A-kompatibles XML
+2. **Text-zu-XML:** Strukturierte Textdaten → XML generieren
+3. **Template-System:** Wiederverwendbare Mappings fuer verschiedene Quellen
+4. **Validierung:** Pruefen ob Output W4A-konform ist
+
+### Technische Umsetzung
+```python
+# Beispiel-Workflow
+def convert_to_w4a(input_file, template):
+    if input_file.endswith('.xml'):
+        data = parse_xml(input_file)
+    else:
+        data = parse_text(input_file)  # CSV, TXT, etc.
+
+    # Mapping anwenden
+    w4a_data = apply_template(data, template)
+
+    # Validieren
+    validate_w4a_schema(w4a_data)
+
+    # Output
+    return generate_w4a_xml(w4a_data)
+```
+
+### Features
+- **Auto-Mapping:** Feldnamen intelligent zuordnen
+- **Vorschau:** Transformiertes XML vor Import anzeigen
+- **Batch-Verarbeitung:** Mehrere Dateien auf einmal
+- **Template-Editor:** Eigene Mappings definieren
+- **Fehler-Report:** Zeigt was nicht konvertiert werden konnte
+
+### Abhaengigkeiten
+- **Verwandt:** #37 WoT-XML Transformer (speziell fuer Weru)
+- **Nutzt:** #58 Web-Plattform (GUI), #59 DB-Connector (Schema-Info)
+
+### Offene Fragen
+- [ ] Welche XML-Quellen sind relevant? (Lieferanten, andere Konfiguratoren?)
+- [ ] W4A-Import-Schema dokumentiert?
+- [ ] Welche Textformate? (CSV, strukturierte TXT?)
+- [ ] GUI oder CLI?
+
+### Status
+**Idee** - Mittel | **Phase:** 2 (Kernprozesse)
 
