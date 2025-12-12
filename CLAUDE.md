@@ -7,9 +7,9 @@
 
 ## Zentrale Wissensbasis (IMMER einlesen!)
 
-> **Basis-Anweisungen:** `../KI-Automation/CLAUDE.md`
-> **DB-Wissen:** `../KI-Automation/docs/ERP_Datenbank.md`
-> **KI-News:** `../KI-Automation/docs/KI_Wissen.md`
+> **Basis-Anweisungen:** `../KI_Automation/CLAUDE.md`
+> **DB-Wissen:** `../KI_Automation/docs/ERP_Datenbank.md`
+> **KI-News:** `../KI_Automation/docs/KI_Wissen.md`
 
 ---
 
