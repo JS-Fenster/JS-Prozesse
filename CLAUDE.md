@@ -7,9 +7,9 @@
 
 ## Zentrale Wissensbasis (IMMER einlesen!)
 
-> **Basis-Anweisungen:** `Z:/IT-Sammlung/KI_Automation/CLAUDE.md`
-> **DB-Wissen:** `Z:/IT-Sammlung/KI_Automation/docs/ERP_Datenbank.md`
-> **KI-News:** `Z:/IT-Sammlung/KI_Automation/docs/KI_Wissen.md`
+> **Basis-Anweisungen:** `Z:/IT-Sammlung/KI_Automation_Hub/KI_Automation/CLAUDE.md`
+> **DB-Wissen:** `Z:/IT-Sammlung/KI_Automation_Hub/KI_Automation/docs/ERP_Datenbank.md`
+> **KI-News:** `Z:/IT-Sammlung/KI_Automation_Hub/KI_Automation/docs/KI_Wissen.md`
 
 ---
 
@@ -84,8 +84,8 @@ Wenn User groessere Ablauf-Details erklaert:
 
 | Repo | Pfad | Inhalt |
 |------|------|--------|
-| **KI-Automation** | `Z:/IT-Sammlung/KI_Automation/` | Shared Libs, DB-Wissen, KI-News |
-| **Auftragsmanagement** | `Z:/IT-Sammlung/Auftragsmanagement/` | Web-App Implementation |
+| **KI-Automation** | `Z:/IT-Sammlung/KI_Automation_Hub/KI_Automation/` | Shared Libs, DB-Wissen, KI-News |
+| **Auftragsmanagement** | `Z:/IT-Sammlung/KI_Automation_Hub/Auftragsmanagement/` | Web-App Implementation |
 
 ---
 
@@ -112,3 +112,4 @@ Wenn User groessere Ablauf-Details erklaert:
 | 2025-12-12 | IDEEN hierher | IDEEN.md, IDEEN_DETAILS.md, IDEEN_UEBERSICHT.html |
 | 2025-12-12 | Analysen hierher | 5 Prozess-Analysen in `analysen/` |
 | 2025-12-12 | Idee #66 | Montageplanung + Wetterprognose hinzugefuegt |
+| 2025-12-12 | Hub-Struktur | Alle Repos jetzt unter `KI_Automation_Hub/` |
