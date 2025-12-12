@@ -2,7 +2,7 @@
 
 **Firma:** Fenster- und Türenservice
 **Erstellt am:** 2025-12-05
-**Letzte Aktualisierung:** 2025-12-10
+**Letzte Aktualisierung:** 2025-12-12
 **Erstellt für:** Andreas Stolarczyk
 **Status:** Brainstorming & Konzeptphase
 
@@ -1050,10 +1050,99 @@ WHERE Code = ?
 
 ---
 
+## 📊 IST-Analyse Ergaenzungen (2025-12-12)
+
+### Erfassung nach Kanal
+
+| Kanal | Erfassung | Problem |
+|-------|-----------|---------|
+| **Ausstellung** | Kundendaten auf Zettel | Zettel kann verloren gehen |
+| **Telefon** | Evtl. erst in Outlook | Kachel kann geloescht werden |
+| **E-Mail/Formular** | Susann nimmt in Outlook auf | - |
+
+**KRITISCH:** Kunde wird erst angelegt wenn Reparatur durchgefuehrt wurde!
+- Verlustrisiko: Outlook-Kacheln/Zettel versehentlich geloescht
+- Kunde ruft nach Wochen an, nichts wird gefunden
+
+### Terminplanung
+
+| Aspekt | Details |
+|--------|---------|
+| **Wer plant** | Susann |
+| **Problem** | Terminabsprache langwierig (Kunde nicht erreichbar, passt nicht) |
+| **Beratung Zeiteinsatz** | Enrico, Andreas, Jaroslaw |
+| **Morgen-Briefing** | Montagebesprechung |
+
+### Ersatzteilsuche - Kennzahlen
+
+| Aspekt | Wert |
+|--------|------|
+| **Ersatzteil-Anteil** | ~35% der Reparaturen |
+| **Suchzeit pro Teil** | 15-45 Minuten |
+| **Wartezeit Kunde (Termin 2)** | 2-4 Wochen |
+| **Lieferzeit Ersatzteile** | 3-5 Tage |
+| **Teilekosten** | 15-80 EUR |
+| **Wer sucht** | Andreas (aktuell) |
+
+### Ersatzteil-Lieferanten
+
+| Lieferant | Typ |
+|-----------|-----|
+| Gruen Beschlaege | Haendler |
+| Ott | Haendler |
+| Tonitec | Haendler |
+| Febes | Haendler |
+| eBay | Marktplatz (Nachbauten) |
+
+### Ersatzteil-Recherche Probleme
+
+| Problem | Auswirkung |
+|---------|------------|
+| Originalteil nicht da | Muss anhand Bilder recherchieren |
+| Ansichten fehlen | Teil nicht bestimmbar |
+| Teilenummer fehlt | Muss ueber Masse identifizieren |
+| Massangaben fehlen | Kann nicht bestellt werden |
+
+### Wenn Ersatzteil nicht lieferbar
+
+| Option | Wann |
+|--------|------|
+| Nachbauten | Wenn Original nicht mehr da |
+| Reparatursets | Alternative |
+| Kompletttausch | Letzte Option |
+
+### Lagerbestand Ersatzteile
+
+| Aspekt | Details |
+|--------|---------|
+| **Umfang** | 5 groessere Regale |
+| **Dokumentiert** | NEIN |
+| **Auf Lager** | Austauschgetriebe (Standard) |
+| **Dokumentation sinnvoll?** | Zu viel Aufwand |
+
+### Dokumentation vor Ort
+
+| Aspekt | IST-Zustand |
+|--------|-------------|
+| **Checkliste** | Keine (nur Haustuerschloesser haben Aufmassblatt) |
+| **Dokumentation** | Alles auf Zettel |
+| **Problem** | Handschrift schwer lesbar |
+
+### Kunden-Kommunikation
+
+| Aspekt | Details |
+|--------|---------|
+| **Wer ruft an** | Susann |
+| **Info an Kunde** | Vor Ort ODER Auftragsbestaetigung mit Teilen |
+| **Problem** | Laengere Wartezeit, Andreas kommt nicht hinterher |
+
+---
+
 ## 📝 Change Log
 
 | Datum | Änderung | Autor |
 |-------|----------|-------|
+| 2025-12-12 | IST-Analyse: Erfassung, Terminplanung, Ersatzteil-Kennzahlen, Lieferanten | Claude |
 | 2025-12-10 | Team-Info, Volumen (~31/Monat), Preisstruktur, Zahlungsausfall-Lösung | Claude |
 | 2025-12-05 | Initiale Erstellung | Claude |
 

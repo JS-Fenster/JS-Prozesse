@@ -21,6 +21,7 @@ JS_Prozesse/
 │   ├── Anfrageprozess_Analyse.md
 │   ├── Bestellprozess_Analyse.md
 │   ├── Montageprozess_Analyse.md
+│   ├── Rechnungsprozess_Analyse.md
 │   ├── Reklamationsprozess_Analyse.md
 │   └── Reparaturprozess_Analyse.md
 ├── IDEEN.md                # 62+ Tool-Ideen (verdichtet)
@@ -66,6 +67,7 @@ Bei Gespraechen neue Tool-Ideen erkennen:
 |-------|---------|--------|
 | `Anfrageprozess_Analyse.md` | Eingang → Angebot → Nachverfolgung | ✅ IST dokumentiert |
 | `Bestellprozess_Analyse.md` | Auftrag → Bestellung → AB → Wareneingang | ✅ IST dokumentiert |
+| `Rechnungsprozess_Analyse.md` | Montage fertig → Rechnung → Mahnung | ✅ IST dokumentiert |
 | `Reparaturprozess_Analyse.md` | Reparatur-Lifecycle + Automatisierung | ✅ IST + SOLL |
 | `Montageprozess_Analyse.md` | Montage-Workflow | ✅ IST dokumentiert |
 | `Reklamationsprozess_Analyse.md` | Reklamations-Handling | ✅ IST dokumentiert |
@@ -74,9 +76,10 @@ Bei Gespraechen neue Tool-Ideen erkennen:
 
 Wenn User groessere Ablauf-Details erklaert:
 1. Fragen: "Soll ich `analysen/[Prozess]_Analyse.md` anlegen?"
-2. Dokumentieren: IST-Zustand, Schmerzpunkte, Automatisierungspotential
-3. Diese Tabelle aktualisieren
-4. Verknuepfte IDEEN mit Prozess-Verweis versehen
+2. **WICHTIG:** Genuegend Fragen stellen! Nicht zu frueh abbrechen.
+3. Dokumentieren: IST-Zustand, Schmerzpunkte, Automatisierungspotential
+4. Diese Tabelle aktualisieren
+5. Verknuepfte IDEEN mit Prozess-Verweis versehen
 
 ---
 
@@ -113,3 +116,5 @@ Wenn User groessere Ablauf-Details erklaert:
 | 2025-12-12 | Analysen hierher | 5 Prozess-Analysen in `analysen/` |
 | 2025-12-12 | Idee #66 | Montageplanung + Wetterprognose hinzugefuegt |
 | 2025-12-12 | Hub-Struktur | Alle Repos jetzt unter `KI_Automation_Hub/` |
+| 2025-12-12 | Rechnungsprozess | Neue Analyse + Mahnwesen dokumentiert |
+| 2025-12-12 | Reparaturprozess | IST-Analyse erweitert (Ersatzteile, Lieferanten) |
