@@ -7,9 +7,9 @@
 
 ## Zentrale Wissensbasis (IMMER einlesen!)
 
-> **Basis-Anweisungen:** `Z:/IT-Sammlung/KI_Automation_Hub/KI_Automation/CLAUDE.md`
-> **DB-Wissen:** `Z:/IT-Sammlung/KI_Automation_Hub/KI_Automation/docs/ERP_Datenbank.md`
-> **KI-News:** `Z:/IT-Sammlung/KI_Automation_Hub/KI_Automation/docs/KI_Wissen.md`
+> **Basis-Anweisungen:** `../KI-Automation/CLAUDE.md`
+> **DB-Wissen:** `../KI-Automation/docs/ERP_Datenbank.md`
+> **KI-News:** `../KI-Automation/docs/KI_Wissen.md`
 
 ---
 
@@ -84,8 +84,8 @@ Wenn User groessere Ablauf-Details erklaert:
 
 | Repo | Pfad | Inhalt |
 |------|------|--------|
-| **KI-Automation** | `Z:/IT-Sammlung/KI_Automation_Hub/KI_Automation/` | Shared Libs, DB-Wissen, KI-News |
-| **Auftragsmanagement** | `Z:/IT-Sammlung/KI_Automation_Hub/Auftragsmanagement/` | Web-App Implementation |
+| **KI-Automation** | `../KI-Automation/` | Shared Libs, DB-Wissen, KI-News |
+| **Auftragsmanagement** | `../Auftragsmanagement/` | Web-App Implementation |
 
 ---
 
