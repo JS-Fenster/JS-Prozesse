@@ -1,420 +1,325 @@
-# Ideen für KI-Automatisierungen
+# Ideen fuer KI-Automatisierungen
 
-**Erstellt:** 2025-12-09 | **Aktualisiert:** 2025-12-12 | **Status:** Brainstorming-Phase | **Anzahl:** 63 Ideen (4 merged)
+**Erstellt:** 2025-12-09 | **Aktualisiert:** 2025-12-13 | **Anzahl:** 65 Ideen (4 merged)
 
 ---
 
 ## Dokumentstruktur
 
-| Datei | Inhalt | Verwendung |
-|-------|--------|------------|
-| **IDEEN.md** (diese Datei) | Verdichtete Uebersicht | Schneller Ueberblick, neue Ideen eintragen |
-| **[IDEEN_DETAILS.md](IDEEN_DETAILS.md)** | Technische Details + W4A-Status | SQL, Logik, Abhaengigkeiten, Eigenbau-Empfehlung |
-| **[IDEEN_UEBERSICHT.html](IDEEN_UEBERSICHT.html)** | Interaktive Ansicht + **Architektur** | Filtern nach Phase, Phasen-Diagramm |
-
-> **Regel:** Neue Ideen hier **kurz & kompakt** eintragen. Technische Details + W4A-Status in IDEEN_DETAILS.md ergaenzen.
-> **Wichtig:** Bei Phasen-Aenderungen oder strukturellen Ideen (#58-60, #14) auch die **Architektur-Seite** in der HTML pruefen!
+| Datei | Inhalt |
+|-------|--------|
+| **IDEEN.md** (diese Datei) | Kurzuebersicht (max 3 Zeilen/Idee) |
+| **[IDEEN_DETAILS.md](IDEEN_DETAILS.md)** | Technische Details, SQL, W4A-Status |
+| **[IDEEN_UEBERSICHT.html](IDEEN_UEBERSICHT.html)** | Interaktive Ansicht + Architektur |
 
 ---
 
-## Uebersicht nach Phase (NEU: Nach Abhaengigkeiten)
+## Phasen-Uebersicht
 
 | Phase | Beschreibung | Tools |
 |-------|--------------|-------|
-| **0** | **INFRASTRUKTUR** - Web-Plattform, DB, Auth, Services | #58, #59, #60, #64 |
-| **1** | **BASIS-MODULE** - Erste Tools auf Plattform | #1, #4 ✅, #13, #57, #39, #40 |
-| **2** | **KERNPROZESSE** - Aufbauende Tools | #9, #10, #11, #22, #24, #28, #32, #33, #36, #37, #38, #43, #53, #55, #56, #61, #65, #66, #67 |
-| **3** | **KOMMUNIKATION** - E-Mail, CRM, Kunden | #3, #6, #12, #23, #25, #27, #30, #41, #45, #46, #47, #49, #50 |
-| **4** | **COMMAND CENTER** - Dashboard vereint alles | #14 (integriert #36, #44, #51, #52) |
-| **5** | **KI-FEATURES** - Intelligente Erweiterungen | #2, #5, #7, #8, #18, #20, #21, #29, #62, #63 |
+| **0** | INFRASTRUKTUR | #58, #59, #60, #64, #68 |
+| **1** | BASIS-MODULE + KRITISCH | #1, #4 ✅, #13, #36 ⭐, #39/#40/#41 (Montage-Suite) |
+| **2** | KERNPROZESSE | #9 (+#43 UI), #10, #11, #22, #24, #28, #32, #33, #37, #38, #53, #55, #56, #57, #65, #66, #67 |
+| **3** | KOMMUNIKATION | #3, #6, #12, #23, #25, #27, #30, #47, #49, #50 |
+| **4** | COMMAND CENTER | #14 (integriert #44, #51, #52) |
+| **5** | KI-FEATURES | #2, #5, #7, #8, #18, #20, #21, #29, #62, #63 |
 
-> **Logik:** Erst Infrastruktur → dann Module → dann Dashboard das alles zusammenfuehrt → dann KI
+> **Hinweis:** #39/#40/#41 = Montage-Suite (zusammen implementieren), #43 = UI-Komponente von #9
 
 ---
 
-## Phase 0: Infrastruktur ⭐ ZUERST
+## Phase 0: Infrastruktur
 
 ### #58 Web-Plattform Grundgeruest
-Basis fuer alle Tools: Web-Framework, Routing, Templates.
-- **Tech-Empfehlung:** Python Flask + Bootstrap (responsive)
-- **Features:** Startseite, Navigation, Login
-- **Voraussetzung fuer:** Alle anderen Tools
+Basis fuer alle Tools: Flask + Bootstrap, Routing, Templates.
+→ [Details](IDEEN_DETAILS.md#58-web-plattform-grundgeruest)
 
 ### #59 Datenbank-Connector
-Sichere Verbindung zu W4A SQL Server fuer alle Tools.
-- **Tech:** pyodbc, Connection-Pool, sichere Credentials
-- **Bereits vorhanden:** Grundlagen in ki_wissen_updater.py
-- **Erweitern:** Wiederverwendbare db_connector.py fuer alle Tools
+Sichere W4A SQL Server Verbindung, Connection-Pool, wiederverwendbar.
+→ [Details](IDEEN_DETAILS.md#59-datenbank-connector)
 
 ### #60 Auth & Berechtigungen
-Wer darf was sehen? Login-System.
-- **Einfach:** Username/Passwort, Session-basiert
-- **Spaeter:** AD-Integration moeglich
-- **Wichtig:** Nicht jeder soll alles sehen (Finanzen vs. Monteure)
+Login-System, Rollen (admin/buero/monteur), wer sieht was.
+→ [Details](IDEEN_DETAILS.md#60-auth--berechtigungen)
 
 ### #64 Data Service Layer
-Zentrale Datenzugriffs-Schicht fuer alle Tools (8 Tools greifen auf dbo.Bestellung zu!).
-- **Services:** BestellungService, AuftragService, KundeService
-- **Cache:** Stammdaten 5min TTL, Live-Daten 30s Polling
-- **Events:** Cache-Invalidierung bei Schreibzugriffen
-- **Basis fuer:** #14 Command Center, alle Dashboards
+Zentrale Datenzugriffs-Schicht, Cache, Events (8 Tools auf dbo.Bestellung!).
+→ [Details](IDEEN_DETAILS.md#64-data-service-layer)
+
+### #68 Zentrales Planungs-Dashboard ⭐ NEU
+Ersetzt Outlook-Kalender-Missbrauch. Montage, Reparatur, Abholungen auf einen Blick.
+→ [Details](IDEEN_DETAILS.md#68-zentrales-planungs-dashboard)
 
 ---
 
-## Phase 1: Basis-Module
+## Phase 1: Basis-Module + Kritisch
 
-### #1 Preislisten-Tool (PDF → Excel)
-PDF-Preislisten (ROKA, Weru, etc.) automatisch in Excel-Artikelstamm importieren.
-- **I/O:** PDF → Excel-Artikelstamm
-- **Features:** PDF-Parsing, Artikel-Matching, Dry-Run, Backup
-- **Status:** Planung
+### #1 Preislisten-Tool
+PDF-Preislisten (ROKA, Weru) → Excel-Artikelstamm importieren.
+→ [Details](IDEEN_DETAILS.md#1-preislisten-tool-pdf--excel)
 
-### #4 KI-Wissensdatenbank ✅ FERTIG
-Selbst-aktualisierende Wissensdatei mit KI/Automation-News.
-- **Impl.:** `ki_wissen_updater.py`, Task Scheduler (So 03:00)
+### #4 KI-Wissensdatenbank ✅
+Selbst-aktualisierende Wissensdatei, Task Scheduler (So 03:00).
+→ [Details](IDEEN_DETAILS.md#4-ki-wissensdatenbank--fertig)
 
 ### #13 Inventar-Verwaltung
-Erweiterung Work4all: Rechnungslink, Standort-Tracking, QR-Codes, Ausleihe.
-- **SQL:** `dbo.Inventar`, `dbo.Lagerort`
+W4A-Erweiterung: Rechnungslink, Standort-Tracking, QR-Codes, Ausleihe.
+→ [Details](IDEEN_DETAILS.md#13-inventar-verwaltung)
+
+### #36 Beschaffungs-Dashboard ⭐ KRITISCH
+Echtzeit-Ampel fuer kritische Bestellungen (ohne AB, ueberfaellig, abholbereit). 4 Prozesse!
+→ [Details](IDEEN_DETAILS.md#36-beschaffungs-dashboard--prioritaet)
+
+### Montage-Suite (#39 + #40 + #41) ⭐
+Zusammen implementieren - gemeinsame Datenbasis!
+
+#### #39 Tages-Briefing Monteur
+Auto-generierte Montage-Mappe (1-3 Seiten), digitale Rueckmeldung.
+→ [Details](IDEEN_DETAILS.md#39-tages-briefing-monteur-montage-mappe)
+
+#### #40 Material-Kommissionierliste
+Auto-Checkliste: Was muss ins Auto? Aus BESTELLUNG, nicht Angebot.
+→ [Details](IDEEN_DETAILS.md#40-material-kommissionierliste)
+
+#### #41 Montage-Status Live
+Monteur meldet Status, alle sehen Echtzeit, Auto-SMS an Kunde.
+→ [Details](IDEEN_DETAILS.md#41-montage-status-live)
 
 ---
 
 ## Phase 2: Kernprozesse
 
-### #9 Reparatur-Verwaltung
-Reklamationen, Garantieprüfung, Status-Tracking, Foto-Dokumentation.
-- **SQL:** `dbo.Auftrag` (ReparaturauftragCode)
+### #9 Reparatur-Verwaltung (+#43 als UI)
+Reklamationen, Garantiepruefung, Status-Tracking, Foto-Doku.
+→ [Details](IDEEN_DETAILS.md#9-reparatur-verwaltung)
 
-### #10 Aufträge & Lieferungen
-Zentrale Auftragsverwaltung: Aufträge, Abholungen, Lieferungen ±Montage.
-- **SQL:** `dbo.Auftrag`, `dbo.Lieferschein`
+### #10 Auftraege & Lieferungen
+Zentrale Auftragsverwaltung: Auftraege, Abholungen, Lieferungen ±Montage.
+→ [Details](IDEEN_DETAILS.md#10-auftraege--lieferungen)
 
-### #11 Terminfindung
-Intelligente Terminplanung für Aufmaße, Beratungen, Montagen.
-- **SQL:** `dbo.Termine`, `dbo.TermineTeilnehmer`
-- **Features:** Online-Buchung, Geo-Optimierung, Erinnerungen
+### #11 Terminfindung (Termin-Engine)
+Intelligente Terminplanung, Online-Buchung, Geo-Optimierung. Wird von Anfrage, Montage, Reparatur genutzt.
+→ [Details](IDEEN_DETAILS.md#11-terminfindung)
 
 ### #22 Routenplanung
-Tourenoptimierung: Fahrzeit minimieren, Termine clustern.
-- **ROI:** ~292 Std/Jahr, 11.500 km gespart
+Tourenoptimierung: Fahrzeit minimieren, Termine clustern (~292h/Jahr).
+→ [Details](IDEEN_DETAILS.md#22-routenplanung)
 
-### #24 Ticket-System Integration + Schnell-Erfassung
-Auto-Tickets aus E-Mails, Eskalation, SLA-Tracking.
-- **Schnell-Erfassung** (ehem. #46): Telefon klingelt → 1-Klick: Name, Bedarf, Rueckruf
-- **Vorgangsnummern-System** (aus Brainstorming 2025-12-11):
-  - 🔢 Auto-Vorgangsnummer bei jeder Kundenanfrage (z.B. V-2025-001234)
-  - 📧 Bestaetigung an Kunden: "Ihre Anfrage unter V-XXXX erfasst"
-  - 🔗 Alle Kommunikation unter dieser Nummer auffindbar
-  - ⏱️ SLA: Antwort-Ziel innerhalb X Stunden
+### #24 Ticket-System + Schnell-Erfassung
+Auto-Tickets aus E-Mails, Vorgangsnummern, SLA-Tracking, 1-Klick-Erfassung.
+→ [Details](IDEEN_DETAILS.md#24-ticket-system-integration--schnell-erfassung)
 
-### #28 Digitales Aufmaß + Zubehör + Mobiles Formular
-Maßerfassung mit auto. Zubehör-Berechnung (Fensterbänke, Rollläden).
-- **Mobiles Formular** (ehem. #61): Digitale Erfassung statt Papierzettel beim Kunden
-- **Features:** Responsive Web-Formular, Fotos anhaengen, Offline-Sync
-- **Loest:** Papierzettel verloren, muss abgetippt werden
+### #28 Digitales Aufmass + Mobiles Formular
+Masserfassung mit auto. Zubehoer-Berechnung, Offline-Sync, Fotos.
+→ [Details](IDEEN_DETAILS.md#28-digitales-aufmass--zubehoer--mobiles-formular)
 
 ### #32 Projekt- & Unterprojektverwaltung
 Hierarchisch: Hauptprojekt → Unterprojekte → ERP-Dokumente.
-- **SQL:** `dbo.Objekte`, `dbo.Auftrag`, `dbo.Angebot`
-- **Verknüpft:** Alle Dokumente (#31, #33, #34)
+→ [Details](IDEEN_DETAILS.md#32-projekt---unterprojektverwaltung)
 
-### #33 Bestellwesen & Lieferanten-Aufträge
+### #33 Bestellwesen & Lieferanten-Auftraege
 Bedarfsermittlung → Bestellung → Wareneingang.
-- **SQL:** `dbo.Bestellung`, `dbo.Wareneingang`
+→ [Details](IDEEN_DETAILS.md#33-bestellwesen--lieferanten-auftraege)
 
-### #36 Beschaffungs-Dashboard ⭐ PRIORITÄT
-Echtzeit-Übersicht kritischer Bestellvorgänge - verhindert Stillstand bei Montagen.
-- **Ampel-System:** Offene Bestellungen ohne AB, überfällige Lieferungen, Abholware beim Lieferanten
-- **SQL:** `dbo.Bestellung` (Bestätigt, WEDatum, LieferterminTatsächlich, Abgeschlossen)
-- **Problem löst:** Ware geht unter → Montage verzögert → Kunde wartet
-- **Features:** Tägliche Alerts, Eskalation, Lieferanten-Kontakt-Reminder
-
-### #37 WoT-XML Transformer (Weru Konfigurator)
-XML aus WoT (Weru WPS on Top) aufbereiten fuer sauberen W4A-Import.
-- **Quelle:** WoT Konfigurator exportiert XML
-- **Problem:** Redundante Texte, kein Lieferant, unuebersichtlich
-- **Features:**
-  - Mehrfach vorkommende Infos in Kopftext verschieben
-  - Positionstexte schlank halten (nur Raum, Masse, Sonder-Optionen)
-  - Lieferant "Weru" je Position einfuegen (auto. Zuordnung im ERP)
-- **I/O:** XML rein → transformierte XML raus → Drag&Drop in W4A
-
-### #67 XML-Konverter (Universal → W4A) ⭐ NEU
-Universeller Konverter: Bestehende XML anpassen oder aus Text-Dokumenten XML fuer W4A-Import generieren.
-- **Input:** Beliebige XML-Dateien, Textdokumente (strukturierte Daten)
-- **Output:** W4A-kompatible XML fuer Import
-- **Features:** Auto-Mapping, Vorschau, Validierung, Template-System
-- **Verwandt:** #37 (WoT-XML speziell fuer Weru)
-- **Details:** [IDEEN_DETAILS.md](IDEEN_DETAILS.md#67)
+### #37 WoT-XML Transformer
+Weru WPS on Top XML aufbereiten fuer sauberen W4A-Import.
+→ [Details](IDEEN_DETAILS.md#37-wot-xml-transformer-weru-konfigurator)
 
 ### #38 Lagerverwaltung & Inventur
-Bestandsfuehrung, Inventur-Prozess, Wareneingangsbuchung.
-- **Ist-Zustand:** Excel + Papier, W4A-Lager nicht aktiv
-- **W4A-Potential:** Lagerfunktion vorhanden aber ungenutzt
-- **Problem:** Teillieferungen werden als Komplett-Lieferung gebucht
-- **Verknuepft:** #33 Bestellwesen, #36 Beschaffungs-Dashboard
+Bestandsfuehrung, Inventur-Prozess, Teillieferungs-Problem loesen.
+→ [Details](IDEEN_DETAILS.md#38-lagerverwaltung--inventur)
 
-### #39 Tages-Briefing Monteur (Montage-Mappe)
-Automatisch generierte Unterlagen statt manueller Zusammenstellung durch Buero.
-- **Problem:** Susann stellt manuell zusammen → zu viele Blaetter, falsche Dokumente (Angebots-Aufmass statt Bestell-Aufmass)
-- **Loesung:** 1-3 Seiten pro Auftrag: Uebersicht, relevante Masse, Besonderheiten
-- **Output:** PDF druckbar oder digital (Handy/Tablet - Endgeraete pruefen!)
-- **NEU: Montage-Rueckmeldung** - Monteur dokumentiert:
-  - Zusatzarbeiten vor Ort (wird sonst vergessen bei Rechnung!)
-  - Material zurueckgelegt (ohne Dokumentation = Verlust)
-  - Aenderungen gegenueber Auftrag
-- **NEU: Digitale Erfassung statt Papier** (aus Brainstorming 2025-12-11):
-  - 📱 Tablet/Handy-App statt handschriftliche Seite 2
-  - 📷 Foto-Upload vor Ort (statt "defekt" beschreiben)
-  - 🎤 Spracheingabe (nutzt #7) - KI analysiert und strukturiert
-  - ⚡ Sofort im System (nicht Papier ins Lager → naechster Tag Buero)
-  - Strukturierte Eingabe: Dropdown + Textfeld + Foto
-- **Loest:** Papierkram, Kommunikation, Fehler, fehlende Rechnungspositionen, Entzifferungs-Aufwand
-
-### #40 Material-Kommissionierliste
-Auto-generierte Checkliste: Was muss ins Auto? Abhaken vor Abfahrt.
-- **Quelle:** Auftragspositionen aus BESTELLUNG (nicht Angebot!)
-- **Teil von #39:** Kann als Seite in Montage-Mappe integriert werden
-- **Loest:** Vergessenes Material, Fehlfahrten
-
-### #43 Kanban-Dashboard fuer Ticketsystem
-Grafische Kachel-Ansicht fuer W4A-Tickets (Restarbeiten, Montage, Reparaturen, Reklamationen).
-- **Loest:** Schneller visueller Ueberblick statt Tabelle
-- **Nutzt:** Bestehende W4A Ticketliste-Daten
-- **Vorbild:** Outlook-Kacheln + Trello-Style
-- **Hinweis:** W4A Ticketsystem existiert bereits - es fehlt nur grafische Oberflaeche
+### #43 Kanban-Dashboard (UI fuer #9)
+Grafische Kachel-Ansicht fuer Tickets/Reparaturen, Trello-Style. Implementieren als Teil von #9.
+→ [Details](IDEEN_DETAILS.md#43-kanban-dashboard-fuer-ticketsystem)
 
 ### #53 Mindestbestand-Alert
-Warnung bei kritischem Lagerbestand (Silikon, Dichtungen, etc.)
-- **Loest:** Ueberblick, Engpaesse vermeiden
+Warnung bei kritischem Lagerbestand, auto. Bestellvorschlag.
+→ [Details](IDEEN_DETAILS.md#53-mindestbestand-alert)
 
-### #65 Anzahlungsrechnung-Automatismus ⭐ NEU
-Erinnerung/Automatismus fuer Anzahlung vor Bestellung.
-- **Problem:** Anzahlung wird oft vergessen → Cashflow-Problem
-- **Loesung:** Vor Bestellung pruefen ob Anzahlung gestellt/bezahlt
-- **Features:** Automatische Erinnerung, Pflichtfeld bei Bestellung, Report unbezahlte Anzahlungen
-- **Verknuepft:** #33 Bestellwesen, #55 Bestellvorlage
-- **Quelle:** Bestellprozess-Analyse 2025-12-11
+### #55 Bestellvorlage Pflichtfelder ⭐
+Pflichtfeld Lieferwoche, auto. Lieferadresse je Artikel-Typ.
+→ [Details](IDEEN_DETAILS.md#55-bestellvorlage-mit-pflichtfeldern--prio)
+
+### #56 AB-Abgleich automatisch ⭐
+PDF-AB mit Bestellung vergleichen, Abweichungen markieren.
+→ [Details](IDEEN_DETAILS.md#56-ab-abgleich-automatisch--prio)
+
+### #57 Lieferadressen-Logik ⭐
+Auto-Adresse: Gross (Fenster) → Lager, Klein (Pakete) → Buero.
+→ [Details](IDEEN_DETAILS.md#57-lieferadressen-logik--prio)
+
+### #65 Anzahlungsrechnung-Auto ⭐
+Erinnerung/Pflicht fuer Anzahlung vor Bestellung (Cashflow!).
+→ [Details](IDEEN_DETAILS.md#65-anzahlungsrechnung-automatismus)
+
+### #66 Montageplanung + Wetter
+Wetter-API, Warnung bei Regen/Sturm, Verschiebe-Empfehlung.
+→ [Details](IDEEN_DETAILS.md#66-montageplanung-mit-wetterprognose)
+
+### #67 XML-Konverter Universal
+Beliebige XML/Text → W4A-kompatibles XML, Template-System.
+→ [Details](IDEEN_DETAILS.md#67-xml-konverter-universal--w4a)
 
 ---
 
 ## Phase 3: Kommunikation
 
-### #3 Weru Förderanträge
-Auto-Ausfüllen von Förderanträgen (KfW, BAFA) über Weru Portal.
+### #3 Weru Foerderantraege
+Auto-Ausfuellen KfW/BAFA-Antraege ueber Weru Portal.
+→ [Details](IDEEN_DETAILS.md#3-weru-foerderantraege-automatisierung)
 
 ### #6 Budget-Angebots-Generator
-Auto-Angebote aus Elementlisten oder manueller Eingabe.
-- **Input:** Manuell, Excel, oder #5 Bauplan
+Auto-Angebote aus Elementlisten, Excel-Import, Preis-Kalkulation.
+→ [Details](IDEEN_DETAILS.md#6-budget-angebots-generator)
 
 ### #12 E-Mail-Verarbeitung
-Automatische Sortierung, Klassifizierung, Zuordnung.
-- **Zeitfresser 1:** Spam filtern → Auto-Markierung
-- **Zeitfresser 2:** Rechnungen/Bestellungen → Erkennung (Absender+Betreff+Anhang) → Auto-Ablage + Druck
-- **Zeitfresser 3:** Kundenanfragen → Klassifizierung (Angebot vs. Reparatur) → Richtige Person zuweisen
-- **Tech:** Regeln + LLM fuer Grenzfaelle
-- **Sicherheit:** SELECT immer, INSERT nur Historie, nie UPDATE/DELETE
+LLM-Klassifizierung, Kunden-Zuordnung, Auto-Ablage, Workflow-Trigger.
+→ [Details](IDEEN_DETAILS.md#12-e-mail-verarbeitung)
 
-### #23 Verkaufschancen-Pipeline + Angebots-Reminder
-Lead-Bewertung, Scoring, Follow-up-Erinnerungen.
-- **Angebots-Reminder** (ehem. #45): Automatisch nach X Tagen nachfassen
-- **2-Tage-Regel:** Proaktiv Mehrwert bieten (alternative Loesung, Kostenoptimierung)
-- **Priorisierung:** Nach Volumen + Deckungsbeitrag
+### #23 Verkaufschancen-Pipeline
+Lead-Bewertung, Scoring, Angebots-Reminder, 2-Tage-Regel.
+→ [Details](IDEEN_DETAILS.md#23-verkaufschancen-pipeline--angebots-reminder)
 
 ### #25 Telefon-CRM Integration
 Anrufer-Erkennung, Kundendaten-Popup, Notizen.
+→ [Details](IDEEN_DETAILS.md#25-telefon-crm-integration)
 
 ### #27 Dokument-Intelligenz
 Auto-Klassifizierung, OCR, Metadaten, Volltextsuche.
+→ [Details](IDEEN_DETAILS.md#27-dokument-intelligenz)
 
 ### #30 After Sales Service
-Proaktive Kundenbetreuung: Wartung, Cross-Selling.
+Proaktive Kundenbetreuung: Wartungs-Reminder, Cross-Selling.
+→ [Details](IDEEN_DETAILS.md#30-after-sales-service)
 
-### #41 Montage-Status Live
-Monteur meldet: angekommen, fertig, Problem → alle sehen Status.
-- **NEU: Auto-Benachrichtigung an Kunde** (aus Brainstorming 2025-12-11):
-  - 📲 SMS/E-Mail bei Statusaenderung: "Montage abgeschlossen"
-  - ⚠️ "Restarbeiten noetig, Material wird bestellt, wir melden uns"
-  - 📅 "Neuer Termin: XX.XX.XXXX"
-  - **Problem loest:** Kunde gibt Zugang, ist nicht da, weiss nicht ob jemand kommt
-- **Loest:** Ueberblick, Kommunikation, Kunden-Information
-
-### #45 ~~Angebots-Reminder~~ → merged in #23
-*Integriert in #23 Verkaufschancen-Pipeline*
-
-### #46 ~~Schnell-Erfassung Anfrage~~ → merged in #24
-*Integriert in #24 Ticket-System Integration*
-
-### #47 Kunden-Historie Dashboard + Wiederkauf-Erkennung
-Alle Kontakte, Angebote, Auftraege, Reklamationen auf einen Blick.
-- **Wiederkauf-Erkennung** (ehem. #48): "Familie Mueller hat 2019 schon Fenster gekauft"
-- **Features:** Timeline-Ansicht, historische Auftraege, Cross-Selling-Hinweise
-- **Loest:** Suchen, Ueberblick, Stammkunden erkennen
+### #47 Kunden-Historie + Wiederkauf
+Timeline aller Kontakte/Auftraege, Stammkunden erkennen.
+→ [Details](IDEEN_DETAILS.md#47-kunden-historie-dashboard--wiederkauf-erkennung)
 
 ### #49 Google-Reviews Alerts
-Neue Bewertung? Sofort Bescheid, schnell reagieren.
-- **Loest:** Kommunikation, Reputation
+Neue Bewertung → Sofort Bescheid, Response-Vorschlaege.
+→ [Details](IDEEN_DETAILS.md#49-google-reviews-alerts)
 
 ### #50 Sanfte Zahlungserinnerung
-Auto-Mail "Rechnung offen" bevor formelle Mahnung.
-- **Loest:** Manuelle Eingaben, freundliche Kommunikation
+Auto-Mail "Rechnung offen" vor formeller Mahnung.
+→ [Details](IDEEN_DETAILS.md#50-sanfte-zahlungserinnerung)
 
 ---
 
-## Phase 4: Analytics & Personal
+## Phase 4: Command Center
+
+### #14 Zentrales Dashboard ⭐
+EIN Dashboard fuer alles: Heute, Bestellungen, Montage, Finanzen, KPIs.
+→ [Details](IDEEN_DETAILS.md#14-management-dashboard)
 
 ### #2 Bilanz & GuV-Auswertung
 Kennzahlen, Trendprognosen, Branchenvergleich.
-
-### #14 Command Center (Zentrales Dashboard) ⭐
-**Ein Dashboard fuer alles** - nicht viele einzelne!
-- **Tab "Heute":** Auftraege ohne Bestellung, Bestellungen ohne AB, Montagen, E-Mails
-- **Tab "Bestellungen":** #36 Beschaffungs-Dashboard integriert
-- **Tab "Kapazitaet":** #44 Auslastung integriert
-- **Tab "Finanzen":** #51 Cashflow, #52 Conversion integriert
-- **Tab "KPIs":** Umsatz, Kennzahlen, Trends
-- **Alerts oben:** Kritisches immer sichtbar (rote Badges)
-- **Responsive:** Von ueberall erreichbar (Handy, Tablet, PC)
+→ [Details](IDEEN_DETAILS.md#2-bilanz--und-guv-auswertung)
 
 ### #15 Zeiterfassung & Auslastung
-Projektbezogene Zeit, Kapazitätsplanung. Basis für #34.
+Projektbezogene Zeit, Kapazitaetsplanung.
+→ [Details](IDEEN_DETAILS.md#15-zeiterfassung--auslastung)
 
 ### #16 Urlaubsverwaltung
-Digitale Anträge, Teamkalender. Basis für #35.
+Digitale Antraege, Teamkalender.
+→ [Details](IDEEN_DETAILS.md#16-urlaubsverwaltung)
 
 ### #17 Projekt-Deckungsbeitrag
 Soll-Ist-Vergleich, Nachkalkulation, Budgetwarnung.
+→ [Details](IDEEN_DETAILS.md#17-projekt-deckungsbeitrag)
 
 ### #19 Lieferanten-Bewertung
-Auto-Scoring: Liefertreue, Qualität, Preis, Kommunikation.
+Auto-Scoring: Liefertreue, Qualitaet, Preis, Kommunikation.
+→ [Details](IDEEN_DETAILS.md#19-lieferanten-bewertung)
 
-### #26 Projekt-Aktivitäten-Tracking
-Auto-Protokoll aller Aktivitäten, Timeline-Ansicht.
+### #26 Projekt-Aktivitaeten-Tracking
+Auto-Protokoll aller Aktivitaeten, Timeline-Ansicht.
+→ [Details](IDEEN_DETAILS.md#26-projekt-aktivitaeten-tracking)
 
-### #31 Rechnungsbuch & Finanzdokumentation
-Ein-/Ausgangsrechnungen, Mahnwesen, DATEV-Export, Liquiditätsvorschau.
-- **SQL:** `dbo.Rechnung`, `dbo.Zahlung`
-- **Features:** OCR, Projekt-Verknüpfung (#32), Zahlungsabgleich
+### #31 Rechnungsbuch & Finanzdoku
+Ein-/Ausgangsrechnungen, Mahnwesen, DATEV-Export, Liquiditaet.
+→ [Details](IDEEN_DETAILS.md#31-rechnungsbuch--finanzdokumentation)
 
 ### #34 Erweiterte Zeiterfassung (GPS)
-Projektzuordnung Pflicht, GPS-Vorschläge, QR-Code-Erfassung.
-- **Erweitert:** #15
-- **Datenschutz:** Nur Arbeitszeit, abschaltbar, 30 Tage Löschung
+Projektzuordnung Pflicht, GPS-Vorschlaege, QR-Code-Erfassung.
+→ [Details](IDEEN_DETAILS.md#34-erweiterte-zeiterfassung-gps)
 
-### #35 Urlaubsplaner & Abwesenheitsmanagement
-Teamkalender, auto. Kapazitätsprüfung, Genehmigungsworkflow, Termin-Konfliktprüfung.
-- **Erweitert:** #16
+### #35 Urlaubsplaner erweitert
+Teamkalender, auto. Kapazitaetspruefung, Genehmigungsworkflow.
+→ [Details](IDEEN_DETAILS.md#35-urlaubsplaner--abwesenheitsmanagement)
 
 ### #42 Foto-Zuordnung
 Handy-Foto → Auto-Erkennung Projekt/Kunde → richtige Akte.
-- **Loest:** Manuelle Eingaben, Ablage
+→ [Details](IDEEN_DETAILS.md#42-foto-zuordnung)
 
 ### #44 Kapazitaets-Cockpit
-Wie voll ist die Woche? Wer hat noch Luft? Uebersicht Auslastung.
-- **Loest:** Ueberblick, Planung
-
-### #48 ~~Wiederkauf-Erkennung~~ → merged in #47
-*Integriert in #47 Kunden-Historie Dashboard*
+Auslastungs-Ampel: Wer hat noch Luft? Drill-Down.
+→ [Details](IDEEN_DETAILS.md#44-kapazitaets-cockpit)
 
 ### #51 Cashflow-Prognose
-Wann kommt Geld, wann geht's raus? Liquiditaets-Ampel.
-- **Loest:** Ueberblick, Planung
+Liquiditaets-Ampel: Wann kommt Geld, wann geht's raus?
+→ [Details](IDEEN_DETAILS.md#51-cashflow-prognose)
 
 ### #52 Conversion-Tracker
-Wie viel % der Angebote werden Auftraege? Trend ueber Zeit.
-- **Loest:** Ueberblick, Vertriebssteuerung
+Angebots-Auftrags-Quote, Trend-Analyse, Aufschluesselung.
+→ [Details](IDEEN_DETAILS.md#52-conversion-tracker)
 
 ### #54 Preis-Vergleich Lieferanten
 Gleicher Artikel, verschiedene Lieferanten → bester Preis.
-- **Loest:** Suchen, Einkaufsoptimierung
-
-### #55 Bestellvorlage mit Pflichtfeldern ⭐ PRIO
-Verhindern dass Lieferwoche/Adresse vergessen wird.
-- **Problem:** Roland/Vater bestellen ohne KW → Ware zu frueh
-- **Loesung:** Bestellformular mit Pflichtfeld KW, Lieferadresse automatisch je Artikel-Typ (gross → Lager, klein → Buero)
-- **Prio:** 3 von 4 im Bestellprozess
-
-### #56 AB-Abgleich automatisch ⭐ PRIO
-Neue AB automatisch mit Bestellung vergleichen.
-- **Problem:** Haendisch neue AB mit alter AB pruefen = muehsam, Fehler
-- **Loesung:** PDF-Vergleich, Abweichungen markieren/melden
-- **Prio:** 2 von 4 im Bestellprozess
-
-### #57 Lieferadressen-Logik ⭐ PRIO
-Richtige Lieferadresse automatisch je Artikel-Typ.
-- **Problem:** Falschlieferungen ins Buero statt Lager, Paketdienste sollen aber ins Buero
-- **Loesung:** Grosse Teile (Fenster, Tueren) → Lager | Kleinteile/Pakete → Buero
-- **Prio:** 1 von 4 im Bestellprozess (WICHTIGSTE!)
-
-### #61 ~~Mobiles Aufmass-Formular~~ → merged in #28
-*Integriert in #28 Digitales Aufmass + Zubehoer*
+→ [Details](IDEEN_DETAILS.md#54-preis-vergleich-lieferanten)
 
 ---
 
-## Phase 5: KI-Vollausbau
+## Phase 5: KI-Features
 
 ### #5 Bauplan-Analyse
-KI-Vision liest Baupläne, extrahiert Maße, generiert Elementlisten.
-- **Tech:** Claude Vision, OCR, CAD-Parser
+KI-Vision liest Bauplaene, extrahiert Masse, generiert Elementlisten.
+→ [Details](IDEEN_DETAILS.md#5-bauplan-analyse--elementlisten-generator)
 
 ### #7 Spracherkennung
-Diktat, Aufmasse vor Ort, Anweisungen per Sprache.
-- **Tech:** Whisper, Intent-Erkennung
-- **NEU: KI-Analyse in Echtzeit** (aus Brainstorming 2025-12-11):
-  - 🎤 Monteur diktiert statt schreiben: "Endleiste 921mm fehlt, muss nachbestellt werden"
-  - 🤖 KI erkennt: Material (Endleiste), Mass (921mm), Aktion (Nachbestellung)
-  - ❓ KI fragt nach: "Welche Farbe? Welches Element?"
-  - ⚡ Auto-Trigger: Material → Bestellliste, Restarbeit → #41 Status, Besonderheit → Dokumentation
-- **Weitere Einsatzzwecke:**
-  - 📞 Telefonnotizen: Gespraech diktieren, KI strukturiert
-  - 🏗️ Aufmass diktieren: "Fenster links 1200 mal 1400"
-  - 📋 Morgen-Briefing protokollieren: Wer macht was heute
-  - 💬 Kundenaussagen festhalten: "Herr Mueller hat bestaetigt dass..."
-- **Verknuepft:** #39 Montage-Mappe (Rueckmeldung), #61 Mobiles Aufmass
+Diktat, Aufmasse vor Ort, KI-Analyse in Echtzeit.
+→ [Details](IDEEN_DETAILS.md#7-spracherkennung--anweisungsdienst)
 
 ### #8 Universal-Eingabe-Hub
 Das "Gehirn": Multi-Input → LLM Dispatcher → Workflows.
-- **Orchestriert:** Alle Tools
+→ [Details](IDEEN_DETAILS.md#8-universal-eingabe-hub)
 
 ### #18 Kundenportal
 Self-Service: Status, Termine, Dokumente, Reklamation.
+→ [Details](IDEEN_DETAILS.md#18-kundenportal)
 
-### #20 Qualitätsmanagement
+### #20 Qualitaetsmanagement
 Reklamations-Tracking, KVP, Audit-Vorbereitung.
+→ [Details](IDEEN_DETAILS.md#20-qualitaetsmanagement)
 
 ### #21 Mobile Monteur-App
-Unified: Tagesplan, Navigation, Checklisten, Fotos, Unterschrift, Zeit.
+Unified: Tagesplan, Navigation, Checklisten, Fotos, Unterschrift.
+→ [Details](IDEEN_DETAILS.md#21-mobile-monteur-app)
 
 ### #29 Montage-Checklisten
-Auto-Checklisten aus Aufmaß: Material, Werkzeug, Arbeitsschritte.
-
-### #66 Montageplanung mit Wetterprognose ⭐ NEU
-Montage-Termine automatisch mit Wetterdaten abgleichen.
-- **Problem:** Aussenmontagen bei Regen/Sturm = schlecht fuer Qualitaet + Mitarbeiter
-- **Loesung:** Wetter-API (7-Tage-Prognose) → Warnung bei kritischen Terminen
-- **Features:**
-  - 🌧️ Alert: "Montage am Mi 15.12. - Regen erwartet, verschieben?"
-  - ⛈️ Automatische Empfehlung: "Alternative: Do/Fr trocken"
-  - 📊 Planungs-Ansicht: Kalender mit Wetter-Overlay
-  - 🏠 Unterscheidung: Innen- vs. Aussenmontage (nur Aussen relevant)
-- **Tech:** OpenWeatherMap API (kostenlos bis 1000 Calls/Tag), PLZ-basiert
-- **Verknuepft:** #11 Terminfindung, #22 Routenplanung, #39 Montage-Mappe
-- **Phase:** 2 (Kernprozesse)
-- **Komplexitaet:** 🟡 Mittel
+Auto-Checklisten aus Aufmass: Material, Werkzeug, Arbeitsschritte.
+→ [Details](IDEEN_DETAILS.md#29-montage-checklisten)
 
 ### #62 Ersatzteil-Erkennung (KI-Vision)
-Foto von defektem Teil → KI erkennt → Ersatzteil finden.
-- **Problem:** Bei Reparaturen: "Was ist das fuer ein Teil?"
-- **Loesung:** Foto machen → KI identifiziert Hersteller/Typ → Ersatzteil vorschlagen
-- **Tech:** Claude Vision, Artikelstamm-Abgleich
-- **Verknuepft:** #9 Reparatur-Verwaltung
+Foto von defektem Teil → KI erkennt → Ersatzteil vorschlagen.
+→ [Details](IDEEN_DETAILS.md#62-ersatzteil-erkennung-ki-vision)
 
 ### #63 Fassaden-Budget (KI-Vision)
-Hausfoto → KI zaehlt Fenster/Tueren → grobes Budgetangebot.
-- **Problem:** Kunde fragt "Was kostet neue Fenster fuers ganze Haus?"
-- **Loesung:** Foto von Fassade → KI erkennt Anzahl + geschaetzte Groessen → Budgetrahmen
-- **Tech:** Claude Vision, Durchschnittspreise
-- **Output:** "ca. 12.000-18.000€" als Richtwert fuer Erstgespraech
+Hausfoto → KI zaehlt Fenster → grobes Budgetangebot.
+→ [Details](IDEEN_DETAILS.md#63-fassaden-budget-ki-vision)
+
+---
+
+## Merged Ideen
+
+| Alt | Neu | Grund |
+|-----|-----|-------|
+| #45 Angebots-Reminder | → #23 | Teil von Verkaufschancen-Pipeline |
+| #46 Schnell-Erfassung | → #24 | Teil von Ticket-System |
+| #48 Wiederkauf-Erkennung | → #47 | Teil von Kunden-Historie |
+| #61 Mobiles Aufmass | → #28 | Teil von Digitales Aufmass |
 
 ---
 
@@ -426,11 +331,10 @@ Hausfoto → KI zaehlt Fenster/Tueren → grobes Budgetangebot.
 | 🟡 Mittel | #1, #3, #6, #9, #10, #13, #15, #16, #19, #23, #24, #28, #31, #33, #36, #37, #38, #39, #40, #43, #47, #50, #53, #55, #65, #66, #67 |
 | 🟠 Anspruchsvoll | #2, #11, #12, #14, #17, #18, #22, #25, #26, #27, #30, #32, #34, #35, #41, #42, #44, #51, #52, #54, #56 |
 | 🔴 Komplex | #5, #7, #8, #20, #21, #62, #63 |
-| ⚫ Merged | #45→#23, #46→#24, #48→#47, #61→#28 |
 
 ---
 
-## Nächste Schritte
+## Naechste Schritte
 
 1. **Sofort:** #1 Preislisten-Tool
 2. **Kurzfristig:** #13 Inventar, Phase 2 planen

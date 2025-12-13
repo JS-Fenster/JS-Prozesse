@@ -17,17 +17,19 @@
 
 ```
 JS_Prozesse/
-├── analysen/               # Prozess-Dokumentationen
+├── analysen/                    # Prozess-Dokumentationen (IST-Zustand)
 │   ├── Anfrageprozess_Analyse.md
 │   ├── Bestellprozess_Analyse.md
 │   ├── Montageprozess_Analyse.md
 │   ├── Rechnungsprozess_Analyse.md
 │   ├── Reklamationsprozess_Analyse.md
 │   └── Reparaturprozess_Analyse.md
-├── IDEEN.md                # 62+ Tool-Ideen (verdichtet)
-├── IDEEN_DETAILS.md        # Technische Details + W4A-Status
-├── IDEEN_UEBERSICHT.html   # Interaktive Ansicht + Architektur
-└── CLAUDE.md               # Diese Datei
+├── ARCHITEKTUR.md               # ERP-Strategie (W4A + eigene Tools)
+├── IDEEN.md                     # 65 Tool-Ideen (verdichtet)
+├── IDEEN_DETAILS.md             # Technische Details + W4A-Status
+├── IDEEN_UEBERSICHT.html        # Ideen-Katalog (Karten, Filter)
+├── PROZESS_VISUALISIERUNG.html  # IST vs SOLL, Tool-Matrix
+└── CLAUDE.md                    # Diese Datei
 ```
 
 ---
@@ -58,6 +60,21 @@ Bei Aenderungen IMMER alle 3 Dateien pflegen:
 Bei Gespraechen neue Tool-Ideen erkennen:
 - User hat Problem/Wunsch? → Potentielle Idee!
 - Workflow koennte automatisiert werden? → Idee!
+
+### Verdichten-Regeln
+
+| Datei-Typ | Regel |
+|-----------|-------|
+| CLAUDE.md | Strikt verdichten |
+| IDEEN.md | Max 3 Zeilen pro Idee, Details in IDEEN_DETAILS.md |
+| IDEEN_DETAILS.md | Ausfuehrlich (technische Referenz) |
+| Doku/Analysen | Optional verdichten |
+
+### HTML-Dateien synchron halten!
+
+Bei Aenderungen an Ideen IMMER auch anpassen:
+1. `IDEEN_UEBERSICHT.html` - Ideen-Katalog (Karten, Filter)
+2. `PROZESS_VISUALISIERUNG.html` - Prozess-Flows, Tool-Matrix, IST vs SOLL
 
 ---
 

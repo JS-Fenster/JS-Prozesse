@@ -1986,3 +1986,51 @@ def convert_to_w4a(input_file, template):
 ### Status
 **Idee** - Mittel | **Phase:** 2 (Kernprozesse)
 
+---
+
+## #68 Zentrales Planungs-Dashboard
+
+> **Phase:** 0 (Infrastruktur) | **Komplexitaet:** Mittel | **Status:** NEU
+
+### Problem
+Outlook-Kalender wird in 3 Prozessen als "Planungs-Dashboard" missbraucht:
+- **Montage:** Kacheln fuer Auftraege, Status, Kategorien
+- **Reparatur:** Status-Tracking fuer Reparatur-Vorgaenge
+- **Bestellung:** Abholungen, Liefertermine
+
+Outlook ist dafuer nicht gedacht → unuebersichtlich, fehleranfaellig, Info geht verloren.
+
+### Loesung
+EIN zentrales Planungs-Dashboard das Outlook ersetzt:
+- Montage-Planung (Teams, Termine, Status)
+- Reparatur-Tracking (Stefan's Tagesablauf)
+- Abholungen/Lieferungen (aus Bestellprozess)
+- Kalender-Ansicht + Kanban-Ansicht
+
+### Kernfunktionen
+1. **Tages-/Wochen-/Monatsansicht** wie Outlook, aber besser
+2. **Drag & Drop** Termine verschieben
+3. **Farbkodierung** nach Typ (Montage, Reparatur, Abholung)
+4. **Filter** nach Team, Status, Kunde
+5. **W4A-Integration** Daten aus/nach ERP synchronisieren
+
+### Technische Umsetzung
+- Baut auf #58 Web-Plattform auf
+- Nutzt #59 DB-Connector
+- Kalender-Komponente (FullCalendar.js oder aehnlich)
+- Echtzeit-Updates (WebSocket oder Polling)
+
+### Abhaengigkeiten
+- **Voraussetzung:** #58 Web-Plattform, #59 DB-Connector
+- **Ergaenzt:** #11 Terminfindung, #36 Beschaffungs-Dashboard
+- **Nutzer:** Susann (Montage), Buero (Reparatur), Lager (Abholungen)
+
+### Offene Fragen
+- [ ] Outlook komplett ersetzen oder parallel laufen?
+- [ ] Mobile Ansicht noetig?
+- [ ] Benachrichtigungen (Push, E-Mail)?
+- [ ] Sync mit privatem Kalender?
+
+### Status
+**NEU** - Mittel | **Phase:** 0 (Infrastruktur - frueh implementieren!)
+

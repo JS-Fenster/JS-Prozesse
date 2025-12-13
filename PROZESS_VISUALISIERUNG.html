@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Fenster - Prozess-Visualisierung & Tool-Mapping</title>
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border: #334155;
+            --green: #10b981;
+            --red: #ef4444;
+            --blue: #3b82f6;
+            --yellow: #f59e0b;
+            --purple: #8b5cf6;
+            --orange: #f97316;
+            --cyan: #06b6d4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: var(--text-secondary);
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-tab {
+            padding: 12px 24px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-primary);
+        }
+
+        .nav-tab:hover, .nav-tab.active {
+            background: var(--blue);
+            border-color: var(--blue);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Prozess-Flow */
+        .process-flow {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 20px 0;
+        }
+
+        .process-card {
+            min-width: 280px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .process-card::after {
+            content: '→';
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            color: var(--text-secondary);
+        }
+
+        .process-card:last-child::after {
+            display: none;
+        }
+
+        .process-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .process-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .process-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .pain-points {
+            margin: 15px 0;
+        }
+
+        .pain-point {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 3px solid var(--red);
+            padding: 8px 12px;
+            margin: 8px 0;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.85rem;
+        }
+
+        .tools-list {
+            margin-top: 15px;
+        }
+
+        .tool-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid var(--blue);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin: 3px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tool-badge:hover {
+            background: var(--blue);
+        }
+
+        .tool-badge.priority {
+            background: rgba(245, 158, 11, 0.2);
+            border-color: var(--yellow);
+        }
+
+        /* IST vs SOLL Vergleich */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 20px 0;
+        }
+
+        .comparison-column {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .comparison-column h3 {
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .ist-column h3 {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--red);
+        }
+
+        .soll-column h3 {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--green);
+        }
+
+        .workflow-step {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-tool {
+            font-size: 0.75rem;
+            color: var(--blue);
+        }
+
+        .automated {
+            border-left: 3px solid var(--green);
+        }
+
+        .manual {
+            border-left: 3px solid var(--red);
+        }
+
+        /* Tool-Matrix */
+        .tool-matrix {
+            overflow-x: auto;
+        }
+
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .matrix-table th, .matrix-table td {
+            padding: 12px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .matrix-table th {
+            background: var(--bg-secondary);
+            position: sticky;
+            top: 0;
+        }
+
+        .matrix-table td:first-child {
+            text-align: left;
+            font-weight: 600;
+            background: var(--bg-secondary);
+            position: sticky;
+            left: 0;
+        }
+
+        .matrix-check {
+            color: var(--green);
+            font-size: 1.2rem;
+        }
+
+        .matrix-primary {
+            color: var(--yellow);
+            font-size: 1.2rem;
+        }
+
+        /* Ueberschneidungen */
+        .overlap-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .overlap-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .overlap-card h4 {
+            color: var(--yellow);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .overlap-list {
+            list-style: none;
+        }
+
+        .overlap-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .overlap-list li:last-child {
+            border-bottom: none;
+        }
+
+        .usage-count {
+            background: var(--purple);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+        }
+
+        /* Aenderungsvorschlaege */
+        .suggestion-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .suggestion-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .suggestion-type {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .type-merge {
+            background: rgba(139, 92, 246, 0.2);
+            color: var(--purple);
+        }
+
+        .type-split {
+            background: rgba(6, 182, 212, 0.2);
+            color: var(--cyan);
+        }
+
+        .type-new {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--green);
+        }
+
+        .type-problem {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--red);
+        }
+
+        .suggestion-content {
+            color: var(--text-secondary);
+        }
+
+        .suggestion-content strong {
+            color: var(--text-primary);
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--blue);
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Legende */
+        .legend {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            padding: 15px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .process-flow {
+                flex-direction: column;
+            }
+
+            .process-card::after {
+                content: '↓';
+                right: 50%;
+                top: auto;
+                bottom: -15px;
+                transform: translateX(50%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>JS Fenster - Prozess-Visualisierung</h1>
+            <p>IST-Zustand, SOLL-Zustand und Tool-Mapping | Stand: 13.12.2025</p>
+        </header>
+
+        <nav class="nav-tabs">
+            <div class="nav-tab active" onclick="showTab('overview')">Uebersicht</div>
+            <div class="nav-tab" onclick="showTab('anfrage')">Anfrage → Angebot</div>
+            <div class="nav-tab" onclick="showTab('bestellung')">Bestellung</div>
+            <div class="nav-tab" onclick="showTab('montage')">Montage</div>
+            <div class="nav-tab" onclick="showTab('rechnung')">Rechnung</div>
+            <div class="nav-tab" onclick="showTab('reparatur')">Reparatur</div>
+            <div class="nav-tab" onclick="showTab('matrix')">Tool-Matrix</div>
+            <div class="nav-tab" onclick="showTab('changes')">Aenderungen</div>
+        </nav>
+
+        <!-- UEBERSICHT -->
+        <div id="overview" class="tab-content active">
+            <h2>Gesamtprozess-Flow</h2>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">6</div>
+                    <div class="stat-label">Hauptprozesse</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">42</div>
+                    <div class="stat-label">Schmerzpunkte identifiziert</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">28</div>
+                    <div class="stat-label">Tools verknuepft</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">8</div>
+                    <div class="stat-label">Prioritaets-Tools</div>
+                </div>
+            </div>
+
+            <div class="process-flow">
+                <div class="process-card" style="border-top: 3px solid var(--blue);">
+                    <div class="process-header">
+                        <div class="process-icon" style="background: rgba(59, 130, 246, 0.2);">📞</div>
+                        <div class="process-title">Anfrage</div>
+                    </div>
+                    <div class="pain-points">
+                        <div class="pain-point">Zettelwirtschaft</div>
+                        <div class="pain-point">2-3 Wochen Wartezeit</div>
+                        <div class="pain-point">Kaum Nachverfolgung</div>
+                    </div>
+                    <div class="tools-list">
+                        <span class="tool-badge">#24 Ticket</span>
+                        <span class="tool-badge">#28 Aufmass</span>
+                        <span class="tool-badge priority">#23 Pipeline</span>
+                    </div>
+                </div>
+
+                <div class="process-card" style="border-top: 3px solid var(--purple);">
+                    <div class="process-header">
+                        <div class="process-icon" style="background: rgba(139, 92, 246, 0.2);">📦</div>
+                        <div class="process-title">Bestellung</div>
+                    </div>
+                    <div class="pain-points">
+                        <div class="pain-point">ABs nicht getrackt</div>
+                        <div class="pain-point">Abholungen vergessen</div>
+                        <div class="pain-point">Anzahlung vergessen</div>
+                    </div>
+                    <div class="tools-list">
+                        <span class="tool-badge priority">#36 Beschaffung</span>
+                        <span class="tool-badge priority">#56 AB-Abgleich</span>
+                        <span class="tool-badge priority">#65 Anzahlung</span>
+                    </div>
+                </div>
+
+                <div class="process-card" style="border-top: 3px solid var(--green);">
+                    <div class="process-header">
+                        <div class="process-icon" style="background: rgba(16, 185, 129, 0.2);">🔧</div>
+                        <div class="process-title">Montage</div>
+                    </div>
+                    <div class="pain-points">
+                        <div class="pain-point">Falsche Unterlagen</div>
+                        <div class="pain-point">Papier-Rueckmeldung</div>
+                        <div class="pain-point">Outlook statt W4A</div>
+                    </div>
+                    <div class="tools-list">
+                        <span class="tool-badge priority">#39 Montage-Mappe</span>
+                        <span class="tool-badge">#41 Status Live</span>
+                        <span class="tool-badge">#40 Material-Liste</span>
+                    </div>
+                </div>
+
+                <div class="process-card" style="border-top: 3px solid var(--yellow);">
+                    <div class="process-header">
+                        <div class="process-icon" style="background: rgba(245, 158, 11, 0.2);">💰</div>
+                        <div class="process-title">Rechnung</div>
+                    </div>
+                    <div class="pain-points">
+                        <div class="pain-point">Infos fehlen</div>
+                        <div class="pain-point">~4,4% Korrekturen</div>
+                        <div class="pain-point">Haengeakt wandert</div>
+                    </div>
+                    <div class="tools-list">
+                        <span class="tool-badge">#39 Rueckmeldung</span>
+                        <span class="tool-badge">#36 Dashboard</span>
+                    </div>
+                </div>
+
+                <div class="process-card" style="border-top: 3px solid var(--cyan);">
+                    <div class="process-header">
+                        <div class="process-icon" style="background: rgba(6, 182, 212, 0.2);">🔄</div>
+                        <div class="process-title">Reparatur</div>
+                    </div>
+                    <div class="pain-points">
+                        <div class="pain-point">Termin-Koordination</div>
+                        <div class="pain-point">Ersatzteil-Suche</div>
+                        <div class="pain-point">Outlook-Missbrauch</div>
+                    </div>
+                    <div class="tools-list">
+                        <span class="tool-badge">#11 Terminfindung</span>
+                        <span class="tool-badge">#62 Ersatzteil-KI</span>
+                        <span class="tool-badge">#9 Reparatur-Verw.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--red);"></div>
+                    <span>Schmerzpunkt</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--blue);"></div>
+                    <span>Tool-Idee</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--yellow);"></div>
+                    <span>Prioritaets-Tool</span>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 30px;">Kritische Ueberschneidungen</h3>
+            <div class="overlap-section">
+                <div class="overlap-card">
+                    <h4>⚠️ Multi-Prozess Tools</h4>
+                    <ul class="overlap-list">
+                        <li>#36 Beschaffungs-Dashboard <span class="usage-count">4 Prozesse</span></li>
+                        <li>#39 Montage-Mappe/Rueckmeldung <span class="usage-count">3 Prozesse</span></li>
+                        <li>#11 Terminfindung <span class="usage-count">3 Prozesse</span></li>
+                        <li>#65 Anzahlungsrechnung <span class="usage-count">2 Prozesse</span></li>
+                    </ul>
+                </div>
+                <div class="overlap-card">
+                    <h4>🎯 Kern-Schmerzpunkte</h4>
+                    <ul class="overlap-list">
+                        <li>Zettel/Papier-Workflows <span class="usage-count">5 Prozesse</span></li>
+                        <li>Outlook statt W4A <span class="usage-count">3 Prozesse</span></li>
+                        <li>Keine Auto-Tracking <span class="usage-count">4 Prozesse</span></li>
+                        <li>Info-Verlust <span class="usage-count">4 Prozesse</span></li>
+                    </ul>
+                </div>
+                <div class="overlap-card">
+                    <h4>✅ Was funktioniert</h4>
+                    <ul class="overlap-list">
+                        <li>Reklamations-Ticketsystem <span class="usage-count">Vorbild!</span></li>
+                        <li>Zahlungspruefung W4A <span class="usage-count">Automatisch</span></li>
+                        <li>Mahnwesen <span class="usage-count">Strukturiert</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ANFRAGE-PROZESS -->
+        <div id="anfrage" class="tab-content">
+            <h2>Anfrageprozess: IST vs SOLL</h2>
+
+            <div class="comparison-grid">
+                <div class="comparison-column ist-column">
+                    <h3>❌ IST-Zustand</h3>
+
+                    <div class="workflow-step manual">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <strong>Eingang</strong>: Telefon/E-Mail/Laufkundschaft
+                            <div class="step-tool">→ Zettel ODER W4A-Aufgabe</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step manual">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <strong>Erfassung</strong>: Kunde pruefen/anlegen
+                            <div class="step-tool">→ Manuell in W4A</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step manual">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <strong>Aufmass</strong>: 2-3 Wochen Wartezeit
+                            <div class="step-tool">→ Papier-Aufmassblatt</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step manual">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <strong>Konfiguratoren</strong>: Copy&Paste
+                            <div class="step-tool">→ Nur WoT hat XML</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step manual">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <strong>Nachverfolgung</strong>: Kaum/Gar nicht
+                            <div class="step-tool">→ Kein System</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comparison-column soll-column">
+                    <h3>✅ SOLL-Zustand</h3>
+
+                    <div class="workflow-step automated">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <strong>Eingang</strong>: Alle Kanaele
+                            <div class="step-tool">→ #24 Auto-Ticket + Schnell-Erfassung</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step automated">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <strong>Erfassung</strong>: Bestandskunde erkennen
+                            <div class="step-tool">→ #47 Kunden-Historie</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step automated">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <strong>Aufmass</strong>: Optimierte Termine
+                            <div class="step-tool">→ #11 Terminfindung + #28 Digital</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step automated">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <strong>Konfiguratoren</strong>: Auto-Import
+                            <div class="step-tool">→ #37 XML-Transformer + #67 Universal</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step automated">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <strong>Nachverfolgung</strong>: 2/7/14-Tage Regel
+                            <div class="step-tool">→ #23 Pipeline + Auto-Reminder</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 30px;">Benoetigte Tools</h3>
+            <div class="overlap-section">
+                <div class="overlap-card">
+                    <h4>🔴 Kritisch</h4>
+                    <ul class="overlap-list">
+                        <li>#24 Ticket + Schnell-Erfassung</li>
+                        <li>#23 Verkaufschancen-Pipeline</li>
+                        <li>#11 Terminfindung</li>
+                    </ul>
+                </div>
+                <div class="overlap-card">
+                    <h4>🟡 Wichtig</h4>
+                    <ul class="overlap-list">
+                        <li>#28 Digitales Aufmass</li>
+                        <li>#37 WoT-XML Transformer</li>
+                        <li>#6 Budget-Angebots-Generator</li>
+                    </ul>
+                </div>
+                <div class="overlap-card">
+                    <h4>🟢 Nice-to-have</h4>
+                    <ul class="overlap-list">
+                        <li>#67 XML-Konverter Universal</li>
+                        <li>#47 Kunden-Historie</li>
+                        <li>#32 Projektverwaltung</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- BESTELLPROZESS -->
+        <div id="bestellung" class="tab-content">
+            <h2>Bestellprozess: IST vs SOLL</h2>
+
+            <div class="comparison-grid">
+                <div class="comparison-column ist-column">
+                    <h3>❌ IST-Zustand</h3>
+
+                    <div class="workflow-step manual">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <strong>Bestellung erstellen</strong>
+                            <div class="step-tool">→ Anzahlung wird vergessen!</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step manual">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <strong>AB erhalten</strong>
+                            <div class="step-tool">→ Portal-ABs vergessen!</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step manual">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <strong>AB pruefen</strong>
+                            <div class="step-tool">→ Manuell ausgedruckt</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step manual">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <strong>Lieferung tracken</strong>
+                            <div class="step-tool">→ Outlook (unzuverlaessig!)</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step manual">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <strong>Wareneingang</strong>
+                            <div class="step-tool">→ Keine Lagerbuchung, fehlerhafte Daten</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comparison-column soll-column">
+                    <h3>✅ SOLL-Zustand</h3>
+
+                    <div class="workflow-step automated">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <strong>Bestellung erstellen</strong>
+                            <div class="step-tool">→ #65 Anzahlung-Pflicht + #55 Pflichtfelder</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step automated">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <strong>AB tracken</strong>
+                            <div class="step-tool">→ #36 Ampel-System (Offene ABs!)</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step automated">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <strong>AB pruefen</strong>
+                            <div class="step-tool">→ #56 Auto-Abgleich PDF vs Bestellung</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step automated">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <strong>Lieferung tracken</strong>
+                            <div class="step-tool">→ #36 Dashboard (Abholungen!)</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step automated">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <strong>Wareneingang</strong>
+                            <div class="step-tool">→ #38 Lagerverwaltung + #33 Bestellwesen</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid var(--red); border-radius: 12px; padding: 20px; margin-top: 30px;">
+                <h3 style="color: var(--red); margin-bottom: 15px;">⚠️ Kritischster Prozess!</h3>
+                <p>Der Bestellprozess hat die meisten Schmerzpunkte (11) und verursacht:</p>
+                <ul style="margin: 15px 0; padding-left: 20px;">
+                    <li><strong>Wochen/Monate Stillstand</strong> wenn AB fehlt</li>
+                    <li><strong>Ware beim Lieferanten vergessen</strong> (Abholungen)</li>
+                    <li><strong>Cashflow-Probleme</strong> (Anzahlung vergessen)</li>
+                    <li><strong>Montage-Verzoegerungen</strong> (Teilmengen falsch)</li>
+                </ul>
+                <p><strong>→ #36 Beschaffungs-Dashboard ist das wichtigste Tool!</strong></p>
+            </div>
+        </div>
+
+        <!-- MONTAGE -->
+        <div id="montage" class="tab-content">
+            <h2>Montageprozess: IST vs SOLL</h2>
+
+            <div class="comparison-grid">
+                <div class="comparison-column ist-column">
+                    <h3>❌ IST-Zustand</h3>
+
+                    <div class="workflow-step manual">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <strong>Planung</strong>: Outlook-Kalender
+                            <div class="step-tool">→ Missbrauch als Planungs-Dashboard</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step manual">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <strong>Unterlagen</strong>: Susann stellt zusammen
+                            <div class="step-tool">→ Oft falsche/zu viele Dokumente!</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step manual">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <strong>Material</strong>: Morgens kommissionieren
+                            <div class="step-tool">→ Hektisch, kann vergessen werden</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step manual">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <strong>Rueckmeldung</strong>: Papier-Zettel
+                            <div class="step-tool">→ Handschrift, muss abgetippt werden</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step manual">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <strong>Restarbeiten</strong>: Zettel → Kalender
+                            <div class="step-tool">→ Kann verloren gehen</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comparison-column soll-column">
+                    <h3>✅ SOLL-Zustand</h3>
+
+                    <div class="workflow-step automated">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <strong>Planung</strong>: W4A integriert
+                            <div class="step-tool">→ #11 Terminfindung + Geo-Optimierung</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step automated">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <strong>Unterlagen</strong>: Auto-generiert
+                            <div class="step-tool">→ #39 Montage-Mappe (1-3 Seiten)</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step automated">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <strong>Material</strong>: Checkliste aus Bestellung
+                            <div class="step-tool">→ #40 Kommissionierliste</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step automated">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <strong>Rueckmeldung</strong>: Digital
+                            <div class="step-tool">→ #41 Status Live + Auto-SMS</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step automated">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <strong>Restarbeiten</strong>: Kanban-Board
+                            <div class="step-tool">→ #43 Kanban-Dashboard</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid var(--green); border-radius: 12px; padding: 20px; margin-top: 30px;">
+                <h3 style="color: var(--green); margin-bottom: 15px;">💡 Vorbild: Reklamations-Ticketsystem</h3>
+                <p>Das W4A Ticketsystem mit Wiedervorlage funktioniert sehr gut fuer Reklamationen.</p>
+                <p style="margin-top: 10px;"><strong>→ Gleiches Prinzip fuer Restarbeiten/Montage mit grafischer Oberflaeche (#43)</strong></p>
+            </div>
+        </div>
+
+        <!-- RECHNUNG -->
+        <div id="rechnung" class="tab-content">
+            <h2>Rechnungsprozess: IST vs SOLL</h2>
+
+            <div class="comparison-grid">
+                <div class="comparison-column ist-column">
+                    <h3>❌ IST-Zustand</h3>
+
+                    <div class="workflow-step manual">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <strong>Montageschein</strong>: Papier-Zettel
+                            <div class="step-tool">→ Susann analysiert + scannt</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step manual">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <strong>Haengeakt</strong>: Physisch
+                            <div class="step-tool">→ E-Mails ausgedruckt (!)</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step manual">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <strong>Rechnung</strong>: Roland erstellt
+                            <div class="step-tool">→ Infos fehlen, ~4,4% Korrekturen</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step automated">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <strong>Zahlungseingang</strong>: W4A Auto
+                            <div class="step-tool">→ Funktioniert gut!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comparison-column soll-column">
+                    <h3>✅ SOLL-Zustand</h3>
+
+                    <div class="workflow-step automated">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <strong>Montageschein</strong>: Digital
+                            <div class="step-tool">→ #41 Live-Rueckmeldung</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step automated">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <strong>Akte</strong>: Digital verlinkt
+                            <div class="step-tool">→ E-Mails in W4A, kein Drucken</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step automated">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <strong>Rechnung</strong>: Vollstaendige Infos
+                            <div class="step-tool">→ #39 Rueckmeldung + #36 Dashboard</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step automated">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <strong>Zahlungseingang</strong>: W4A Auto
+                            <div class="step-tool">→ Bleibt wie es ist</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- REPARATUR -->
+        <div id="reparatur" class="tab-content">
+            <h2>Reparaturprozess: IST vs SOLL</h2>
+
+            <div class="comparison-grid">
+                <div class="comparison-column ist-column">
+                    <h3>❌ IST-Zustand</h3>
+
+                    <div class="workflow-step manual">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <strong>Erfassung</strong>: Zettel/Outlook
+                            <div class="step-tool">→ Kunde erst bei Durchfuehrung angelegt!</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step manual">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <strong>Termin-Koordination</strong>
+                            <div class="step-tool">→ GROSSER ZEITFRESSER!</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step manual">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <strong>Ersatzteil-Suche</strong>: 15-45 Min
+                            <div class="step-tool">→ Manuell bei 5+ Lieferanten</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step manual">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <strong>Status-Tracking</strong>
+                            <div class="step-tool">→ Outlook-Kalender Missbrauch</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comparison-column soll-column">
+                    <h3>✅ SOLL-Zustand</h3>
+
+                    <div class="workflow-step automated">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <strong>Erfassung</strong>: Sofort digital
+                            <div class="step-tool">→ #9 Reparatur-Verwaltung</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step automated">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <strong>Termin-Koordination</strong>
+                            <div class="step-tool">→ #11 Terminfindung + Voice-Bot</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step automated">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <strong>Ersatzteil-Suche</strong>: KI-gestuetzt
+                            <div class="step-tool">→ #62 Ersatzteil-KI (Foto → Teil)</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step automated">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <strong>Status-Tracking</strong>: Eigenes System
+                            <div class="step-tool">→ Reparatur-Management-System</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: rgba(139, 92, 246, 0.1); border: 1px solid var(--purple); border-radius: 12px; padding: 20px; margin-top: 30px;">
+                <h3 style="color: var(--purple); margin-bottom: 15px;">🚀 Game Changer: Eigenes Reparatur-System</h3>
+                <p>Laut Analyse ist ein eigenes Reparatur-Management-System die beste Loesung:</p>
+                <ul style="margin: 15px 0; padding-left: 20px;">
+                    <li>Unabhaengig von ERP-Limitierungen</li>
+                    <li>Maßgeschneidert fuer Reparatur-Workflow</li>
+                    <li>Voice-Bot fuer Terminkoordinierung</li>
+                    <li>SQL-Integration mit W4A</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- TOOL-MATRIX -->
+        <div id="matrix" class="tab-content">
+            <h2>Tool-Prozess-Matrix</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 20px;">Welches Tool hilft in welchem Prozess? ⭐ = Hauptprozess, ✓ = auch relevant</p>
+
+            <div class="tool-matrix">
+                <table class="matrix-table">
+                    <thead>
+                        <tr>
+                            <th>Tool</th>
+                            <th>Anfrage</th>
+                            <th>Bestellung</th>
+                            <th>Montage</th>
+                            <th>Rechnung</th>
+                            <th>Reparatur</th>
+                            <th>Reklamation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#11 Terminfindung</td>
+                            <td><span class="matrix-primary">⭐</span></td>
+                            <td></td>
+                            <td><span class="matrix-check">✓</span></td>
+                            <td></td>
+                            <td><span class="matrix-primary">⭐</span></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>#23 Verkaufschancen-Pipeline</td>
+                            <td><span class="matrix-primary">⭐</span></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>#24 Ticket + Schnell-Erfassung</td>
+                            <td><span class="matrix-primary">⭐</span></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><span class="matrix-check">✓</span></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>#28 Digitales Aufmass</td>
+                            <td><span class="matrix-primary">⭐</span></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><span class="matrix-check">✓</span></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>#36 Beschaffungs-Dashboard</td>
+                            <td></td>
+                            <td><span class="matrix-primary">⭐</span></td>
+                            <td><span class="matrix-check">✓</span></td>
+                            <td><span class="matrix-check">✓</span></td>
+                            <td></td>
+                            <td><span class="matrix-check">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td>#37 WoT-XML Transformer</td>
+                            <td><span class="matrix-primary">⭐</span></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>#38 Lagerverwaltung</td>
+                            <td></td>
+                            <td><span class="matrix-primary">⭐</span></td>
+                            <td><span class="matrix-check">✓</span></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>#39 Montage-Mappe</td>
+                            <td></td>
+                            <td></td>
+                            <td><span class="matrix-primary">⭐</span></td>
+                            <td><span class="matrix-primary">⭐</span></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>#40 Material-Kommissionierliste</td>
+                            <td></td>
+                            <td><span class="matrix-check">✓</span></td>
+                            <td><span class="matrix-primary">⭐</span></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>#41 Montage-Status Live</td>
+                            <td></td>
+                            <td></td>
+                            <td><span class="matrix-primary">⭐</span></td>
+                            <td><span class="matrix-check">✓</span></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>#43 Kanban-Dashboard</td>
+                            <td></td>
+                            <td></td>
+                            <td><span class="matrix-primary">⭐</span></td>
+                            <td></td>
+                            <td><span class="matrix-check">✓</span></td>
+                            <td><span class="matrix-check">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td>#55 Bestellvorlage Pflichtfelder</td>
+                            <td></td>
+                            <td><span class="matrix-primary">⭐</span></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>#56 AB-Abgleich automatisch</td>
+                            <td></td>
+                            <td><span class="matrix-primary">⭐</span></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>#57 Lieferadressen-Logik</td>
+                            <td></td>
+                            <td><span class="matrix-primary">⭐</span></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>#62 Ersatzteil-KI</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><span class="matrix-primary">⭐</span></td>
+                            <td><span class="matrix-check">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td>#65 Anzahlungsrechnung-Auto</td>
+                            <td></td>
+                            <td><span class="matrix-primary">⭐</span></td>
+                            <td></td>
+                            <td><span class="matrix-check">✓</span></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- AENDERUNGSVORSCHLAEGE -->
+        <div id="changes" class="tab-content">
+            <h2>Aenderungsvorschlaege fuer Ideen</h2>
+
+            <div class="suggestion-card">
+                <div class="suggestion-header">
+                    <span class="suggestion-type type-merge">MERGE</span>
+                    <strong>#9 Reparatur-Verwaltung + #43 Kanban</strong>
+                </div>
+                <div class="suggestion-content">
+                    <p><strong>Problem:</strong> #9 beschreibt Reparatur-Verwaltung, #43 beschreibt Kanban fuer Tickets. Beide betreffen Status-Tracking.</p>
+                    <p><strong>Vorschlag:</strong> #43 als UI-Komponente von #9 definieren, nicht als separates Tool. Kanban ist die Darstellungsform, nicht das Tool selbst.</p>
+                </div>
+            </div>
+
+            <div class="suggestion-card">
+                <div class="suggestion-header">
+                    <span class="suggestion-type type-problem">PROBLEM</span>
+                    <strong>#11 Terminfindung - Zu breit definiert</strong>
+                </div>
+                <div class="suggestion-content">
+                    <p><strong>Problem:</strong> #11 wird fuer Aufmass-Termine, Montage-Planung UND Reparatur-Termine verwendet. Das sind 3 verschiedene Anwendungsfaelle mit unterschiedlichen Anforderungen.</p>
+                    <p><strong>Vorschlag:</strong> #11 als "Termin-Engine" definieren, die von anderen Tools (Anfrage, Montage, Reparatur) genutzt wird. Oder aufteilen in #11a/b/c.</p>
+                </div>
+            </div>
+
+            <div class="suggestion-card">
+                <div class="suggestion-header">
+                    <span class="suggestion-type type-new">NEU</span>
+                    <strong>Fehlende Idee: Outlook-Ersatz</strong>
+                </div>
+                <div class="suggestion-content">
+                    <p><strong>Problem:</strong> Outlook wird in 3 Prozessen als "Planungs-Dashboard" missbraucht (Montage, Reparatur, Bestellung). Kein Tool adressiert das direkt.</p>
+                    <p><strong>Vorschlag:</strong> Neue Idee #68 "Zentrales Planungs-Dashboard" oder in #14 Dashboard explizit aufnehmen: "Ersetzt Outlook-Kalender als Planungstool".</p>
+                </div>
+            </div>
+
+            <div class="suggestion-card">
+                <div class="suggestion-header">
+                    <span class="suggestion-type type-merge">MERGE</span>
+                    <strong>#39 + #40 + #41 → Montage-Suite</strong>
+                </div>
+                <div class="suggestion-content">
+                    <p><strong>Problem:</strong> Diese 3 Tools gehoeren eng zusammen und sollten nicht separat implementiert werden.</p>
+                    <p><strong>Vorschlag:</strong> Als "Montage-Suite" zusammenfassen mit 3 Modulen: Mappe (Input), Material (Checkliste), Status (Output). Gemeinsame Datenbasis.</p>
+                </div>
+            </div>
+
+            <div class="suggestion-card">
+                <div class="suggestion-header">
+                    <span class="suggestion-type type-problem">PROBLEM</span>
+                    <strong>#36 Beschaffungs-Dashboard - Zu wichtig fuer Phase 2</strong>
+                </div>
+                <div class="suggestion-content">
+                    <p><strong>Problem:</strong> #36 ist in der IDEEN.md als Phase 2 markiert, aber es ist das wichtigste Tool mit 4 Prozess-Verknuepfungen und loest die kritischsten Probleme.</p>
+                    <p><strong>Vorschlag:</strong> #36 in Phase 1 hochstufen ODER als Teil von Phase 0 Infrastruktur (#58 Web-Plattform) mit einplanen.</p>
+                </div>
+            </div>
+
+            <div class="suggestion-card">
+                <div class="suggestion-header">
+                    <span class="suggestion-type type-new">NEU</span>
+                    <strong>Fehlende Idee: Papierlos-Initiative</strong>
+                </div>
+                <div class="suggestion-content">
+                    <p><strong>Problem:</strong> 5 von 6 Prozessen haben "Papier/Zettel" als Schmerzpunkt. Das ist kein Tool-Problem, sondern ein Kultur-Problem.</p>
+                    <p><strong>Vorschlag:</strong> Neue uebergreifende Initiative definieren: "Alle neuen Tools MUESSEN papierlos sein". Als Constraint fuer alle Implementierungen.</p>
+                </div>
+            </div>
+
+            <div class="suggestion-card">
+                <div class="suggestion-header">
+                    <span class="suggestion-type type-split">SPLIT</span>
+                    <strong>#67 XML-Konverter Universal</strong>
+                </div>
+                <div class="suggestion-content">
+                    <p><strong>Problem:</strong> "Universal" ist zu vage. Welche Konfiguratoren konkret? my.warema, Kadeco, Komposoft, etc. haben alle unterschiedliche Formate.</p>
+                    <p><strong>Vorschlag:</strong> Entweder aufteilen (#67a warema, #67b kadeco, etc.) ODER in IDEEN_DETAILS.md explizit alle Konfiguratoren listen die unterstuetzt werden sollen.</p>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 40px;">Zusammenfassung</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" style="color: var(--purple);">2</div>
+                    <div class="stat-label">Merge-Vorschlaege</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" style="color: var(--red);">2</div>
+                    <div class="stat-label">Problem-Hinweise</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" style="color: var(--green);">2</div>
+                    <div class="stat-label">Neue Ideen</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" style="color: var(--cyan);">1</div>
+                    <div class="stat-label">Split-Vorschlag</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabId) {
+            // Alle Tabs ausblenden
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-tab').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Ausgewaehlten Tab anzeigen
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
