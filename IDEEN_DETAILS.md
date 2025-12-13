@@ -1179,10 +1179,10 @@ Handy-Foto → Auto-Erkennung Projekt/Kunde → richtige Akte.
 
 ---
 
-## #43 Kanban-Dashboard fuer Ticketsystem
+## #43 ~~Kanban-Dashboard fuer Ticketsystem~~ → merged in #9
 
 ### Kurzbeschreibung
-Grafische Kachel-Ansicht fuer W4A-Tickets (Restarbeiten, Montage, Reparaturen, Reklamationen).
+Grafische Kachel-Ansicht fuer W4A-Tickets - wird als UI-Komponente von #9 Reparatur-Verwaltung implementiert.
 
 ### Hintergrund
 Das W4A Ticketsystem funktioniert bereits gut mit:

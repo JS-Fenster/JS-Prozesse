@@ -91,8 +91,28 @@ Fuer Reparatur-spezifische Architektur siehe:
 
 ---
 
+## Zukunfts-Ueberlegung: Modul-Struktur
+
+Statt 64 separate Tools → 6-8 groessere Module mit Tabs/Views:
+
+| Modul | Ideen | Gemeinsamer Nenner |
+|-------|-------|-------------------|
+| **Beschaffung** | #36, #33, #53, #55, #56, #57 | Bestellung → Lieferung |
+| **Montage** | #39/#40/#41, #66, #29 | Monteur-Tagesgeschaeft |
+| **Service** | #9, #24 | Tickets, Reparaturen |
+| **Planung** | #68, #11, #22 | Termine, Kalender, Routen |
+| **Kunden** | #12, #23, #25, #47, #30 | CRM, Kommunikation |
+| **Finanzen** | #31, #50, #51, #65 | Geld, Rechnungen |
+
+**Vorteile:** Weniger Kontextwechsel, gemeinsame Datenbasis, einfachere Navigation.
+
+> **Status:** Idee dokumentiert, nicht priorisiert. Erst Erfahrung mit einzelnen Tools sammeln.
+
+---
+
 ## Changelog
 
 | Datum | Aenderung |
 |-------|-----------|
+| 2025-12-13 | Modul-Struktur als Zukunfts-Ueberlegung dokumentiert |
 | 2025-12-13 | Dokument erstellt, ERP-Strategie dokumentiert |

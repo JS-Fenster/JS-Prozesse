@@ -1,6 +1,6 @@
 # Ideen fuer KI-Automatisierungen
 
-**Erstellt:** 2025-12-09 | **Aktualisiert:** 2025-12-13 | **Anzahl:** 65 Ideen (4 merged)
+**Erstellt:** 2025-12-09 | **Aktualisiert:** 2025-12-13 | **Stand:** 61 offen, 1 umgesetzt, 5 integriert
 
 ---
 
@@ -20,12 +20,12 @@
 |-------|--------------|-------|
 | **0** | INFRASTRUKTUR | #58, #59, #60, #64, #68 |
 | **1** | BASIS-MODULE + KRITISCH | #1, #4 ✅, #13, #36 ⭐, #39/#40/#41 (Montage-Suite) |
-| **2** | KERNPROZESSE | #9 (+#43 UI), #10, #11, #22, #24, #28, #32, #33, #37, #38, #53, #55, #56, #57, #65, #66, #67 |
+| **2** | KERNPROZESSE | #9, #10, #11, #22, #24, #28, #32, #33, #37, #38, #53, #55, #56, #57, #65, #66, #67 |
 | **3** | KOMMUNIKATION | #3, #6, #12, #23, #25, #27, #30, #47, #49, #50 |
 | **4** | COMMAND CENTER | #14 (integriert #44, #51, #52) |
 | **5** | KI-FEATURES | #2, #5, #7, #8, #18, #20, #21, #29, #62, #63 |
 
-> **Hinweis:** #39/#40/#41 = Montage-Suite (zusammen implementieren), #43 = UI-Komponente von #9
+> **Hinweis:** #39/#40/#41 = Montage-Suite (zusammen implementieren)
 
 ---
 
@@ -129,10 +129,6 @@ Weru WPS on Top XML aufbereiten fuer sauberen W4A-Import.
 ### #38 Lagerverwaltung & Inventur
 Bestandsfuehrung, Inventur-Prozess, Teillieferungs-Problem loesen.
 → [Details](IDEEN_DETAILS.md#38-lagerverwaltung--inventur)
-
-### #43 Kanban-Dashboard (UI fuer #9)
-Grafische Kachel-Ansicht fuer Tickets/Reparaturen, Trello-Style. Implementieren als Teil von #9.
-→ [Details](IDEEN_DETAILS.md#43-kanban-dashboard-fuer-ticketsystem)
 
 ### #53 Mindestbestand-Alert
 Warnung bei kritischem Lagerbestand, auto. Bestellvorschlag.
@@ -320,6 +316,7 @@ Hausfoto → KI zaehlt Fenster → grobes Budgetangebot.
 | #46 Schnell-Erfassung | → #24 | Teil von Ticket-System |
 | #48 Wiederkauf-Erkennung | → #47 | Teil von Kunden-Historie |
 | #61 Mobiles Aufmass | → #28 | Teil von Digitales Aufmass |
+| #43 Kanban-Dashboard | → #9 | UI-Komponente von Reparatur-Verwaltung |
 
 ---
 
@@ -328,7 +325,7 @@ Hausfoto → KI zaehlt Fenster → grobes Budgetangebot.
 | Stufe | Tools |
 |-------|-------|
 | 🟢 Einfach | #4 ✓, #29, #49, #57 |
-| 🟡 Mittel | #1, #3, #6, #9, #10, #13, #15, #16, #19, #23, #24, #28, #31, #33, #36, #37, #38, #39, #40, #43, #47, #50, #53, #55, #65, #66, #67 |
+| 🟡 Mittel | #1, #3, #6, #9, #10, #13, #15, #16, #19, #23, #24, #28, #31, #33, #36, #37, #38, #39, #40, #47, #50, #53, #55, #65, #66, #67 |
 | 🟠 Anspruchsvoll | #2, #11, #12, #14, #17, #18, #22, #25, #26, #27, #30, #32, #34, #35, #41, #42, #44, #51, #52, #54, #56 |
 | 🔴 Komplex | #5, #7, #8, #20, #21, #62, #63 |
 

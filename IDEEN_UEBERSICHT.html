@@ -365,22 +365,26 @@
     <h1>KI-Automatisierung - Ideensammlung</h1>
     <p class="subtitle">JS Fenster & Türen | Stand: Dezember 2025</p>
 
-    <!-- Stats -->
+    <!-- Stats (dynamisch berechnet) -->
     <div class="stats">
         <div class="stat">
-            <div class="stat-value" style="color: var(--phase1)">65</div>
+            <div class="stat-value" id="stat-active" style="color: var(--phase1)">-</div>
             <div class="stat-label">Tool-Ideen</div>
         </div>
         <div class="stat">
-            <div class="stat-value" style="color: var(--phase1)">1</div>
+            <div class="stat-value" id="stat-done" style="color: #22c55e">-</div>
             <div class="stat-label">Umgesetzt</div>
         </div>
         <div class="stat">
-            <div class="stat-value" style="color: #ff6b6b">5</div>
+            <div class="stat-value" id="stat-merged" style="color: #666">-</div>
+            <div class="stat-label">Integriert</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value" id="stat-infra" style="color: #ff6b6b">-</div>
             <div class="stat-label">Infrastruktur</div>
         </div>
         <div class="stat">
-            <div class="stat-value" style="color: var(--phase5)">9</div>
+            <div class="stat-value" id="stat-ki" style="color: var(--phase5)">-</div>
             <div class="stat-label">KI-Komplex</div>
         </div>
     </div>
@@ -619,7 +623,8 @@
             <div class="filter-menu">
                 <div class="filter-option status-opt selected" data-value="all" onclick="selectFilter('status', 'all', 'Alle')">Alle</div>
                 <div class="filter-option status-opt" data-value="offen" onclick="selectFilter('status', 'offen', 'Offen')">Offen</div>
-                <div class="filter-option status-opt" data-value="fertig" onclick="selectFilter('status', 'fertig', 'Fertig ✓')">Fertig ✓</div>
+                <div class="filter-option status-opt" data-value="fertig" onclick="selectFilter('status', 'fertig', 'Erledigt ✓')">Erledigt ✓</div>
+                <div class="filter-option status-opt" data-value="merged" onclick="selectFilter('status', 'merged', 'Integriert')">Integriert ↗</div>
             </div>
         </div>
 
@@ -1308,20 +1313,14 @@
             <div class="dependencies">Nutzt: <span>#27 Dokument-Intelligenz</span></div>
         </div>
 
-        <!-- #43 Kanban-Dashboard fuer Ticketsystem -->
-        <div class="card" data-phase="2" data-id="43" data-status="offen" data-complexity="2">
+        <!-- #43 MERGED in #9 -->
+        <div class="card" data-phase="2" data-id="43" data-status="merged" data-complexity="0" style="opacity: 0.5; border-left: 4px solid #666;">
             <div class="card-header">
                 <span class="card-id">#43</span>
-                <span class="tag complexity-2">Mittel</span>
+                <span class="tag" style="background: #666;">Merged</span>
             </div>
-            <div class="card-title">Kanban-Dashboard Ticketsystem</div>
-            <div class="card-desc">Grafische Kachel-Ansicht fuer W4A-Tickets (Restarbeiten, Montage, Reparaturen). Vorbild: Outlook + Trello</div>
-            <div class="tags">
-                <span class="tag">Dashboard</span>
-                <span class="tag">Visualisierung</span>
-                <span class="tag">W4A</span>
-            </div>
-            <div class="dependencies">Nutzt: <span>W4A Ticketliste, liefert an #14 Command Center</span></div>
+            <div class="card-title" style="text-decoration: line-through;">Kanban-Dashboard Ticketsystem</div>
+            <div class="card-desc">→ Integriert in #9 Reparatur-Verwaltung</div>
         </div>
 
         <!-- #44 Kapazitaets-Cockpit -->
@@ -1715,7 +1714,8 @@
             status: {
                 'all': '#888',
                 'offen': '#3b82f6',
-                'fertig': '#22c55e'
+                'fertig': '#22c55e',
+                'merged': '#666'
             }
         };
 
@@ -1801,8 +1801,8 @@
 
             // Status Label
             const statusLabel = document.getElementById('status-label');
-            const statusText = currentStatus === 'all' ? 'Alle' : (currentStatus === 'offen' ? 'Offen' : 'Fertig ✓');
-            statusLabel.textContent = statusText + ' (' + count + ')';
+            const statusTexts = { 'all': 'Alle', 'offen': 'Offen', 'fertig': 'Erledigt ✓', 'merged': 'Integriert ↗' };
+            statusLabel.textContent = statusTexts[currentStatus] + ' (' + count + ')';
 
             // Phase Label
             const phaseLabel = document.getElementById('phase-label');
@@ -1843,6 +1843,36 @@
 
         // Initial Labels setzen
         updateAllLabels();
+
+        // Stats dynamisch berechnen
+        function updateStats() {
+            const cards = document.querySelectorAll('.card');
+            let active = 0;     // offen
+            let done = 0;       // fertig
+            let merged = 0;     // merged
+            let infra = 0;      // Phase 0
+            let ki = 0;         // Phase 5 (KI-Komplex)
+
+            cards.forEach(card => {
+                const status = card.dataset.status;
+                const phase = card.dataset.phase;
+
+                if (status === 'offen') active++;
+                if (status === 'fertig') done++;
+                if (status === 'merged') merged++;
+                if (phase === '0') infra++;
+                if (phase === '5') ki++;
+            });
+
+            document.getElementById('stat-active').textContent = active;
+            document.getElementById('stat-done').textContent = done;
+            document.getElementById('stat-merged').textContent = merged;
+            document.getElementById('stat-infra').textContent = infra;
+            document.getElementById('stat-ki').textContent = ki;
+        }
+
+        // Stats beim Laden berechnen
+        updateStats();
     </script>
 </body>
 </html>
