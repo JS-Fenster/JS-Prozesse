@@ -202,4 +202,5 @@ MONTAGE (naechster Prozess)
 
 ## Naechster Prozess
 
-→ **Montageprozess** (wenn Ware vollstaendig da)
+→ **[Lagerprozess](Lagerprozess_Analyse.md)** (Warenannahme, Einlagerung, Kommissionierung)
+→ **[Montageprozess](Montageprozess_Analyse.md)** (wenn Ware vollstaendig da)

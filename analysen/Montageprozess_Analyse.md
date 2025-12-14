@@ -4,10 +4,16 @@
 
 ---
 
+## Vorheriger Prozess
+
+← **[Lagerprozess](Lagerprozess_Analyse.md)** (Warenannahme, Einlagerung, Kommissionierung)
+
+---
+
 ## Prozess-Uebersicht
 
 ```
-WARE KOMPLETT (aus Bestellprozess)
+WARE KOMPLETT (aus Lagerprozess)
 │
 ▼
 1. PLANUNG

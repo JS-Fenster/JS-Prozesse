@@ -1,6 +1,6 @@
 # Ideen fuer KI-Automatisierungen
 
-**Erstellt:** 2025-12-09 | **Aktualisiert:** 2025-12-13 | **Stand:** 61 offen, 1 umgesetzt, 5 integriert
+**Erstellt:** 2025-12-09 | **Aktualisiert:** 2025-12-14 | **Stand:** 63 offen, 1 umgesetzt, 5 integriert
 
 ---
 
@@ -325,9 +325,27 @@ Hausfoto → KI zaehlt Fenster → grobes Budgetangebot.
 | Stufe | Tools |
 |-------|-------|
 | 🟢 Einfach | #4 ✓, #29, #49, #57 |
-| 🟡 Mittel | #1, #3, #6, #9, #10, #13, #15, #16, #19, #23, #24, #28, #31, #33, #36, #37, #38, #39, #40, #47, #50, #53, #55, #65, #66, #67 |
+| 🟡 Mittel | #1, #3, #6, #9, #10, #13, #15, #16, #19, #23, #24, #28, #31, #33, #36, #37, #38, #39, #40, #47, #50, #53, #55, #65, #66, #67, #70 |
 | 🟠 Anspruchsvoll | #2, #11, #12, #14, #17, #18, #22, #25, #26, #27, #30, #32, #34, #35, #41, #42, #44, #51, #52, #54, #56 |
 | 🔴 Komplex | #5, #7, #8, #20, #21, #62, #63 |
+
+---
+
+---
+
+## Standalone-Tools
+
+### #69 UTA-Tankrechnungen PDF-Tool
+UTA-Tankrechnungen (PDFs) analysieren, nach Land splitten, laenderspezifische Sammel-PDFs erstellen.
+→ [Details](IDEEN_DETAILS.md#69-uta-tankrechnungen-pdf-tool)
+
+### #70 Montagematerial-Pauschalen-Automatik ⭐ NEU
+Automatische Materialpauschale fuer Nicht-Fenster (Innentuer, Markise, etc.). Aktuell wird Material vergessen → Umsatzverlust.
+→ [Details](IDEEN_DETAILS.md#70-montagematerial-pauschalen-automatik)
+
+### #71 Einkaufs-Workflow & Preismanagement ⭐ NEU
+Preis-Cache, Preisanfrage-Tracking (offen/beantwortet), Grossmengen-Erinnerung, Konditionen zentral. Schmerzpunkt: Preisanfragen dauern Tage/Wochen.
+→ [Details](IDEEN_DETAILS.md#71-einkaufs-workflow--preismanagement)
 
 ---
 

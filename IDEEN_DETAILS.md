@@ -1,6 +1,6 @@
 # Ideen für KI-Automatisierungen - Technische Details
 
-**Erstellt:** 2025-12-09 | **Aktualisiert:** 2025-12-12 | **Status:** Brainstorming-Phase | **Anzahl:** 63 Ideen (4 merged)
+**Erstellt:** 2025-12-09 | **Aktualisiert:** 2025-12-14 | **Status:** Brainstorming-Phase | **Anzahl:** 64 Ideen (4 merged)
 
 ---
 
@@ -87,6 +87,10 @@
 | 65 | Anzahlungsrechnung-Auto | Nicht vorhanden | Eigenbau ⭐ |
 | 66 | Montageplanung + Wetter | Nicht vorhanden | Eigenbau ⭐ |
 | 67 | XML-Konverter (Universal → W4A) | Nicht vorhanden | Eigenbau |
+| 68 | Zentrales Planungs-Dashboard | Nicht vorhanden | Eigenbau ⭐⭐ (Phase 0) |
+| 69 | UTA-Tankrechnungen PDF-Tool | Nicht relevant | Eigenbau (Standalone) |
+| 70 | Montagematerial-Pauschalen | Nicht vorhanden | Eigenbau ⭐ (Umsatzverlust!) |
+| 71 | Einkaufs-Workflow/Preismanagement | Nicht vorhanden | Eigenbau ⭐ |
 
 **Legende:** Eigenbau = Selbst entwickeln | Erweitern = W4A-Funktion ausbauen | Pruefen = W4A-Status klaeren | ⭐ = Prioritaet | ⭐⭐ = Infrastruktur (ZUERST) | 🔴 = KI-Komplex
 
@@ -710,12 +714,22 @@ Auto-Klassifizierung, OCR, Metadaten, Volltextsuche.
 
 ---
 
-## 28. Digitales Aufmass + Zubehoer + Mobiles Formular
+## #28 Digitales Aufmass + Zubehoer + Mobiles Formular
 
 ### Kurzbeschreibung
 Masserfassung mit auto. Zubehoer-Berechnung (Fensterbaenke, Rolllaeden) inkl. mobilem Erfassungs-Formular.
 
-### Enthält (ehem. #61 Mobiles Aufmass-Formular)
+### Problem (IST-Zustand aus Aufmassprozess-Analyse)
+| # | Problem | Folge |
+|---|---------|-------|
+| 1 | Aenderungen nicht nachgescannt | Veraltete Daten, falsche Masse bei Montage |
+| 2 | Angebots- statt Bestellaufmass | Unvollstaendige Masse, Reklamationen |
+| 3 | Foto-Workflow umstaendlich | 6 Schritte (Handy→Mail→PDF→Verkleinern→W4A) |
+| 4 | Wenig Platz fuer Notizen | Besonderheiten gehen unter |
+| 5 | 7+ verschiedene Papierformate | Unuebersichtlich, falsches Blatt |
+| 6 | Masse manuell abtippen (Papier→WoT) | Tippfehler, doppelte Arbeit |
+
+### Enthaelt (ehem. #61 Mobiles Aufmass-Formular)
 - Responsive Web-Formular fuer Handy/Tablet
 - Felder: Raum, Breite, Hoehe, Tiefe, Bemerkungen
 - Fotos direkt aus Kamera anhaengen
@@ -726,16 +740,30 @@ Masserfassung mit auto. Zubehoer-Berechnung (Fensterbaenke, Rolllaeden) inkl. mo
 - Automatisch: Fensterbank (Breite + 10cm), Rollladen berechnen
 - Daten als Basis fuer Angebot/Bestellung
 
+### Verschiedene Formulare (wie aktuell Papier)
+| Produkt | Digital abbilden |
+|---------|------------------|
+| Fenster | Formular 1 |
+| Haustueren | Formular 2 |
+| Innentueren (4 Varianten) | Formular 3a-3d |
+| Garagentore | Formular 4 |
+
 ### Loest
 - Papierzettel verloren, muss abgetippt werden
 - Kein Zugriff auf Daten vor Ort
+- Foto-Workflow vereinfacht (direkt aus App)
+- Daten koennen direkt in Konfigurator fliessen
 
 ### Abhaengigkeiten
 - **Braucht:** #58 Web-Plattform (responsive)
-- **Liefert an:** #6 Budget-Angebot
+- **Liefert an:** #6 Budget-Angebot, #39 Montage-Mappe
+- **Verknuepft:** #42 Foto-Zuordnung
+
+### Quelle
+Aufmassprozess-Analyse 2025-12-14
 
 ### Status
-**Idee** - Mittel
+**Idee** - Mittel | **Prioritaet:** Hoch (loest 6 Schmerzpunkte!)
 
 ---
 
@@ -808,16 +836,34 @@ Hierarchisch: Hauptprojekt → Unterprojekte → ERP-Dokumente.
 
 ---
 
-## 33. Bestellwesen & Lieferanten-Aufträge
+## #33 Bestellwesen & Lieferanten-Auftraege
 
 ### Kurzbeschreibung
-Bedarfsermittlung → Bestellung → Wareneingang.
+Bedarfsermittlung → Bestellung → Wareneingang mit korrekten Teilmengen.
+
+### Problem (IST-Zustand)
+- **Teilmengen falsch erfasst:** Roland uebernimmt komplette BE fuer Eingangslieferschein, obwohl nur Teilmenge geliefert
+- **Folge:** W4A-Daten zeigen falsche Bestaende, Folgeprozesse (Montageplanung, Lager) brechen
+- **Lieferanten-LS zeigt korrekt:** Teilmenge (z.B. "3 von 5 Fenster")
+- **W4A zeigt falsch:** Alles geliefert
+
+### Loesung (SOLL-Zustand)
+1. **Teilmengen-Buchung erzwingen:** Nur gelieferte Menge im Eingangslieferschein
+2. **Abgleich mit LS:** Warnung wenn Buchung ≠ Lieferschein-Scan
+3. **Offene Restmengen sichtbar:** Dashboard zeigt "noch 2 Fenster offen"
 
 ### SQL-Kontext
-- **Tabellen:** `dbo.Bestellung`, `dbo.Wareneingang`
+- **Tabellen:** `dbo.Bestellung`, `dbo.Wareneingang`, `dbo.EingangsLieferschein`
+
+### Abhaengigkeiten
+- **Verknuepft:** #36 Beschaffungs-Dashboard, #38 Lagerverwaltung
+- **Nutzt:** #56 AB-Abgleich (Pruefung gegen Bestellung)
+
+### Quelle
+Lagerprozess-Analyse 2025-12-14
 
 ### Status
-**Idee**
+**Idee** - Mittel | **Prioritaet:** Hoch (Datenqualitaet!)
 
 ---
 
@@ -985,13 +1031,18 @@ Abschluss unten: Futterleiste 30 mm (Standard)
 ## #38 Lagerverwaltung & Inventur
 
 ### Kurzbeschreibung
-Bestandsfuehrung fuer Lagerartikel, Inventur-Prozess, korrekte Wareneingangsbuchung.
+Bestandsfuehrung fuer Lagerartikel, Inventur-Prozess, korrekte Wareneingangsbuchung, Gestell-Tracking.
 
 ### Ist-Zustand
 - **Inventur:** Eigene Excel-Liste + Papier (getrennt von W4A)
 - **W4A Artikelstamm:** Nur fuer Kalkulation, KEINE Bestaende gefuehrt
 - **W4A Lagerfunktion:** Vorhanden aber nicht im Einsatz
 - **Problem:** Teillieferungen werden als Komplett-Lieferung gebucht
+- **NEU - Lager-Organisation:**
+  - Fenstergestelle: Fester Bereich, werden bei Bedarf vorgeholt
+  - Anderes Material: Feste Plaetze, nach Themen sortierte Regale
+  - Material nur durch Erfahrung findbar!
+- **NEU - Gestell-Problem:** Kein System "Welches Element auf welchem Gestell?"
 
 ### SQL-Kontext
 - **Tabellen:** `dbo.Artikel`, `dbo.Lagerbestand` (zu pruefen ob vorhanden)
@@ -1002,6 +1053,8 @@ Bestandsfuehrung fuer Lagerartikel, Inventur-Prozess, korrekte Wareneingangsbuch
 2. **Teillieferungs-Problem loesen:** Wareneingang korrekt buchen
 3. **Inventur-Workflow:** Scan-basiert oder manuell mit Abgleich
 4. **Bestandswarnungen:** Bei Unterschreitung Mindestmenge
+5. **NEU - Gestell-Tracking:** Element → Gestell Zuordnung
+6. **NEU - Lagerplatz-System:** Wo liegt was? (fuer Einarbeitung, nicht nur Erfahrung)
 
 ### Abhaengigkeiten
 - **Verknuepft:** #33 Bestellwesen, #36 Beschaffungs-Dashboard
@@ -1012,6 +1065,11 @@ Bestandsfuehrung fuer Lagerartikel, Inventur-Prozess, korrekte Wareneingangsbuch
 - [ ] Wie viele Artikel werden auf Lager gefuehrt?
 - [ ] Barcode/QR-Scan gewuenscht?
 - [ ] Welche Lagerorte gibt es? (Hauptlager, Fahrzeuge, etc.)
+- [ ] Wie viele Gestelle gibt es? Nummerierung?
+- [ ] Sollen Gestelle getrackt werden (welches Element wo)?
+
+### Quelle
+Lagerprozess-Analyse 2025-12-14
 
 ### Status
 **Idee** - Mittel
@@ -1071,6 +1129,24 @@ Pro Auftrag 1-3 Seiten "Montage-Mappe":
 - Fotos als Beweismittel/Dokumentation
 
 **Verknuepfung:** #7 Spracherkennung fuer Diktat-Funktion
+
+### NEU: Material-Rueckmeldung (Lagerprozess-Analyse 2025-12-14)
+
+**Problem:**
+- Ruecklaeufer (nicht benoetigtes Material) werden oft NICHT dokumentiert
+- Austausch vor Ort (anderes Material verwendet) wird nicht notiert
+- Folge: Position bleibt auf Rechnung → Kunde reklamiert → Rechnungskorrektur
+- Montagematerial-Position wird ueber Excel berechnet, muss haendisch aktualisiert werden
+
+**Loesung - Material-Checkliste mit Rueckmeldung:**
+1. **VOR Montage:** Kommissionierliste (#40) - was geht mit?
+2. **NACH Montage:** Was wurde tatsaechlich verbaut?
+   - Checkbox: "Wie geplant" oder Aenderung eintragen
+   - Ruecklaeufer markieren: "Nicht benoetigt"
+   - Austausch: "Statt X wurde Y verbaut"
+3. **Automatisch:** Rechnung basiert auf TATSAECHLICH verbautem Material
+
+**Vorteil:** Keine Rechnungskorrekturen mehr, weniger Kundenreklamationen
 
 ### Status
 **Idee** - Mittel (hoher Impact!)
@@ -1494,35 +1570,45 @@ Neue AB automatisch mit urspruenglicher Bestellung vergleichen.
 ## #57 Lieferadressen-Logik ⭐ PRIO
 
 ### Kurzbeschreibung
-Richtige Lieferadresse automatisch je Artikel-Typ auswaehlen.
+Richtige Lieferadresse + Versandart automatisch je Artikel-Typ auswaehlen.
 
 ### Problem (Ist-Zustand)
 - Falschlieferungen ins Buero statt Lager
 - Grosse Teile (Fenster, Tueren) gehoeren ins Lager
 - Paketdienste sollen aber ins Buero (immer besetzt)
 - Aktuell: Manuelle Eingabe, wird oft falsch gemacht
+- **NEU:** Versandart (Paket vs. LKW) wird vergessen umzustellen
+- **NEU:** Externe Shops (Ammon) haben Adresse hinterlegt, wird trotzdem vergessen
 
 ### Loesung
-Automatische Adress-Auswahl nach Regel:
-- **Gross (Spedition):** Fenster, Tueren, Rolllaeden → Lager-Adresse
-- **Klein (Paketdienst):** Kleinteile, Beschlaege → Buero-Adresse
+Automatische Adress-Auswahl + Versandart nach Regel:
+- **Gross (Spedition/LKW):** Fenster, Tueren, Rolllaeden → Lager-Adresse + LKW
+- **Klein (Paketdienst):** Kleinteile, Beschlaege → Buero-Adresse + Paket
 - **Mischbestellung:** Warnung + Aufteilen?
 
 ### Logik
 ```
 WENN Artikel in Kategorie "Fenster", "Tueren", "Rolllaeden"
   DANN Lieferadresse = Lager
+  UND Versandart = LKW/Spedition
 SONST
   Lieferadresse = Buero
+  UND Versandart = Paket
 ```
 
 ### Implementierung
-- In Bestellmaske automatisch vorbelegen
-- Oder als Pruefung vor Absenden
+| Kontext | Loesung |
+|---------|---------|
+| W4A Bestellmaske | Automatisch vorbelegen nach Artikelkategorie |
+| Externe Shops (Ammon) | Checkliste/Reminder vor Bestellung |
+| Pruefung | Warnung vor Absenden wenn Kombi unlogisch |
 
 ### Abhaengigkeiten
 - **Nutzt:** Artikel-Kategorien aus W4A
 - **Zusammen mit:** #55 Pflichtfelder
+
+### Quelle
+Lagerprozess-Analyse 2025-12-14
 
 ### Status
 **Idee** - Einfach | **Prioritaet:** 1 von 4 im Bestellprozess (WICHTIGSTE!)
@@ -2033,4 +2119,292 @@ EIN zentrales Planungs-Dashboard das Outlook ersetzt:
 
 ### Status
 **NEU** - Mittel | **Phase:** 0 (Infrastruktur - frueh implementieren!)
+
+---
+
+## Standalone-Tools
+
+---
+
+## #69 UTA-Tankrechnungen PDF-Tool
+
+### Kurzbeschreibung
+UTA-Tankrechnungen (PDFs) analysieren, nach Land splitten und laenderspezifische Sammel-PDFs erstellen.
+
+### Problem (IST-Zustand)
+- UTA schickt Tankrechnungen als PDFs
+- Rechnungen enthalten Tankungen aus verschiedenen Laendern (Deutschland, Oesterreich, Polen, etc.)
+- Fuer Buchhaltung/Steuer muessen diese nach Land getrennt werden
+- Aktuell: Manuelles Durchgehen und Sortieren
+
+### Loesung
+1. **PDF-Analyse:** Rechnungs-PDF einlesen, Positionen extrahieren
+2. **Land erkennen:** Aus Tankstellen-Adresse oder Waehrung Land ableiten
+3. **Splitten:** Positionen nach Land gruppieren
+4. **Sammel-PDF:** Pro Land eine zusammengefasste PDF erstellen
+
+### Technische Umsetzung
+```python
+# Beispiel-Workflow
+def process_uta_invoice(pdf_path):
+    positions = extract_positions(pdf_path)  # pdfplumber
+
+    by_country = {}
+    for pos in positions:
+        country = detect_country(pos)  # DE, AT, PL, etc.
+        by_country.setdefault(country, []).append(pos)
+
+    for country, items in by_country.items():
+        generate_country_pdf(country, items)
+```
+
+### Tech-Stack
+- **PDF-Parsing:** pdfplumber, PyPDF2
+- **PDF-Generierung:** reportlab oder fpdf
+- **Optional:** OCR falls PDFs nicht text-basiert (pytesseract)
+
+### Features
+- Drag & Drop Upload
+- Vorschau der erkannten Positionen
+- Manuelle Korrektur falls Land falsch erkannt
+- Batch-Verarbeitung mehrerer Rechnungen
+- Export: Einzelne PDFs pro Land oder eine PDF mit Kapiteln
+
+### Offene Fragen
+- [ ] Wie sehen die UTA-PDFs aus? (Struktur, Text oder Bild?)
+- [ ] Welche Laender kommen vor?
+- [ ] Output-Format: Separate PDFs oder eine mit Trennblaettern?
+- [ ] Soll Summe pro Land berechnet werden?
+
+### Abhaengigkeiten
+- **Standalone** - kein ERP-Bezug
+- **Optional:** Web-UI (#58) oder CLI-Tool
+
+### Status
+**Idee** - Einfach-Mittel | **Phase:** Standalone
+
+---
+
+## #70 Montagematerial-Pauschalen-Automatik
+
+> **Phase:** Standalone/Kernprozesse | **Komplexitaet:** Mittel | **Status:** NEU
+
+### Kurzbeschreibung
+Automatische Materialpauschale fuer Nicht-Fenster-Produkte (Innentuer, Markise, Raffstore, etc.). Verhindert Umsatzverlust durch vergessene Materialberechnung.
+
+### Problem (IST-Zustand)
+| Produkt | Automation | Status |
+|---------|------------|--------|
+| **Fenster** | WoT berechnet Montagematerial automatisch (Laufmeter-basiert) | ✅ Funktioniert |
+| **Innentuer** | KEINE Automation | ❌ Wird vergessen |
+| **Markise** | KEINE Automation | ❌ Wird vergessen |
+| **Raffstore** | KEINE Automation | ❌ Wird vergessen |
+| **Sonstige** | KEINE Automation | ❌ Wird vergessen |
+
+**Folge:** Montagematerial wird verbraucht aber nicht berechnet → Umsatzverlust!
+
+### Loesung (3 Stufen)
+
+**Stufe 1 - Analyse (einmalig):**
+- Historische Einkaufsrechnungen (Material) analysieren
+- Korrelation mit Auftraegen (Produkttyp, Groesse) ermitteln
+- Durchschnittskosten pro Produkttyp berechnen
+- Formel erstellen: z.B. "Innentuer = X € Pauschale"
+
+**Stufe 2 - Automatik (dauerhaft):**
+- Bei Rechnung fuer Nicht-Fenster-Produkt → System fuegt automatisch Materialpauschale ein
+- Kann nicht vergessen werden (wie bei Fenster ueber WoT)
+- Pauschale je Produkttyp hinterlegt
+
+**Stufe 3 - Kontrolle (quartalsweise):**
+- Einkauf (Material) vs. berechnete Pauschalen vergleichen
+- IST vs. SOLL Analyse
+- Pauschale anpassen wenn Abweichung zu gross
+
+### Datenquellen
+| Quelle | Inhalt | Nutzung |
+|--------|--------|---------|
+| Einkaufsrechnungen | Material-Kosten (Schaum, Schrauben, etc.) | IST-Kosten ermitteln |
+| W4A Auftraege | Produkttyp, Groesse, Menge | Korrelation finden |
+| WoT-Formel | Fenster-Laufmeter-Berechnung | Als Referenz/Vorbild |
+
+### Technische Umsetzung
+```python
+# Stufe 1: Analyse
+def analyse_material_costs():
+    einkauf = get_material_purchases(last_12_months)
+    auftraege = get_orders(last_12_months)
+
+    # Gruppieren nach Produkttyp
+    for produkttyp in ['Innentuer', 'Markise', 'Raffstore']:
+        auftraege_typ = filter_by_type(auftraege, produkttyp)
+        material_anteil = calculate_material_share(einkauf, auftraege_typ)
+        pauschale = material_anteil / len(auftraege_typ)
+        print(f"{produkttyp}: {pauschale:.2f} EUR pro Stueck")
+
+# Stufe 2: Automatik
+def add_material_pauschale(rechnung):
+    for position in rechnung.positionen:
+        if position.produkttyp not in ['Fenster']:  # Fenster hat WoT
+            pauschale = get_pauschale(position.produkttyp)
+            rechnung.add_position("Montagematerial", pauschale)
+```
+
+### Erweiterungen (optional)
+- **Groessenabhaengig:** Pauschale nach Produktgroesse staffeln
+- **Ausfuehrungsabhaengig:** Unterschiedliche Pauschale je Montage-Art
+- **Saisonabhaengig:** Material-Preisschwankungen beruecksichtigen
+
+### Abhaengigkeiten
+- **Nutzt:** W4A Auftragsdaten, Einkaufsrechnungen
+- **Verknuepft:** #39 Montage-Mappe (Material-Rueckmeldung)
+- **Liefert an:** Rechnungserstellung
+
+### Offene Fragen
+- [ ] Wo liegen die Einkaufsrechnungen? (W4A, Dateisystem, Excel?)
+- [ ] Wie sind Produkttypen in W4A klassifiziert?
+- [ ] Soll Pauschale pro Stueck oder pro Laufmeter?
+- [ ] Wie wird Pauschale in Rechnung eingefuegt? (W4A-Automatik oder manuell?)
+
+### Quelle
+Lagerprozess-Brainstorming 2025-12-14 - Problem: Material fuer Nicht-Fenster wird vergessen
+
+### Status
+**Idee** - Mittel | **Phase:** Standalone/Kernprozesse | **Prioritaet:** Hoch (Umsatzverlust!)
+
+---
+
+## #71 Einkaufs-Workflow & Preismanagement
+
+> **Phase:** Kernprozesse | **Komplexitaet:** Mittel | **Status:** NEU
+
+### Kurzbeschreibung
+Zentrales Tool fuer Einkaufs-Workflow: Preisanfragen tracken, Konditionen verwalten, Grossmengen-Erinnerungen. Loest das Problem der wochenlangen Wartezeiten auf Preise.
+
+### Problem (IST-Zustand)
+
+| Problem | Auswirkung | Haeufigkeit |
+|---------|------------|-------------|
+| **Preisanfragen dauern Tage/Wochen** | Angebote verzoegern sich, Kunde wartet | Oft |
+| **Wuerth: Staendige AD-Anfragen** | Zeitverlust trotz existierendem Shop | Bei jeder Bestellung |
+| **Grossmengen-Rabatt vergessen** | Geld verschenkt | Manchmal |
+| **Konditionen verstreut** | W4A-Dokumente + Artikel + Excel | Dauerhaft |
+| **Keine Uebersicht offener Anfragen** | Anfragen "versanden" | Regelmaessig |
+
+### Loesung (Features)
+
+**1. Preis-Cache:**
+- Letzte Preise pro Artikel/Lieferant speichern
+- Bei Bedarf direkt aus Cache → keine Anfrage noetig
+- Gueltigkeitsdatum (z.B. 3 Monate) → Auto-Refresh-Hinweis
+
+**2. Preisanfrage-Tracking:**
+- Status: Angefragt → Beantwortet → Ueberfaellig
+- Dashboard: Offene Anfragen auf einen Blick
+- Erinnerung nach X Tagen: "Nachfassen bei Lieferant Y!"
+- Historie: Wann was angefragt
+
+**3. Grossmengen-Erinnerung:**
+- Regel: "Bei >X Stueck von Artikel Y → Sonderpreis anfragen!"
+- Beim Bestellen: Automatischer Hinweis
+- Konfigurierbar pro Artikel/Lieferant
+
+**4. Konditionen zentral:**
+- Alle Rabatte, Staffeln, Rahmenvertraege an EINEM Ort
+- Ersetzt: W4A-Dokumente + W4A-Artikel + Excel
+- Schnelle Suche: "Was haben wir mit Wuerth vereinbart?"
+
+**5. Lieferanten-Quick-Info:**
+- Kontaktdaten, Ansprechpartner
+- Letzte Bestellungen
+- Offene Anfragen
+- Link zu Portal (wenn vorhanden)
+
+### Datenquellen
+
+| Quelle | Inhalt | Nutzung |
+|--------|--------|---------|
+| W4A Artikel | Einkaufspreise, Lieferanten | Basis-Preise |
+| W4A Dokumente | Rahmenvertraege | Konditionen |
+| Excel (aktuell) | Zusaetzliche Konditionen | Migration |
+| E-Mails | Preisanfragen/-antworten | Tracking |
+
+### Lieferanten-Portale (bekannt)
+
+| Lieferant | Portal | Besonderheit |
+|-----------|--------|--------------|
+| Weru | Ja (neu in Arbeit) | Hauptlieferant Fenster |
+| Wuerth | Ja | Rabatte nicht hinterlegt! |
+| Foerch | Ja | |
+| Gruen Beschlaege | Ja | |
+| Febes | Ja | |
+| Warema | Ja | Sonnenschutz |
+| Kadeco | Ja | |
+| Kompotherm | Ja | |
+| Trendtueren | Ja | |
+
+### Technische Umsetzung
+
+```python
+# Preis-Cache Struktur
+class PreisCache:
+    artikel_id: int
+    lieferant_id: int
+    preis: Decimal
+    gueltig_ab: date
+    gueltig_bis: date  # Auto-Refresh nach Ablauf
+    quelle: str  # "Preisliste", "Anfrage", "Portal"
+
+# Preisanfrage-Tracking
+class Preisanfrage:
+    id: int
+    lieferant_id: int
+    artikel_liste: List[int]
+    angefragt_am: date
+    beantwortet_am: Optional[date]
+    status: str  # "offen", "beantwortet", "ueberfaellig"
+    erinnerung_nach_tagen: int = 7
+
+# Grossmengen-Regel
+class GrossmengenRegel:
+    artikel_id: int
+    lieferant_id: int
+    ab_menge: int
+    hinweis: str  # "Bei >100 Stueck Staffelpreis anfragen!"
+```
+
+### Abhaengigkeiten
+
+- **Nutzt:** #59 DB-Connector, W4A Artikeldaten
+- **Ergaenzt:** #19 Lieferanten-Bewertung (Qualitaet), #54 Preis-Vergleich
+- **Liefert an:** #33 Bestellwesen, #36 Beschaffungs-Dashboard
+
+### Abgrenzung zu anderen Ideen
+
+| Idee | Fokus | Abgrenzung zu #71 |
+|------|-------|-------------------|
+| #19 Lieferanten-Bewertung | Retrospektive Bewertung nach Lieferung | #71 = Proaktiver Workflow |
+| #54 Preis-Vergleich | Vergleich gleicher Artikel | #71 = Anfrage-Management |
+| #33 Bestellwesen | Bedarfsermittlung → Bestellung | #71 = Lieferanten-Seite |
+
+### Quick Wins (ohne Tool)
+
+| Massnahme | Aufwand |
+|-----------|---------|
+| Wuerth-Rabatte einmalig komplett anfragen | Mittel |
+| Excel-Konditionen nach W4A migrieren | Mittel |
+| Preislisten-Import vereinfachen | Gering |
+
+### Offene Fragen
+
+- [ ] Koennen Wuerth-Rabatte dauerhaft hinterlegt werden?
+- [ ] Welche Lieferanten-Portale haben APIs?
+- [ ] Soll Preisanfrage-Tracking per E-Mail oder separates Tool?
+- [ ] Wie oft aendern sich Konditionen realistisch?
+
+### Quelle
+Einkaufsprozess-Brainstorming 2025-12-14 - Schmerzpunkte: Preisanfragen, Wuerth, Grossmengen
+
+### Status
+**Idee** - Mittel | **Phase:** Kernprozesse | **Prioritaet:** Mittel
 

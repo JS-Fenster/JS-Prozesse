@@ -80,11 +80,18 @@
         }
 
         .tab-content {
-            display: none;
+            position: absolute;
+            visibility: hidden;
+            opacity: 0;
+            width: 100%;
+            pointer-events: none;
         }
 
         .tab-content.active {
-            display: block;
+            position: relative;
+            visibility: visible;
+            opacity: 1;
+            pointer-events: auto;
         }
 
         /* Prozess-Flow */
@@ -471,6 +478,7 @@
             <div class="nav-tab" onclick="showTab('montage')">Montage</div>
             <div class="nav-tab" onclick="showTab('rechnung')">Rechnung</div>
             <div class="nav-tab" onclick="showTab('reparatur')">Reparatur</div>
+            <div class="nav-tab" onclick="showTab('einkauf')">Einkauf</div>
             <div class="nav-tab" onclick="showTab('matrix')">Tool-Matrix</div>
             <div class="nav-tab" onclick="showTab('changes')">Aenderungen</div>
         </nav>
@@ -1130,6 +1138,98 @@
             </div>
         </div>
 
+        <!-- EINKAUF -->
+        <div id="einkauf" class="tab-content">
+            <h2>Einkaufsprozess - Flowchart</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 20px;">
+                Visualisierung mit Mermaid.js - IST-Zustand mit Schmerzpunkten
+            </p>
+
+            <div class="comparison-grid" style="grid-template-columns: 1fr;">
+                <!-- IST-Zustand Flowchart -->
+                <div class="process-section ist">
+                    <div class="section-header">
+                        <span class="section-badge ist">IST</span>
+                        <h3>Aktueller Einkaufsprozess</h3>
+                    </div>
+<div class="diagram-box" style="background: #1e293b; padding: 20px; border-radius: 8px;"><pre class="mermaid">flowchart LR
+A[Angebot] --> B{Preis?}
+B -->|bekannt| C[Konfigurator]
+B -->|unbekannt| D[Anfrage]
+D --> E[Warten]
+E --> F[Antwort]
+C --> G[Bestellen]
+F --> G
+style E fill:#ef4444</pre></div>
+                </div>
+            </div>
+
+            <!-- Schmerzpunkte -->
+            <div class="pain-section" style="margin-top: 30px;">
+                <h3 style="margin-bottom: 15px;">Identifizierte Schmerzpunkte</h3>
+                <div class="comparison-grid">
+                    <div class="pain-card" style="background: var(--bg-card); padding: 20px; border-radius: 8px; border-left: 4px solid var(--red);">
+                        <h4 style="color: var(--red);">⏰ Preisanfragen</h4>
+                        <p>Dauern Tage bis Wochen - Kunde wartet auf Angebot</p>
+                    </div>
+                    <div class="pain-card" style="background: var(--bg-card); padding: 20px; border-radius: 8px; border-left: 4px solid var(--red);">
+                        <h4 style="color: var(--red);">📂 Konditionen verstreut</h4>
+                        <p>W4A Dokumente + W4A Artikel + Excel = Chaos</p>
+                    </div>
+                    <div class="pain-card" style="background: var(--bg-card); padding: 20px; border-radius: 8px; border-left: 4px solid var(--red);">
+                        <h4 style="color: var(--red);">💰 Grossmengen-Rabatt</h4>
+                        <p>Wird vergessen anzufragen = Geld verschenkt</p>
+                    </div>
+                    <div class="pain-card" style="background: var(--bg-card); padding: 20px; border-radius: 8px; border-left: 4px solid var(--yellow);">
+                        <h4 style="color: var(--yellow);">🔧 Wuerth-Problem</h4>
+                        <p>Shop vorhanden, aber Rabatte nicht hinterlegt</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SOLL-Zustand -->
+            <div style="margin-top: 40px;">
+                <div class="process-section soll">
+                    <div class="section-header">
+                        <span class="section-badge soll">SOLL</span>
+                        <h3>Mit #71 Einkaufs-Workflow & Preismanagement</h3>
+                    </div>
+<div class="diagram-box" style="background: #1e293b; padding: 20px; border-radius: 8px;"><pre class="mermaid">flowchart LR
+A[Angebot] --> B{Preis?}
+B -->|Cache| C[Sofort da]
+B -->|neu| D[Tracking]
+D --> E[Erinnerung]
+C --> F[Bestellen]
+E --> F
+style C fill:#10b981
+style E fill:#3b82f6</pre></div>
+                </div>
+            </div>
+
+            <!-- Verknuepfte Tools -->
+            <div style="margin-top: 30px; background: var(--bg-card); padding: 20px; border-radius: 8px;">
+                <h3 style="margin-bottom: 15px;">Verknuepfte Tool-Ideen</h3>
+                <div class="tool-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div class="tool-link" style="padding: 15px; background: rgba(59, 130, 246, 0.1); border-radius: 8px; border: 1px solid var(--blue);">
+                        <strong>#71</strong> Einkaufs-Workflow<br>
+                        <small style="color: var(--text-secondary);">Preis-Cache, Anfrage-Tracking</small>
+                    </div>
+                    <div class="tool-link" style="padding: 15px; background: rgba(139, 92, 246, 0.1); border-radius: 8px; border: 1px solid var(--purple);">
+                        <strong>#19</strong> Lieferanten-Bewertung<br>
+                        <small style="color: var(--text-secondary);">Qualitaet, Liefertreue</small>
+                    </div>
+                    <div class="tool-link" style="padding: 15px; background: rgba(245, 158, 11, 0.1); border-radius: 8px; border: 1px solid var(--yellow);">
+                        <strong>#54</strong> Preis-Vergleich<br>
+                        <small style="color: var(--text-secondary);">Gleicher Artikel, bester Preis</small>
+                    </div>
+                    <div class="tool-link" style="padding: 15px; background: rgba(16, 185, 129, 0.1); border-radius: 8px; border: 1px solid var(--green);">
+                        <strong>#33</strong> Bestellwesen<br>
+                        <small style="color: var(--text-secondary);">Bedarfsermittlung</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- TOOL-MATRIX -->
         <div id="matrix" class="tab-content">
             <h2>Tool-Prozess-Matrix</h2>
@@ -1293,6 +1393,24 @@
                             <td></td>
                             <td></td>
                         </tr>
+                        <tr>
+                            <td>#70 Montagematerial-Pauschalen</td>
+                            <td></td>
+                            <td></td>
+                            <td><span class="matrix-check">✓</span></td>
+                            <td><span class="matrix-primary">⭐</span></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>#71 Einkaufs-Workflow/Preismanagement</td>
+                            <td><span class="matrix-check">✓</span></td>
+                            <td><span class="matrix-primary">⭐</span></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -1414,7 +1532,35 @@
             // Ausgewaehlten Tab anzeigen
             document.getElementById(tabId).classList.add('active');
             event.target.classList.add('active');
+
+            // Mermaid neu rendern wenn Einkauf-Tab geoeffnet wird
+            if (tabId === 'einkauf' && window.renderMermaid) {
+                setTimeout(() => window.renderMermaid(), 100);
+            }
         }
+
+    </script>
+
+    <!-- Mermaid.js als ES Module -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark'
+        });
+
+        // Mermaid neu rendern wenn Tab sichtbar wird
+        window.renderMermaid = async function() {
+            await mermaid.run({
+                querySelector: '.mermaid'
+            });
+        };
+
+        // Initial rendern nach kurzer Verzoegerung
+        setTimeout(() => {
+            mermaid.run({ querySelector: '.mermaid' });
+        }, 500);
     </script>
 </body>
 </html>
