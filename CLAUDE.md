@@ -95,12 +95,26 @@ JS_Prozesse/
 | Fuhrpark | Fahrzeuge, Tanken, Wartung, TUeV | 2025-12-14 |
 | Buchhaltung | Eingangsrechnungen, DATEV, Konten | 2025-12-14 |
 | After-Sales | Wartungsvertraege, Nachbetreuung | 2025-12-14 |
+| BAFA-Foerderantrag | Auftragsbezogen, nicht schwierig aber eigener Prozess | 2025-12-15 |
 
 ### Offene Fragen zu bestehenden Prozessen
 
 | Prozess | Frage/Erweiterung | Notiert am |
 |---------|-------------------|------------|
-| - | - | - |
+| Lager | Lieferankuendigungen spontan/fehlen, Fahrer-Tel falsch | 2025-12-15 |
+| Lager | Teilmengen: Mario statt Roland? (aber mehr Arbeit) | 2025-12-15 |
+| Aufmass | Formulare hochladen lassen zur Analyse | 2025-12-15 |
+| Rechnung | Ruecklaufer besser Auftraegen zuordnen (Kostenanalyse) | 2025-12-15 |
+| Anfrage | E-Mails: Susann verteilt in Outlook-Ordner, dann picken oder zuweisen | 2025-12-15 |
+| Montage | Rueckmeldung per Zettel/Anruf/Nachfrage - kein fester Prozess | 2025-12-15 |
+| Rechnung | Anzahlung: Sandra prueft, keine aktive Rueckmeldung | 2025-12-15 |
+| Reparatur | Keine Benachrichtigung bei langer Wartezeit, Kunde ruft selbst an | 2025-12-15 |
+| W4A | Ladezeiten 8 Sek/Fenster, kein Rueckgaengig, nur 1 Aufgabe sichtbar | 2025-12-15 |
+| W4A | E-Mail-Abruf manuell, Dokumente muessen per Hand zugeordnet werden | 2025-12-15 |
+| W4A | Stempeluhr: Kartenfunktion-Missbrauch, Anmeldefenster poppt nicht auf | 2025-12-15 |
+| W4A | Ungenutzt: Projektplankalender, Besuchsberichte, Verkaufschancen | 2025-12-15 |
+| Kommunikation | Monteure: taeglich Fruehbesprechung + Telefon, Buero: persoenlich | 2025-12-15 |
+| Dokumente | W4A: eindeutige Bezeichnung → Server-Pool-Ordner mit Verlinkung | 2025-12-15 |
 
 ### Prozesse proaktiv erkennen
 

@@ -143,6 +143,8 @@ MONTAGE (naechster Prozess)
 | 6 | **Kein Gestell-Tracking** | "Welches Element auf welchem Gestell?" | #38 erweitern |
 | 7 | **Medienbruch LS → Outlook** | Manueller Aufwand, Fehlerquelle | #36 Beschaffungs-Dashboard |
 | 8 | **Pruefung nur gegen LS** | Abweichungen zur Bestellung unentdeckt | #56 AB-Abgleich |
+| 9 | **Lieferankuendigungen fehlen/spontan** | Ware kommt unangekuendigt, Abladen ohne Bescheid | - |
+| 10 | **Fahrer-Telefonnummern falsch** | Keine Rueckfragen moeglich | - |
 
 ---
 
