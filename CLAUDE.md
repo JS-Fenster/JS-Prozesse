@@ -112,6 +112,7 @@ JS_Prozesse/
 | W4A | Ladezeiten 8 Sek/Fenster, kein Rueckgaengig, nur 1 Aufgabe sichtbar | 2025-12-15 |
 | W4A | E-Mail-Abruf manuell, Dokumente muessen per Hand zugeordnet werden | 2025-12-15 |
 | W4A | Stempeluhr: Kartenfunktion-Missbrauch, Anmeldefenster poppt nicht auf | 2025-12-15 |
+| W4A | Zeiterfassung: Sollzeit-Aenderung nicht moeglich, neuer MA noetig | 2025-12-15 |
 | W4A | Ungenutzt: Projektplankalender, Besuchsberichte, Verkaufschancen | 2025-12-15 |
 | Kommunikation | Monteure: taeglich Fruehbesprechung + Telefon, Buero: persoenlich | 2025-12-15 |
 | Dokumente | W4A: eindeutige Bezeichnung → Server-Pool-Ordner mit Verlinkung | 2025-12-15 |

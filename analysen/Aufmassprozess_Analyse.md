@@ -73,15 +73,41 @@ BESTELLUNG → MONTAGE
 
 ### 3. Aufmassblaetter (produktspezifisch)
 
-| Produkt | Varianten | Inhalt |
-|---------|-----------|--------|
-| Fenster | 1 | Kundendaten, Masse, Produktdetails |
-| Haustueren | 1 | Kundendaten, Masse, Produktdetails |
-| Innentueren - Stahlzargen | 1 | Spezifisch fuer Stahlzargen |
-| Innentueren - Glastueren | 1 | Spezifisch fuer Glastueren |
-| Innentueren - Standard | 2 | Zwei Varianten |
-| Garagentore | 1 | Spezifisch fuer Tore |
-| **Gesamt** | **mind. 7** | |
+**Pfad:** `Z:\Vorlagen\Aufmaßblätter\`
+
+| Produkt | Datei | Format | Quelle |
+|---------|-------|--------|--------|
+| Haustuer | Aufmaßblatt HT.xlsx | Excel | Eigen |
+| Innentuer | Aufmaßblatt IT.xlsx / IT quer.xlsx | Excel | Eigen |
+| DKF (Dachkippfenster) | Aufmaßblatt DKF.xlsx | Excel | Eigen |
+| Insektenschutz | Aufmaßblatt ISS.xlsx / ISS blanko.xltx | Excel | Eigen |
+| Vorbaurollladen | Aufmaßblatt VR.xlsx | Excel | Eigen |
+| Beschlagsposition | Aufmaßblatt Beschlagsposition.docx | Word | Eigen |
+| Mehrfachverriegelung | Aufmaßblatt Mehrfachverriegelung.docx | Word | Eigen |
+| Raffstore/Blenden | Aufmaßblatt Alulux - Raffstore-Blenden.pdf | PDF | Alulux |
+| FBA | Aufmaßblatt Beck & Heun - FBA.pdf | PDF | Beck+Heun |
+| Markisen | Aufmaßblatt Klaiber - *.pdf | PDF | Klaiber |
+| Rollladen | Aufmaßblatt Rollladen.pdf | PDF | Lieferant |
+| Stahlzargen | Aufmaßblatt Stahlzargen.pdf | PDF | Lieferant |
+| Glastueren | Aufmaßblatt L&H *.lnk | Link | L&H |
+| Garagentore | Aufmaßblatt Steinau - Garagentore.pdf | PDF | Steinau |
+| **Gesamt** | **~20 Dateien** | | Mix |
+
+**Hinweis:** Manche Vorlagen mehrfach vorhanden, tlw. Dubletten.
+
+**Fenster-Aufmassblatt (Detail-Analyse):**
+- Quelle: Eigenes Excel (nicht im Vorlagen-Ordner, separater Speicherort)
+- Struktur: Kopfbereich (System, Farben, Glas, AFB/IFB, Rollo) + Tabelle
+- Tabelle: 11 Elemente mit Spalten: Zimmer, aussen B/H, innen B/H, fertig B/H, DIN, RL, Nutmass, FBA, Staerke, Bemerkung, AFB, IFB
+- **Trade-off:** 11 Elemente = wenig Tiefe pro Element
+- **Wunsch:** Weniger Elemente pro Seite, dafuer mehr Details
+- **Fehlende Details (zu klaeren):**
+  - Sprossen/Teilungen (Skizze?)
+  - Rollladen-Details (Kasten, Fuehrung, Motor)
+  - Beschlaege (Griffe, Schloesser, Pilzkopf)
+  - Glasart pro Element
+  - Sonderwuensche
+- → Spaeter vertiefen fuer #28 Digitales Aufmass
 
 **Notizbereich:** Vorhanden aber begrenzt, muss auch fuer Produktdetails reichen.
 
