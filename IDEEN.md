@@ -1,6 +1,6 @@
 # Ideen fuer KI-Automatisierungen
 
-**Erstellt:** 2025-12-09 | **Aktualisiert:** 2025-12-16 | **Stand:** 66 offen, 1 umgesetzt, 5 integriert
+**Erstellt:** 2025-12-09 | **Aktualisiert:** 2025-12-16 | **Stand:** 67 offen, 1 umgesetzt, 5 integriert
 
 ---
 
@@ -355,9 +355,13 @@ Nach abgeschlossener Montage: Auto-Erinnerung "Fotos machen?", Workflow fuer Web
 Nach positiver Kundenkommunikation: Automatisch erkennen + Bewertungs-Link vorschlagen. Problem: Gute Bewertungen werden nicht aktiv eingeholt.
 → [Details](IDEEN_DETAILS.md#73-google-bewertung-vorschlag)
 
-### #74 Prueffristen-Automatik ⭐ NEU
-Auto-Erinnerungen fuer Leitern (DGUV), DGUV V3, TUeV, UVV. X Wochen vorher an Mario. Optional: Wanderinventar-Checkout-Log.
+### #74 Prueffristen-Automatik ⭐
+Auto-Erinnerungen fuer Geraete (DGUV, TUeV, UVV) + Mitarbeiter-Zertifikate (EFK, Arbeitsbuehne, Staplerschein).
 → [Details](IDEEN_DETAILS.md#74-prueffristen-automatik)
+
+### #75 Fuehrerschein-Kontrolle ⭐ NEU
+Gesetzliche Pflicht! Arbeitgeber muss Fuehrerscheine pruefen. Auto-Erinnerung, Nachweis-Dokumentation.
+→ [Details](IDEEN_DETAILS.md#75-fuehrerschein-kontrolle)
 
 ---
 

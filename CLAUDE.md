@@ -22,6 +22,7 @@ JS_Prozesse/
 │   ├── Aufmassprozess_Analyse.md
 │   ├── Bestellprozess_Analyse.md
 │   ├── Einkaufsprozess_Analyse.md
+│   ├── Fuhrparkprozess_Analyse.md
 │   ├── Lagerprozess_Analyse.md
 │   ├── Montageprozess_Analyse.md
 │   ├── Rechnungsprozess_Analyse.md
@@ -63,15 +64,17 @@ JS_Prozesse/
 
 **4. Automatisierungs-Philosophie (WICHTIG!):**
 ```
-IMMER Vollautomation anstreben
+IMMER Autonomie anstreben (System handelt selbststaendig)
         ↓
-Nicht umsetzbar? → Tool in Programmierung vereinfachen
+Nicht moeglich? → Automatisch (System agiert nach Trigger)
+        ↓
+Nicht moeglich? → Halbautomatisch (User startet, System fuehrt aus)
         ↓
 NIE "mach es halt manuell" als Loesung!
 ```
 - Ziel: Technische Loesung, nicht Prozess-Workaround
 - Wenn KI/OCR zu komplex → einfacheres Tool (z.B. Formular + Auto-Verteiler)
-- Stufen: Vollautomatisch → Halbautomatisch (User-Trigger) → Assistiert
+- Stufen: Autonom → Automatisch → Halbautomatisch → Manuell (nur Notfall)
 
 ### Verdichten-Regeln
 
@@ -102,13 +105,14 @@ NIE "mach es halt manuell" als Loesung!
 | `Inventarprozess_Analyse.md` | Erfassung → W4A → Zuordnung → Prueffristen | ✅ IST dokumentiert |
 | `Buergschaftsprozess_Analyse.md` | R+V Portal → Urkunde → W4A-Tracking | ✅ IST dokumentiert |
 | `BAFA_Foerderantrag_Analyse.md` | Weru Portal → BAFA → NachweisService ⭐ KRITISCH | ✅ IST dokumentiert |
+| `Fuhrparkprozess_Analyse.md` | Fahrzeuge → Wartung → TUeV/UVV → Tanken | ✅ IST dokumentiert |
 
 ### Offene Prozesse (fuer Brainstorming)
 
 | Prozess | Notizen/Fragen | Erkannt am |
 |---------|----------------|------------|
 | Personal/Urlaub | Urlaubsantraege, Kapazitaet, Krankmeldung | 2025-12-14 |
-| Fuhrpark | Fahrzeuge, Tanken, Wartung, TUeV | 2025-12-14 |
+| ~~Fuhrpark~~ | ~~Dokumentiert! #74 erweitert (Verbandskästen), #75 neu (Fuehrerschein)~~ | ~~2025-12-16~~ |
 | Buchhaltung | Eingangsrechnungen, DATEV, Konten | 2025-12-14 |
 | After-Sales | Wartungsvertraege, Nachbetreuung | 2025-12-14 |
 | ~~BAFA-Foerderantrag~~ | ~~Dokumentiert als eigener Prozess, #3 erweitert (KRITISCH!)~~ | ~~2025-12-16~~ |
@@ -296,3 +300,9 @@ Wenn User groessere Ablauf-Details erklaert:
 | 2025-12-16 | #71 erweitert | Preisinfo-Verteiler (Post-Preiserhoehungen kommunizieren) |
 | 2025-12-16 | BAFA-Prozess | Neue Analyse: Weru Portal, NachweisService KRITISCH |
 | 2025-12-16 | #3 erweitert | KRITISCH! Auto-Erinnerung nach Zahlung, Foerder-Position als Trigger |
+| 2025-12-16 | Fuhrparkprozess | Neue Analyse: Fahrzeuge, W4A-Projekte, Wartung, Tanken (UTA) |
+| 2025-12-16 | #74 erweitert | Verbandskästen hinzugefuegt (Ablaufdatum tracken) |
+| 2025-12-16 | Idee #75 | Fuehrerschein-Kontrolle (Gesetzliche Pflicht!) |
+| 2025-12-16 | Philosophie | Autonom > Automatisch > Halbautomatisch > Manuell |
+| 2025-12-16 | #74 erweitert | + Mitarbeiter-Zertifikate (EFK, Arbeitsbuehne, Staplerschein, Erste Hilfe) |
+| 2025-12-16 | Automatisierungs-Stufen | Komplette Uebersicht aller 75 Ideen mit empfohlener Stufe |

@@ -94,8 +94,113 @@
 | 72 | Referenz-Automatik | Nicht vorhanden | Eigenbau |
 | 73 | Google-Bewertung Vorschlag | Nicht vorhanden | Eigenbau |
 | 74 | Prueffristen-Automatik | Nicht vorhanden | Eigenbau ⭐ |
+| 75 | Fuehrerschein-Kontrolle | Nicht vorhanden | Eigenbau ⭐ (Rechtspflicht!) |
 
 **Legende:** Eigenbau = Selbst entwickeln | Erweitern = W4A-Funktion ausbauen | Pruefen = W4A-Status klaeren | ⭐ = Prioritaet | ⭐⭐ = Infrastruktur (ZUERST) | 🔴 = KI-Komplex
+
+---
+
+## Automatisierungs-Stufen Uebersicht
+
+> **Philosophie:** Autonom > Automatisch > Halbautomatisch > Manuell (nur Notfall)
+
+| Stufe | Definition | Beispiel |
+|-------|------------|----------|
+| **Autonom** | System handelt komplett selbststaendig, kein Trigger noetig | Taeglicher Report um 08:00 |
+| **Automatisch** | System reagiert auf Trigger/Event, fuehrt dann selbst aus | Zahlung erkannt → Auto-E-Mail |
+| **Halbautomatisch** | User startet, System fuehrt aus | Button "Angebot erstellen" → fertig |
+| **Manuell** | Nur Notfall-Fallback | Excel-Export zum Selbermachen |
+
+### Ideen nach Automatisierungs-Stufe
+
+| # | Idee | Empfohlen | Begruendung |
+|---|------|-----------|-------------|
+| **Phase 0: Infrastruktur** ||||
+| 58 | Web-Plattform | - | Basis-Infrastruktur |
+| 59 | Datenbank-Connector | - | Basis-Infrastruktur |
+| 60 | Auth & Berechtigungen | - | Basis-Infrastruktur |
+| 64 | Data Service Layer | - | Basis-Infrastruktur |
+| 68 | Planungs-Dashboard | Halbautomatisch | User interagiert mit Dashboard |
+| **Phase 1: Basis-Module** ||||
+| 1 | Preislisten-Tool | Automatisch | PDF hochladen → Auto-Konvertierung |
+| 4 | KI-Wissensdatenbank ✅ | **Autonom** | Wöchentliche Updates ohne Trigger |
+| 13 | Inventar-Verwaltung | Halbautomatisch | CRUD-Operationen durch User |
+| 36 | Beschaffungs-Dashboard | **Autonom** | Echtzeit-Ampel ohne User-Aktion |
+| 39 | Tages-Briefing Monteur | **Autonom** | Taeglich 06:00 Auto-Generierung |
+| 40 | Material-Kommissionierliste | Automatisch | Bei Montage-Termin Auto-Generierung |
+| 41 | Montage-Status Live | Automatisch | Status-Aenderung → Auto-SMS |
+| **Phase 2: Kernprozesse** ||||
+| 9 | Reparatur-Verwaltung | Halbautomatisch | Kanban-Board, User-Interaktion |
+| 10 | Auftraege & Lieferungen | Halbautomatisch | User verwaltet Auftraege |
+| 11 | Terminfindung | Automatisch | Verfuegbarkeit auto-pruefen |
+| 22 | Routenplanung | Automatisch | Tagesplan → Auto-Optimierung |
+| 24 | Ticket-System | Automatisch | E-Mail → Auto-Ticket |
+| 28 | Digitales Aufmass | Halbautomatisch | Erfassung durch User |
+| 32 | Projektverwaltung | Halbautomatisch | User verwaltet Projekte |
+| 33 | Bestellwesen | Halbautomatisch | User loest Bestellung aus |
+| 37 | WoT-XML Transformer | Automatisch | XML hochladen → Auto-Konvertierung |
+| 38 | Lagerverwaltung | Halbautomatisch | User bucht Ein/Aus |
+| 53 | Mindestbestand-Alert | **Autonom** | Staendige Pruefung, Auto-Warnung |
+| 55 | Bestellvorlage Pflichtfelder | Automatisch | Auto-Validierung bei Eingabe |
+| 56 | AB-Abgleich | Automatisch | AB-Upload → Auto-Vergleich |
+| 57 | Lieferadressen-Logik | Automatisch | Artikeltyp → Auto-Adresse |
+| 65 | Anzahlungsrechnung-Auto | Automatisch | Auftrag → Auto-Erinnerung |
+| 66 | Montageplanung + Wetter | **Autonom** | Taegliche Auto-Pruefung |
+| 67 | XML-Konverter Universal | Automatisch | Upload → Auto-Konvertierung |
+| 74 | Prueffristen-Automatik | **Autonom** | Taegliche Frist-Pruefung |
+| 75 | Fuehrerschein-Kontrolle | Automatisch | Halbjahres-Erinnerung |
+| **Phase 3: Kommunikation** ||||
+| 3 | Weru Foerderantraege | Automatisch | Zahlung erkannt → Auto-Erinnerung |
+| 6 | Budget-Angebots-Generator | Halbautomatisch | User gibt Daten ein |
+| 12 | E-Mail-Verarbeitung | **Autonom** | Eingehende E-Mails auto-klassifizieren |
+| 23 | Verkaufschancen-Pipeline | Automatisch | Auto-Reminder nach X Tagen |
+| 25 | Telefon-CRM Integration | Automatisch | Anruf → Auto-Popup |
+| 27 | Dokument-Intelligenz | Automatisch | Upload → Auto-Klassifizierung |
+| 30 | After Sales Service | **Autonom** | Auto-Reminder fuer Wartung |
+| 47 | Kunden-Historie | Halbautomatisch | User sieht Timeline |
+| 49 | Google-Reviews Alerts | **Autonom** | Neue Bewertung → Auto-Alert |
+| 50 | Sanfte Zahlungserinnerung | **Autonom** | Faelligkeit → Auto-E-Mail |
+| 72 | Referenz-Automatik | Automatisch | Montage fertig → Auto-Erinnerung |
+| 73 | Google-Bewertung Vorschlag | Automatisch | Positive Mail → Auto-Vorschlag |
+| **Phase 4: Command Center** ||||
+| 2 | Bilanz & GuV | **Autonom** | Taegliche Auto-Berechnung |
+| 14 | Zentrales Dashboard | Halbautomatisch | User sieht/interagiert |
+| 15 | Zeiterfassung | Halbautomatisch | User erfasst Zeit |
+| 16 | Urlaubsverwaltung | Halbautomatisch | User beantragt |
+| 17 | Projekt-Deckungsbeitrag | **Autonom** | Auto-Berechnung bei Aenderung |
+| 19 | Lieferanten-Bewertung | **Autonom** | Auto-Scoring aus Lieferdaten |
+| 26 | Projekt-Aktivitaeten | **Autonom** | Auto-Protokoll aller Aktionen |
+| 31 | Rechnungsbuch | Halbautomatisch | User verwaltet |
+| 34 | Zeiterfassung GPS | Halbautomatisch | User erfasst, GPS auto |
+| 35 | Urlaubsplaner erweitert | Automatisch | Auto-Kapazitaetspruefung |
+| 42 | Foto-Zuordnung | Automatisch | Foto → Auto-Erkennung Projekt |
+| 44 | Kapazitaets-Cockpit | **Autonom** | Echtzeit-Auslastung |
+| 51 | Cashflow-Prognose | **Autonom** | Auto-Berechnung |
+| 52 | Conversion-Tracker | **Autonom** | Auto-Statistik |
+| 54 | Preis-Vergleich Lieferanten | Halbautomatisch | User startet Vergleich |
+| **Phase 5: KI-Features** ||||
+| 5 | Bauplan-Analyse | Automatisch | Upload → KI-Analyse |
+| 7 | Spracherkennung | Automatisch | Sprache → Text/Aktion |
+| 8 | Universal-Eingabe-Hub | Automatisch | Multi-Input → Auto-Dispatch |
+| 18 | Kundenportal | Halbautomatisch | Kunde interagiert |
+| 20 | Qualitaetsmanagement | Halbautomatisch | User dokumentiert |
+| 21 | Mobile Monteur-App | Halbautomatisch | Monteur nutzt App |
+| 29 | Montage-Checklisten | Automatisch | Aufmass → Auto-Checkliste |
+| 62 | Ersatzteil-Erkennung | Automatisch | Foto → KI-Vorschlag |
+| 63 | Fassaden-Budget | Automatisch | Foto → KI-Schaetzung |
+| **Standalone** ||||
+| 69 | UTA-Tankrechnungen | Automatisch | PDF → Auto-Splitting |
+| 70 | Montagematerial-Pauschalen | Automatisch | Artikeltyp → Auto-Pauschale |
+| 71 | Einkaufs-Workflow | Halbautomatisch | User verwaltet Preise |
+
+### Zusammenfassung
+
+| Stufe | Anzahl | Beispiele |
+|-------|--------|-----------|
+| **Autonom** | ~18 | #4, #12, #36, #39, #49, #50, #53, #66, #74 |
+| **Automatisch** | ~28 | #1, #3, #11, #24, #41, #56, #57, #72 |
+| **Halbautomatisch** | ~20 | #6, #9, #13, #14, #15, #18, #21, #47 |
+| **Infrastruktur** | ~5 | #58, #59, #60, #64 |
 
 ---
 
@@ -2807,6 +2912,40 @@ Automatische Erinnerungen fuer pruefpflichtige Geraete: Leitern, Elektrowerkzeug
 | **Fahrzeuge** | UVV-Pruefung | Jaehrlich | DGUV Vorschrift 70 |
 | **Anhaenger** | TUeV/HU | 2 Jahre | StVZO |
 | **Hebezeuge** | Sachkundigen-Pruefung | Jaehrlich | BetrSichV |
+| **Verbandskästen** | Inhalt tauschen | 4-5 Jahre | StVZO, DGUV |
+
+### Mitarbeiter-Zertifikate (NEU - aus Fuhrpark-Brainstorming)
+
+| Zertifikat | Beschreibung | Intervall | Rechtsgrundlage |
+|------------|--------------|-----------|-----------------|
+| **EuP/EFK** | Elektrofachkraft fuer festgelegte Taetigkeiten | Auffrischung alle 1-3 Jahre | DGUV Vorschrift 3 |
+| **Arbeitsbuehne** | Bedienung Hubarbeitsbuehne | Jaehrliche Unterweisung | DGUV Grundsatz 308-008 |
+| **Staplerschein** | Flurfoerderzeuge | Jaehrliche Unterweisung | DGUV Vorschrift 68 |
+| **Erste Hilfe** | Ersthelfer im Betrieb | Auffrischung alle 2 Jahre | DGUV Vorschrift 1 |
+| **PSAgA** | Persoenliche Schutzausruestung gegen Absturz | Jaehrliche Unterweisung | DGUV Regel 112-198 |
+
+**Problem:**
+- Zertifikate haben Ablaufdatum oder erfordern regelmaessige Auffrischung
+- Wird oft vergessen → Versicherungsschutz gefaehrdet, Bussgelder
+- Keine zentrale Uebersicht wer welche Qualifikation hat
+
+**Loesung:**
+- Pro Mitarbeiter: Zertifikate mit Ablaufdatum erfassen
+- Auto-Erinnerung X Wochen vor Ablauf an Verantwortlichen
+- Dashboard: Wer hat welche Qualifikation? Was laeuft ab?
+- Optional: Schulungsplanung (wer braucht was?)
+
+### Verbandskästen (NEU - aus Fuhrpark-Analyse)
+
+**Problem:**
+- Jedes Fahrzeug braucht Verbandskasten (Pflicht)
+- Inhalt hat Ablaufdatum (ca. 4-5 Jahre)
+- Wird oft vergessen → Bussgeld bei Kontrolle, TUeV-relevant
+
+**Loesung:**
+- Pro Fahrzeug: Verbandskasten-Ablaufdatum erfassen
+- Auto-Erinnerung 3 Monate vor Ablauf
+- Optional: Ersatz-Verbandskästen im Lager vorhalten
 
 ### Loesung (Features)
 
@@ -2901,4 +3040,154 @@ Brainstorming 2025-12-16 - Inventar-Prozess, Luecken in W4A
 
 ### Status
 **Idee** - Mittel | **Phase:** Kernprozesse | **Prioritaet:** Mittel (Rechtlich relevant!)
+
+---
+
+## #75 Fuehrerschein-Kontrolle
+
+> **Phase:** Standalone | **Komplexitaet:** Gering | **Status:** NEU
+
+### Kurzbeschreibung
+Gesetzliche Pflicht! Arbeitgeber muss regelmaessig pruefen, ob Mitarbeiter gueltigen Fuehrerschein haben. Auto-Erinnerung zur Kontrolle, Nachweis-Dokumentation.
+
+### Problem (IST-Zustand)
+
+| Problem | Auswirkung |
+|---------|------------|
+| **Keine systematische Pruefung** | Arbeitgeber haftet bei Unfall ohne gueltige Fahrerlaubnis |
+| **Kein Nachweis** | Bei Kontrolle/Unfall: Kein Beleg dass geprueft wurde |
+| **Ablaufdatum unbekannt** | Neuere Fuehrerscheine haben Ablaufdatum (15 Jahre) |
+| **Gesetzliche Pflicht** | Arbeitgeber MUSS pruefen (Verkehrssicherheitspflicht) |
+
+### Rechtlicher Hintergrund
+
+**Pflicht des Arbeitgebers:**
+- Verkehrssicherheitspflicht nach § 823 BGB
+- Bei Firmenfahrzeugen: Halterverantwortung
+- Empfehlung: Mind. 2x jaehrlich pruefen
+- Nachweis der Kontrolle aufbewahren
+
+**Risiko bei Verstoß:**
+- Fahren ohne Fahrerlaubnis: Straftat (§ 21 StVG)
+- Arbeitgeber als Mitwisser/Anstifter haftbar
+- Versicherung kann Leistung kuerzen/verweigern
+
+### Betroffene Mitarbeiter (aus Fuhrpark-Analyse)
+
+| Mitarbeiter | Fahrzeug | Fuehrerschein-Klasse |
+|-------------|----------|----------------------|
+| Mariusz | Fiat Ducato AS-JS 124 | B (>3,5t: C1?) |
+| Christian | Fiat Ducato AM-JS 7 | B |
+| Stefan | Fiat Ducato AM-JS 17 | B |
+| Manfred | Opel Movano AM-JS 63 | B |
+| Jaroslaw | Mercedes Citan AM-JS 41 | B |
+| Enrico | Ford Connect AM-JS 19 | B |
+| Andreas | Ford Connect AM-JS 69 | B |
+| Roland | Fiat Punto AS-JS 114 | B |
+| (Stapler-Fahrer) | Toyota Stapler | Staplerschein |
+
+### Loesung (Features)
+
+**1. Fahrer-Erfassung:**
+- Wer faehrt welches Fahrzeug?
+- Benoetigte Fuehrerschein-Klasse
+- Fuehrerschein gueltig bis (Ablaufdatum)
+- Staplerschein wenn relevant
+
+**2. Kontroll-Intervall:**
+- Empfehlung: Alle 6 Monate
+- Auto-Erinnerung X Wochen vorher an Verantwortlichen
+- Wer kontrolliert? (Susann? Andreas?)
+
+**3. Nachweis-Dokumentation:**
+- Kontrolle durchgefuehrt am: [Datum]
+- Geprueft von: [Name]
+- Ergebnis: Gueltig / Abgelaufen / Entzogen
+- Optional: Foto/Scan des Fuehrerscheins
+
+**4. Auto-Erinnerungen:**
+- Halbjahres-Kontrolle faellig
+- Fuehrerschein laeuft ab in X Wochen
+- Kontrolle ueberfaellig!
+
+### Automatisierungs-Stufen
+
+| Stufe | Beschreibung | Aufwand |
+|-------|--------------|---------|
+| **Autonom** | Nicht moeglich (physische Pruefung noetig) | - |
+| **Automatisch** | Erinnerung + Formular + Auto-Dokumentation | Gering |
+| **Halbautomatisch** | Erinnerung per E-Mail, manuell dokumentieren | Minimal |
+| **Manuell** | Kalender-Erinnerung, Excel-Liste | Keiner |
+
+### Technische Umsetzung
+
+```python
+# Fuehrerschein-Model
+class Fuehrerschein:
+    mitarbeiter: str
+    fuehrerschein_klassen: list[str]  # ["B", "BE", "C1"]
+    gueltig_bis: date  # Kann None sein bei alten rosa Lappen
+    staplerschein: bool = False
+    letzte_kontrolle: date
+    naechste_kontrolle: date  # Auto-berechnet
+
+# Erinnerungs-Job
+def check_fuehrerschein_kontrollen():
+    heute = date.today()
+
+    # Halbjahres-Kontrollen
+    faellig = Fuehrerschein.objects.filter(
+        naechste_kontrolle__lte=heute + timedelta(weeks=2)
+    )
+
+    for fs in faellig:
+        if fs.naechste_kontrolle <= heute:
+            sende_email(verantwortlicher, f"UEBERFAELLIG: FS-Kontrolle {fs.mitarbeiter}")
+        else:
+            sende_email(verantwortlicher, f"Faellig: FS-Kontrolle {fs.mitarbeiter}")
+
+    # Ablauf-Warnungen
+    ablaufend = Fuehrerschein.objects.filter(
+        gueltig_bis__lte=heute + timedelta(weeks=12),
+        gueltig_bis__isnull=False
+    )
+
+    for fs in ablaufend:
+        wochen_bis = (fs.gueltig_bis - heute).days // 7
+        sende_email(fs.mitarbeiter, f"Fuehrerschein laeuft ab in {wochen_bis} Wochen!")
+        sende_email(verantwortlicher, f"Achtung: FS von {fs.mitarbeiter} laeuft ab!")
+```
+
+### Einfachste Loesung (MVP)
+
+**Excel + Kalender:**
+1. Excel-Liste: Mitarbeiter | FS-Klasse | Gueltig bis | Letzte Kontrolle
+2. Outlook-Termin: Alle 6 Monate "Fuehrerschein-Kontrolle"
+3. Bei Kontrolle: Excel aktualisieren, Foto in Personalakte
+
+**Web-Tool (Empfohlen):**
+1. Einfaches Formular: Mitarbeiter auswaehlen, "Kontrolle OK" klicken
+2. Datum wird auto-gespeichert
+3. Naechste Kontrolle auto-berechnet
+4. E-Mail-Reminder aktiviert
+
+### Abhaengigkeiten
+
+- **Verknuepft mit:** Fuhrparkprozess, #74 Prueffristen
+- **Optional:** #58 Web-Plattform (fuer Tool)
+- **Standalone:** Kann auch ohne andere Tools funktionieren (Excel)
+
+### Offene Fragen
+
+- [ ] Wer ist verantwortlich fuer Kontrolle? (Susann? Andreas?)
+- [ ] Wie oft pruefen? (Empfehlung: 2x/Jahr)
+- [ ] Wo dokumentieren? (W4A Personalakte? Eigenes Tool? Excel?)
+- [ ] Foto/Scan des Fuehrerscheins aufbewahren?
+- [ ] Staplerschein: Wer hat ihn? Ablaufdatum?
+
+### Quelle
+Brainstorming 2025-12-16 - Fuhrpark-Prozess, gesetzliche Anforderung
+
+### Status
+**Idee** - Gering | **Phase:** Standalone | **Prioritaet:** Hoch (Rechtlich zwingend!)
 
