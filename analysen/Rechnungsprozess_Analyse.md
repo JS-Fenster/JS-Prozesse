@@ -112,6 +112,26 @@ MONTAGE FERTIG (aus Montageprozess)
 | Wird oft vergessen | Bei Angebot/Auftrag nicht daran gedacht |
 | Spaeter nicht durchsetzbar | Cashflow-Problem |
 
+**Anzahlungs-Workflow (Detail):**
+
+| Schritt | Wer | Was |
+|---------|-----|-----|
+| 1 | Sandra | Holt Kontoauszuege per HBCI in W4A ab |
+| 2 | W4A | Verknuepft erkannte Zahlungen automatisch |
+| 3 | Sandra | Ordnet manche haendisch zu (falsch erkannt) |
+| 4 | Sandra | Korrigiert Kunde wenn falsch erkannt |
+| 5 | Sandra | Korrigiert Skonto wenn noetig |
+| 6 | **SOLL** | Info an Projektleiter → Bestellprozess einleiten |
+
+**Aktueller Ablauf:**
+- Bestellung nach unterschriebenem Angebot (besser: Auftragsbestaetigung)
+- Trend: Wird mehr so umgesetzt
+- Ausloesung Bestellungen: 1-4 Wochen Verzoegerung
+
+**SOLL-Ablauf:**
+- Anzahlung eingegangen → automatisch Info an Projektleiter
+- Projektleiter leitet Bestellprozess ein
+
 ---
 
 ## Zahlungseingang (funktioniert GUT!)

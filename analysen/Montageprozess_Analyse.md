@@ -140,6 +140,30 @@ WARE KOMPLETT (aus Lagerprozess)
 | **Weg** | Wird spaeter ins Buero gebracht |
 | **Problem-Prioritaet** | Doppelarbeit > Entzifferung > Verlust |
 
+**Detaillierter Ablauf Rueckmeldung:**
+| Zeitpunkt | Was passiert |
+|-----------|--------------|
+| **Im laufenden Tag** | Monteur bringt evtl. Zettel schon ins Buero |
+| **Zum Feierabend** | Monteur nimmt Zettel mit ins Lager |
+| **Naechster Morgen** | Zettel wird geprueft und ins Buero gebracht |
+
+→ Verzoegerung bis zu ~18 Stunden moeglich!
+
+**⚠️ KRITISCH: Verschollene Montagescheine**
+
+| Problem | Details |
+|---------|---------|
+| **Haeufigkeit** | Nicht oft, aber passiert |
+| **Ursache** | Zettel bleibt im Montageauto liegen |
+| **Folge 1** | Keine Rueckmeldung ans Buero |
+| **Folge 2** | Arbeitszeiten fehlen |
+| **Folge 3** | Kein Anstoss zur Rechnungserstellung |
+| **Folge 4** | **Auftrag verschwindet komplett aus dem Blick!** |
+| **Entdeckung** | Erst wenn Kunde anruft oder jemand drueber stolpert |
+| **Auswirkung** | Umsatzverlust, Kunde wartet auf Rechnung |
+
+→ **Loesung:** Digitale Erfassung (#41) - kein Zettel der verschwinden kann
+
 ### 8. Zeiterfassung
 
 | Art | Erfassung |
@@ -204,6 +228,8 @@ WARE KOMPLETT (aus Lagerprozess)
 | 8 | Kunde weiss nicht ob Monteur kommt | Unsicherheit bei Restarbeit | #41 Auto-Benachrichtigung |
 | 9 | Outlook statt W4A | Keine Integration | #11 Terminfindung |
 | 10 | Kommissionierung in der Frueh | Hektisch, kann was vergessen werden | #40 Material-Liste |
+| 11 | **Montageschein verschollen im Auto** | Auftrag verschwindet, keine Rechnung, Umsatzverlust | #41 Montage-Status Live |
+| 12 | Rueckmeldung bis 18h verzoegert | Zettel erst naechsten Morgen im Buero | #41 Montage-Status Live |
 
 ---
 

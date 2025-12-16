@@ -26,7 +26,8 @@ JS_Prozesse/
 │   ├── Montageprozess_Analyse.md
 │   ├── Rechnungsprozess_Analyse.md
 │   ├── Reklamationsprozess_Analyse.md
-│   └── Reparaturprozess_Analyse.md
+│   ├── Reparaturprozess_Analyse.md
+│   └── BAFA_Foerderantrag_Analyse.md
 ├── ARCHITEKTUR.md               # ERP-Strategie (W4A + eigene Tools)
 ├── IDEEN.md                     # 65 Tool-Ideen (verdichtet)
 ├── IDEEN_DETAILS.md             # Technische Details + W4A-Status
@@ -60,6 +61,18 @@ JS_Prozesse/
 - User hat Problem/Wunsch? → Potentielle Idee!
 - Workflow koennte automatisiert werden? → Idee!
 
+**4. Automatisierungs-Philosophie (WICHTIG!):**
+```
+IMMER Vollautomation anstreben
+        ↓
+Nicht umsetzbar? → Tool in Programmierung vereinfachen
+        ↓
+NIE "mach es halt manuell" als Loesung!
+```
+- Ziel: Technische Loesung, nicht Prozess-Workaround
+- Wenn KI/OCR zu komplex → einfacheres Tool (z.B. Formular + Auto-Verteiler)
+- Stufen: Vollautomatisch → Halbautomatisch (User-Trigger) → Assistiert
+
 ### Verdichten-Regeln
 
 | Datei-Typ | Regel |
@@ -86,6 +99,9 @@ JS_Prozesse/
 | `Reklamationsprozess_Analyse.md` | Reklamations-Handling | ✅ IST dokumentiert |
 | `Aufmassprozess_Analyse.md` | Angebots-/Bestellaufmass → Konfigurator | ✅ IST dokumentiert |
 | `Einkaufsprozess_Analyse.md` | Lieferanten → Preise → Konditionen → Zahlung | ✅ IST dokumentiert |
+| `Inventarprozess_Analyse.md` | Erfassung → W4A → Zuordnung → Prueffristen | ✅ IST dokumentiert |
+| `Buergschaftsprozess_Analyse.md` | R+V Portal → Urkunde → W4A-Tracking | ✅ IST dokumentiert |
+| `BAFA_Foerderantrag_Analyse.md` | Weru Portal → BAFA → NachweisService ⭐ KRITISCH | ✅ IST dokumentiert |
 
 ### Offene Prozesse (fuer Brainstorming)
 
@@ -95,27 +111,31 @@ JS_Prozesse/
 | Fuhrpark | Fahrzeuge, Tanken, Wartung, TUeV | 2025-12-14 |
 | Buchhaltung | Eingangsrechnungen, DATEV, Konten | 2025-12-14 |
 | After-Sales | Wartungsvertraege, Nachbetreuung | 2025-12-14 |
-| BAFA-Foerderantrag | Auftragsbezogen, nicht schwierig aber eigener Prozess | 2025-12-15 |
+| ~~BAFA-Foerderantrag~~ | ~~Dokumentiert als eigener Prozess, #3 erweitert (KRITISCH!)~~ | ~~2025-12-16~~ |
+| ~~Inventar-Prozess~~ | ~~W4A Inventar wird genutzt → dokumentiert, #74 erstellt~~ | ~~2025-12-16~~ |
+| ~~Buergschaften~~ | ~~R+V Portal, W4A-Tracking → dokumentiert~~ | ~~2025-12-16~~ |
 
 ### Offene Fragen zu bestehenden Prozessen
 
 | Prozess | Frage/Erweiterung | Notiert am |
 |---------|-------------------|------------|
-| Lager | Lieferankuendigungen spontan/fehlen, Fahrer-Tel falsch | 2025-12-15 |
-| Lager | Teilmengen: Mario statt Roland? (aber mehr Arbeit) | 2025-12-15 |
-| Aufmass | Formulare hochladen lassen zur Analyse | 2025-12-15 |
-| Rechnung | Ruecklaufer besser Auftraegen zuordnen (Kostenanalyse) | 2025-12-15 |
-| Anfrage | E-Mails: Susann verteilt in Outlook-Ordner, dann picken oder zuweisen | 2025-12-15 |
-| Montage | Rueckmeldung per Zettel/Anruf/Nachfrage - kein fester Prozess | 2025-12-15 |
-| Rechnung | Anzahlung: Sandra prueft, keine aktive Rueckmeldung | 2025-12-15 |
-| Reparatur | Keine Benachrichtigung bei langer Wartezeit, Kunde ruft selbst an | 2025-12-15 |
-| W4A | Ladezeiten 8 Sek/Fenster, kein Rueckgaengig, nur 1 Aufgabe sichtbar | 2025-12-15 |
-| W4A | E-Mail-Abruf manuell, Dokumente muessen per Hand zugeordnet werden | 2025-12-15 |
-| W4A | Stempeluhr: Kartenfunktion-Missbrauch, Anmeldefenster poppt nicht auf | 2025-12-15 |
-| W4A | Zeiterfassung: Sollzeit-Aenderung nicht moeglich, neuer MA noetig | 2025-12-15 |
-| W4A | Ungenutzt: Projektplankalender, Besuchsberichte, Verkaufschancen | 2025-12-15 |
-| Kommunikation | Monteure: taeglich Fruehbesprechung + Telefon, Buero: persoenlich | 2025-12-15 |
-| Dokumente | W4A: eindeutige Bezeichnung → Server-Pool-Ordner mit Verlinkung | 2025-12-15 |
+| ~~Lager~~ | ~~Lieferankuendigungen spontan/fehlen, Fahrer-Tel falsch~~ | ~~2025-12-15~~ |
+| ~~Lager~~ | ~~Teilmengen: Mario statt Roland? (aber mehr Arbeit)~~ | ~~2025-12-15~~ |
+| ~~Aufmass~~ | ~~Formulare hochladen lassen zur Analyse~~ | ~~2025-12-15~~ |
+| ~~Rechnung~~ | ~~Ruecklaufer/Montagematerial → #70 erweitert~~ | ~~2025-12-16~~ |
+| ~~Anfrage~~ | ~~E-Mails: Susann verteilt in Outlook-Ordner~~ | ~~2025-12-15~~ |
+| ~~Montage~~ | ~~Rueckmeldung per Zettel → dokumentiert~~ | ~~2025-12-15~~ |
+| ~~Rechnung~~ | ~~Anzahlung: Sandra prueft → dokumentiert~~ | ~~2025-12-15~~ |
+| ~~Reparatur~~ | ~~Keine Benachrichtigung → dokumentiert~~ | ~~2025-12-15~~ |
+| ~~W4A~~ | ~~Ladezeiten, kein Rueckgaengig, etc. → dokumentiert~~ | ~~2025-12-15~~ |
+| ~~W4A~~ | ~~E-Mail-Abruf, Dokumente → dokumentiert~~ | ~~2025-12-15~~ |
+| ~~W4A~~ | ~~Stempeluhr → dokumentiert~~ | ~~2025-12-15~~ |
+| ~~W4A~~ | ~~Zeiterfassung → dokumentiert~~ | ~~2025-12-15~~ |
+| ~~W4A~~ | ~~Ungenutzte Features → dokumentiert~~ | ~~2025-12-15~~ |
+| ~~Kommunikation~~ | ~~Monteure/Buero → dokumentiert, funktioniert gut~~ | ~~2025-12-15~~ |
+| ~~Dokumente~~ | ~~W4A-Verlinkung auf Server-Pool → funktioniert gut~~ | ~~2025-12-15~~ |
+| ~~BAFA~~ | ~~Dokumentiert! Prozess-Analyse + #3 erweitert mit Auto-Erinnerung~~ | ~~2025-12-16~~ |
+| ~~Preiserhoehungen~~ | ~~Dokumentiert in Einkaufsprozess + #71 erweitert mit Preisinfo-Verteiler~~ | ~~2025-12-16~~ |
 
 ### Prozesse proaktiv erkennen
 
@@ -132,6 +152,91 @@ Wenn User groessere Ablauf-Details erklaert:
 3. Dokumentieren: IST-Zustand, Schmerzpunkte, Automatisierungspotential
 4. Tabellen oben aktualisieren (aus "Offen" → "Dokumentiert")
 5. Verknuepfte IDEEN mit Prozess-Verweis versehen
+
+### Brainstorming-Regeln
+
+**Wissen zuerst praesentieren:**
+1. Alle relevanten Dokumente lesen (Analysen, IDEEN_DETAILS.md)
+2. Strukturiert zeigen:
+   - "Aus [Prozess X] uebernehme ich: ..." (bekannte Schritte)
+   - "Luecke: Wie laeuft Schritt Y?" (nur das nachfragen)
+   - "Neue Verknuepfung erkannt: ..." (bei bekannten Prozessen)
+3. Nur die echten Luecken als Fragen stellen
+
+**Querverweise:**
+- Gleiche Schritte duerfen in mehreren Prozessen dokumentiert sein
+- Verknuepfungen zwischen Prozessen aktiv aufzeigen
+
+---
+
+## W4A (Work for All) - Bekannte Probleme
+
+> **Kontext:** Work for All ist das ERP-System. Diese Probleme sind dokumentiert aber nicht loesbar durch eigene Tools.
+
+### Performance & UX
+
+| Problem | Details | Auswirkung |
+|---------|---------|------------|
+| **Ladezeiten** | ~8 Sek/Fenster-Element bei Angebotserstellung | Zeitverlust, Frustration |
+| **Kein Rueckgaengig** | Keine Undo-Funktion | Fehler muessen manuell korrigiert werden |
+| **Nur 1 Aufgabe sichtbar** | Dashboard zeigt nur eine Aufgabe | Keine Uebersicht offener Tasks |
+| **Fenster blockiert** | Bei laengeren Operationen "haengt" | Muss warten |
+
+### E-Mail & Dokumente
+
+| Problem | Details | Auswirkung |
+|---------|---------|------------|
+| **E-Mail-Abruf manuell** | Muss aktiv abgerufen werden | Verzoegerte Reaktion |
+| **Dokumente per Hand zuordnen** | Keine Auto-Zuordnung zu Projekten | Zeitaufwand, Fehlerquelle |
+
+### Zeiterfassung & Stempeluhr
+
+| Problem | Details | Auswirkung |
+|---------|---------|------------|
+| **Stempeluhr-Missbrauch** | RFID-Karten koennen von anderen (z.B. Kindern) genutzt werden | Falsche Zeitbuchungen |
+| **Anmeldefenster fehlt** | Poppt nicht automatisch auf | Vergessene Stempelungen |
+| **Sollzeit nicht aenderbar** | Aenderung der Sollstunden erfordert neuen Mitarbeiter-Datensatz | Workaround-Aufwand |
+
+### Ungenutzte Features
+
+| Feature | Grund | Potenzial |
+|---------|-------|-----------|
+| **Projektplankalender** | Zu umstaendlich, Outlook stattdessen | Evtl. spaeter aktivieren |
+| **Besuchsberichte** | Nicht eingefuehrt | Koennte #23 unterstuetzen |
+| **Verkaufschancen** | Nicht eingefuehrt | Koennte #23 unterstuetzen |
+
+### Dokumentation W4A-Datenbank
+
+→ Siehe `../KI_Automation/docs/ERP_Datenbank.md` fuer SQL-Schema und Tabellen
+
+### Dokument-Ablage (funktioniert gut!)
+
+| Aspekt | Details |
+|--------|---------|
+| **Server-Pool** | `\\appserver\Work4all\B001` |
+| **Prinzip** | Dokumente liegen auf Server, W4A verlinkt darauf |
+| **Vorteil** | Direkter PDF-Zugriff aus W4A moeglich |
+| **Nutzbar fuer Tools** | Ja - Pfad aus DB lesen → Datei oeffnen
+
+---
+
+## Interne Kommunikation
+
+### Monteure
+
+| Kanal | Wann | Details |
+|-------|------|---------|
+| **Fruehbesprechung** | Taeglich morgens | 15-30 Min, Jaroslaw + Andreas |
+| **Telefon** | Bei Bedarf | Fuer Rueckfragen, Probleme vor Ort |
+
+### Buero
+
+| Kanal | Wann | Details |
+|-------|------|---------|
+| **Persoenlich** | Taeglich | Kurze Absprachen |
+| **W4A-Aufgaben** | Bei Bedarf | Fuer laengere Tasks mit Protokoll |
+
+→ **Fazit:** Kommunikation funktioniert gut, kein Tool-Bedarf aktuell.
 
 ---
 
@@ -177,3 +282,17 @@ Wenn User groessere Ablauf-Details erklaert:
 | 2025-12-14 | Aufmassprozess | Neue Analyse: Angebots-/Bestellaufmass, Foto-Workflow |
 | 2025-12-14 | Einkaufsprozess | Neue Analyse: Lieferanten, Portale, Preisanfragen-Problem |
 | 2025-12-14 | Idee #71 | Einkaufs-Workflow & Preismanagement (Preis-Cache, Anfrage-Tracking) |
+| 2025-12-16 | Brainstorming-Regeln | Wissen zuerst praesentieren, nur Luecken nachfragen |
+| 2025-12-16 | Idee #72 | Referenz-Automatik (Fotos nach Montage → Website) |
+| 2025-12-16 | Idee #73 | Google-Bewertung Vorschlag (nach positiver Kommunikation) |
+| 2025-12-16 | W4A-Dokumentation | Bekannte Probleme, ungenutzte Features dokumentiert |
+| 2025-12-16 | Interne Kommunikation | Fruehbesprechung + Telefon, funktioniert gut |
+| 2025-12-16 | Prozess-Updates | Lager, Montage, Rechnung, Reparatur, Anfrage erweitert |
+| 2025-12-16 | Checklisten eingebunden | Tel. Anfragen + Reparatur aus Vorlagen-Ordner in Analysen |
+| 2025-12-16 | #24 erweitert | Checklisten als Grundlage fuer digitale Erfassung dokumentiert |
+| 2025-12-16 | Inventarprozess | Neue Analyse: W4A Inventar, Migration, Prueffristen, Wanderinventar |
+| 2025-12-16 | Idee #74 | Prueffristen-Automatik (DGUV, TUeV, UVV) + Wanderinventar-Checkout |
+| 2025-12-16 | Buergschaftsprozess | Neue Analyse: R+V Portal, W4A-Tracking, Limit-Status |
+| 2025-12-16 | #71 erweitert | Preisinfo-Verteiler (Post-Preiserhoehungen kommunizieren) |
+| 2025-12-16 | BAFA-Prozess | Neue Analyse: Weru Portal, NachweisService KRITISCH |
+| 2025-12-16 | #3 erweitert | KRITISCH! Auto-Erinnerung nach Zahlung, Foerder-Position als Trigger |

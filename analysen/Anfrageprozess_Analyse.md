@@ -65,6 +65,15 @@ KUNDE SAGT ZU
 
 **W4A-Aufgabe:** Wird von der Person erstellt, die ans Telefon geht.
 
+**E-Mail-Verteilung (IST):**
+| Schritt | Wer | Was |
+|---------|-----|-----|
+| 1 | Susann | Sortiert E-Mails in Outlook-Ordner (Lieferanten, Kunden, etc.) |
+| 2 | Susann | Weist zu ODER Mitarbeiter picken sich selbst E-Mails |
+| 3 | - | Ordnerstruktur: z.B. "Lieferanten", "Rechnungen", "Kunden-Anfragen" |
+
+**Problem:** Manuelle Sortierung, kein Tracking wer was bearbeitet.
+
 **Website-Formular (js-fenster.de/kontakt):**
 - Anrede (Pflicht)
 - Adresse = Bauvorhaben? (Ja/Nein)
@@ -141,6 +150,71 @@ Wenn Produkt nicht rechenbar (kein Standardpreis):
 | | Auftrag fehlt → Soll-Ist-Vergleich falsch! |
 
 **Anmerkung:** "Arbeiten dran, uns zu verbessern"
+
+---
+
+## Erfassungs-Checkliste Tel. Kundenanfragen (aus Vorlagen-Ordner)
+
+> **Quelle:** `Z:\Vorlagen\Arbeitsabläufe\Checkliste telefonische Kundenanfragen.odt`
+> **Status:** Eher Vorlage, nicht konsequent genutzt
+
+### Checkliste Inhalt
+
+| Schritt | Abfrage | Status |
+|---------|---------|--------|
+| **1. Kunde pruefen** | Bestandskunde? → Begruessung | Vorlage |
+| | Neukunde? → "Wie auf uns aufmerksam?" | ❌ Nicht erfasst (waere gut!) |
+| **2. Projekttyp** | Neubau / Sanierung / Reparatur | ✅ Wird abgefragt |
+| | Projektbeginn? | ✅ Wird abgefragt |
+| **3. Produkte** | Checkboxen mit Mindestpreisen | ✅ Produkte aktuell |
+| | (Ueberdachung evtl. entfaellt) | ⚠️ Preise pruefen! |
+| **4. Budget** | Budget-Abfrage | Gelegentlich |
+| **5. Fremdangebot** | Vorhanden? → Vorab schicken lassen | Gelegentlich |
+| **6. Verantwortlicher** | Entscheider identifizieren | ✅ Wichtig! |
+| **7. Kontaktdaten** | Name, Vorname, Firma | ✅ Pflicht |
+| | Strasse, Ort | ✅ Pflicht |
+| | Tel. ODER E-Mail | ✅ Mindestens eins |
+| **8. Bauvorhaben** | "BV:" wenn Auftraggeber ≠ RE | ✅ Bei Bedarf |
+| **9. Terminvereinbarung** | Fremdangebot → Ausstellung | War angedacht |
+| | Kein Fremdangebot → Vor-Ort | Nicht mehr aktiv |
+
+### Mindestpreise (Stand: Vorlage - PRUEFEN!)
+
+| Produkt | Mindestpreis |
+|---------|--------------|
+| Fenster | - |
+| Insektenschutz | ab 100,- EUR |
+| Haustueren | ab 2.500,- EUR |
+| Hebeschiebetüren | ab 3.500,- EUR |
+| Innentueren | ab 300,- EUR |
+| Nebeneingangstuer | ab 1.000,- EUR |
+| Wohnungseingangstuer | ab 800,- EUR |
+| Vorbaurollo | ab 200,- EUR |
+| Markise | ab 1.500,- EUR |
+| Terrassenueberdachungen | ab 7.500,- EUR (evtl. entfaellt) |
+
+### Priorisierung (war angedacht, nicht mehr aktiv)
+
+| Prio | Kriterium |
+|------|-----------|
+| 1 | Bestandskunden (Umsatz ab 1.000 EUR) |
+| 2 | Neukunden mit Komplettprojekten |
+| 3 | Gewerbliche Kunden |
+| 4 | Alle anderen |
+
+### Erkenntnisse fuer Digitalisierung
+
+| Aspekt | Erkenntnis |
+|--------|------------|
+| **Gut** | Strukturierte Vorlage vorhanden |
+| **Gut** | Mindestpreise fuer Qualifizierung |
+| **Gut** | Entscheider-Identifikation wichtig |
+| **Luecke** | Vorlage wird nicht konsequent genutzt |
+| **Luecke** | "Wie gefunden" nicht erfasst |
+| **Luecke** | Prio-Regeln nicht mehr aktiv |
+| **Potenzial** | Digitale Erfassung wuerde Nutzung erzwingen |
+
+→ **Siehe #24 (Ticket-System)** fuer digitale Umsetzung
 
 ---
 

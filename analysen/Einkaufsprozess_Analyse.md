@@ -144,13 +144,38 @@ Andreas: Import nach W4A
 
 | # | Schmerzpunkt | Auswirkung | Haeufigkeit | Relevante Ideen |
 |---|--------------|------------|-------------|-----------------|
-| 1 | **Preisanfragen dauern Tage/Wochen** | Angebote verzoegern sich, Kunde wartet | Oft | #71? Preis-Cache |
-| 2 | **Wuerth: Staendige AD-Anfragen** | Zeitverlust trotz Shop | Bei jeder Bestellung | #71? |
-| 3 | **Grossmengen-Rabatt vergessen** | Geld verschenkt | Manchmal | #71? Erinnerung |
-| 4 | **Konditionen verstreut** | W4A + Excel = unuebersichtlich | Dauerhaft | #71? Zentralisierung |
+| 1 | **Preisanfragen dauern Tage/Wochen** | Angebote verzoegern sich, Kunde wartet | Oft | #71 Preis-Cache |
+| 2 | **Wuerth: Staendige AD-Anfragen** | Zeitverlust trotz Shop | Bei jeder Bestellung | #71 |
+| 3 | **Grossmengen-Rabatt vergessen** | Geld verschenkt | Manchmal | #71 Erinnerung |
+| 4 | **Konditionen verstreut** | W4A + Excel = unuebersichtlich | Dauerhaft | #71 Zentralisierung |
 | 5 | **Preislisten-Import 2-stufig** | Mario pflegt → Andreas importiert | Bei Preisaenderung | Workflow optimieren |
 | 6 | **Gleiche Produkte schwer findbar** | Langtexte vergleichen = aufwaendig | Bei Lieferantenvergleich | #38 Lagerverwaltung? |
-| 7 | **Keine Lieferanten-Bewertung** | Keine Datengrundlage fuer Entscheidung | - | #71? |
+| 7 | **Keine Lieferanten-Bewertung** | Keine Datengrundlage fuer Entscheidung | - | #71 |
+| 8 | **Preiserhoehungen per Post** | Nicht alle informiert → falsche Preise | Gelegentlich | #71 Preisinfo-Verteiler |
+
+### Schmerzpunkt #8 Detail: Preiserhoehungen per Post (2025-12-16)
+
+**IST-Situation:**
+```
+Post-Eingang (Roland oeffnet)
+        ↓
+Preiserhoehung erkannt → an zustaendige Person
+        ↓
+❌ Wird Sandra zum Digitalisieren gegeben
+❌ Digitalisierung verzoegert/vergessen
+❌ Relevante Personen NICHT informiert
+        ↓
+FOLGE: Angebote mit falschen Preisen → Marge weg!
+```
+
+**Beispiel:** Weru TZ (Teuerungszuschlag) per Brief - Vater wusste nichts davon
+
+**Betroffene Empfaenger:**
+- Verkauf: Roland, Andreas, Enrico
+- Projektleiter: Jaroslaw, Andreas
+- Lagerist: Mario
+
+→ **Loesung:** #71 Preisinfo-Verteiler (Auto-Benachrichtigung)
 
 ---
 

@@ -1050,6 +1050,49 @@ WHERE Code = ?
 
 ---
 
+## 📋 Erfassungs-Checkliste Reparaturen (aus Vorlagen-Ordner)
+
+> **Quelle:** `Z:\Vorlagen\Arbeitsabläufe\Checkliste Reparaturen.odt`
+> **Status:** Wird aktiv genutzt
+
+### Checkliste Inhalt
+
+| Schritt | Abfrage | Status |
+|---------|---------|--------|
+| **1. Kunde pruefen** | Bestandskunde? → Begruessung | ✅ Aktiv |
+| | Neukunde? → "Wie auf uns aufmerksam?" | ❌ Wird nicht erfasst |
+| **2. Schadensbeschreibung** | Was ist defekt? | ✅ Aktiv |
+| | Welche Etage? | ✅ Aktiv (Doppelanfahrt vermeiden) |
+| | Besonderheiten (Geruest, Leiter)? | ✅ Aktiv |
+| **3. Kontaktdaten** | Name, Vorname, Firma | ✅ Pflicht |
+| | Strasse, Ort | ✅ Pflicht |
+| | Tel. ODER E-Mail | ✅ Mindestens eins |
+| **4. Bauvorhaben** | Separate Adresse wenn ≠ Kunde | ✅ Bei Mietobjekten |
+| **5. Terminvereinbarung** | Prio-Kriterien anwenden | ✅ Aktiv |
+
+### Priorisierungs-Kriterien (aktiv genutzt)
+
+| Prio | Kriterium | Grund |
+|------|-----------|-------|
+| 1 | Bestandskunden | Kundenbindung |
+| 2 | Gewerbe (Fluchttueren!) | Sicherheitsrelevant |
+| 3 | Dringlichkeit | Haustuer zu, Fenster kaputt |
+| 4 | Alle anderen | Standard |
+
+### Erkenntnisse fuer Digitalisierung
+
+| Aspekt | Erkenntnis |
+|--------|------------|
+| **Gut** | Checkliste wird aktiv gelebt |
+| **Gut** | Prio-System funktioniert |
+| **Gut** | Etage/Zugang verhindert Doppelanfahrten |
+| **Luecke** | "Wie gefunden" wird nicht erfasst → Marketing-Daten fehlen |
+| **Potenzial** | Digitale Version wuerde Zettelwirtschaft beenden |
+
+→ **Siehe #24 (Ticket-System)** fuer digitale Umsetzung
+
+---
+
 ## 📊 IST-Analyse Ergaenzungen (2025-12-12)
 
 ### Erfassung nach Kanal
@@ -1135,6 +1178,17 @@ WHERE Code = ?
 | **Wer ruft an** | Susann |
 | **Info an Kunde** | Vor Ort ODER Auftragsbestaetigung mit Teilen |
 | **Problem** | Laengere Wartezeit, Andreas kommt nicht hinterher |
+
+**⚠️ KRITISCH: Keine Benachrichtigung bei langer Wartezeit**
+
+| Problem | Details |
+|---------|---------|
+| **Situation** | Kunde wartet auf Ersatzteil/Folgetermin |
+| **Aktuell** | Keine proaktive Info an Kunde |
+| **Folge** | Kunde ruft selbst an und fragt nach |
+| **Kundenerlebnis** | Schlecht - fuehlt sich vergessen |
+
+→ **SOLL:** Auto-Benachrichtigung nach X Tagen Wartezeit (z.B. "Wir arbeiten dran, Ersatzteil wird geliefert in KW X")
 
 ---
 

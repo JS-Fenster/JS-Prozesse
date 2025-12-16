@@ -1,6 +1,6 @@
 # Ideen fuer KI-Automatisierungen
 
-**Erstellt:** 2025-12-09 | **Aktualisiert:** 2025-12-14 | **Stand:** 63 offen, 1 umgesetzt, 5 integriert
+**Erstellt:** 2025-12-09 | **Aktualisiert:** 2025-12-16 | **Stand:** 66 offen, 1 umgesetzt, 5 integriert
 
 ---
 
@@ -20,7 +20,7 @@
 |-------|--------------|-------|
 | **0** | INFRASTRUKTUR | #58, #59, #60, #64, #68 |
 | **1** | BASIS-MODULE + KRITISCH | #1, #4 ✅, #13, #36 ⭐, #39/#40/#41 (Montage-Suite) |
-| **2** | KERNPROZESSE | #9, #10, #11, #22, #24, #28, #32, #33, #37, #38, #53, #55, #56, #57, #65, #66, #67 |
+| **2** | KERNPROZESSE | #9, #10, #11, #22, #24, #28, #32, #33, #37, #38, #53, #55, #56, #57, #65, #66, #67, #74 |
 | **3** | KOMMUNIKATION | #3, #6, #12, #23, #25, #27, #30, #47, #49, #50 |
 | **4** | COMMAND CENTER | #14 (integriert #44, #51, #52) |
 | **5** | KI-FEATURES | #2, #5, #7, #8, #18, #20, #21, #29, #62, #63 |
@@ -162,8 +162,8 @@ Beliebige XML/Text → W4A-kompatibles XML, Template-System.
 
 ## Phase 3: Kommunikation
 
-### #3 Weru Foerderantraege
-Auto-Ausfuellen KfW/BAFA-Antraege ueber Weru Portal.
+### #3 Weru Foerderantraege ⭐ KRITISCH
+BAFA/KfW-Antraege + **KRITISCH:** NachweisService nach Zahlung vergessen → Kunde verliert Foerderung! Auto-Erinnerung via Foerder-Position.
 → [Details](IDEEN_DETAILS.md#3-weru-foerderantraege-automatisierung)
 
 ### #6 Budget-Angebots-Generator
@@ -346,6 +346,18 @@ Automatische Materialpauschale fuer Nicht-Fenster (Innentuer, Markise, etc.). Ak
 ### #71 Einkaufs-Workflow & Preismanagement ⭐ NEU
 Preis-Cache, Preisanfrage-Tracking (offen/beantwortet), Grossmengen-Erinnerung, Konditionen zentral. Schmerzpunkt: Preisanfragen dauern Tage/Wochen.
 → [Details](IDEEN_DETAILS.md#71-einkaufs-workflow--preismanagement)
+
+### #72 Referenz-Automatik ⭐ NEU
+Nach abgeschlossener Montage: Auto-Erinnerung "Fotos machen?", Workflow fuer Website-Referenzen. Problem: Wird oft vergessen, Website veraltet.
+→ [Details](IDEEN_DETAILS.md#72-referenz-automatik)
+
+### #73 Google-Bewertung Vorschlag ⭐ NEU
+Nach positiver Kundenkommunikation: Automatisch erkennen + Bewertungs-Link vorschlagen. Problem: Gute Bewertungen werden nicht aktiv eingeholt.
+→ [Details](IDEEN_DETAILS.md#73-google-bewertung-vorschlag)
+
+### #74 Prueffristen-Automatik ⭐ NEU
+Auto-Erinnerungen fuer Leitern (DGUV), DGUV V3, TUeV, UVV. X Wochen vorher an Mario. Optional: Wanderinventar-Checkout-Log.
+→ [Details](IDEEN_DETAILS.md#74-prueffristen-automatik)
 
 ---
 

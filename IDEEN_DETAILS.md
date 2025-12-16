@@ -1,6 +1,6 @@
 # Ideen für KI-Automatisierungen - Technische Details
 
-**Erstellt:** 2025-12-09 | **Aktualisiert:** 2025-12-14 | **Status:** Brainstorming-Phase | **Anzahl:** 64 Ideen (4 merged)
+**Erstellt:** 2025-12-09 | **Aktualisiert:** 2025-12-16 | **Status:** Brainstorming-Phase | **Anzahl:** 67 Ideen (4 merged)
 
 ---
 
@@ -91,6 +91,9 @@
 | 69 | UTA-Tankrechnungen PDF-Tool | Nicht relevant | Eigenbau (Standalone) |
 | 70 | Montagematerial-Pauschalen | Nicht vorhanden | Eigenbau ⭐ (Umsatzverlust!) |
 | 71 | Einkaufs-Workflow/Preismanagement | Nicht vorhanden | Eigenbau ⭐ |
+| 72 | Referenz-Automatik | Nicht vorhanden | Eigenbau |
+| 73 | Google-Bewertung Vorschlag | Nicht vorhanden | Eigenbau |
+| 74 | Prueffristen-Automatik | Nicht vorhanden | Eigenbau ⭐ |
 
 **Legende:** Eigenbau = Selbst entwickeln | Erweitern = W4A-Funktion ausbauen | Pruefen = W4A-Status klaeren | ⭐ = Prioritaet | ⭐⭐ = Infrastruktur (ZUERST) | 🔴 = KI-Komplex
 
@@ -168,26 +171,122 @@ Analyse-Tool für Finanzkennzahlen mit Trendprognosen.
 
 ---
 
-## 3. Weru Förderanträge-Automatisierung
+## 3. Weru Förderanträge-Automatisierung ⭐ KRITISCH
 
 ### Kurzbeschreibung
-Automatisches Ausfüllen von Förderanträgen (KfW, BAFA) über Weru Portal.
+BAFA/KfW-Foerderantraege ueber Weru FoerderService Portal. **KRITISCH:** NachweisService nach Zahlung wird vergessen → Kunde verliert Foerderung!
 
 ### Systeme
 - **Portal:** https://weru.foerderservice.de/ (Session-basiert)
+- **Energieberater:** Externer Dienstleister (Weru)
+- **W4A:** Dokumente + Aufgaben-Tracking
 
-### Logik
-- Kundendaten aus ERP → Formular ausfüllen
-- Dokumenten-Upload (Rechnungen, Nachweise)
-- Status-Tracking
+### IST-Prozess (komplett)
 
-### Offene Fragen
-- [ ] API vorhanden oder nur Web-Formulare?
-- [ ] Welche Daten werden benötigt?
-- [ ] Login-Daten (sicher speichern!)
+```
+AUSLOESER
+├─ Kunde moechte Foerderung (BAFA/KfW)
+├─ Hinweis meist bei Angebotserstellung
+│
+▼
+VOR BESTELLUNG (WICHTIG!)
+├─ Kunde liefert: Hausdaten + Vollmacht
+├─ Andreas: Baumassnahme im Weru Portal anlegen
+├─ Energieberater (Weru): Bearbeitet Antrag
+├─ Weiterleitung an BAFA durch Energieberater
+│
+▼
+NACH BAFA-BESTAETIGUNG
+├─ Jetzt darf bestellt werden!
+├─ Dokumente herunterladen → W4A ablegen
+│
+▼
+MONTAGE + RECHNUNG + ZAHLUNG
+├─ Normaler Auftragsprozess
+├─ Projektakte wird nach Zahlung "geschlossen"
+│
+▼
+⚠️ KRITISCHER SCHRITT (WIRD VERGESSEN!)
+├─ "Eingabe NachweisService" im Weru Portal
+├─ MUSS nach vollstaendiger Zahlung erfolgen!
+├─ Ohne dies: Kunde bekommt KEINE Foerderung!
+└─ Verantwortlich: Andreas
+```
+
+### KRITISCHES PROBLEM
+
+| Aspekt | Details |
+|--------|---------|
+| **Problem** | NachweisService nach Zahlung wird vergessen |
+| **Grund** | Projektakte wird nach Zahlung geschlossen, aber Foerderantrag muss DANACH noch abgeschlossen werden |
+| **Folge** | Kunde verliert Foerderung (mehrere Tausend Euro!) |
+| **Haeufigkeit** | 5-10 Antraege pro Jahr |
+| **Verantwortlich** | Andreas |
+
+### Loesung: Auto-Erinnerung nach Zahlung
+
+**Erkennungsmerkmal in W4A:**
+- Im Auftragsdokument gibt es Position "Pauschale fuer Foerderantraege"
+- Kann aus `dbo.AuftragPos` ausgelesen werden
+
+**Automatisierung:**
+
+| Stufe | Loesung | Aufwand |
+|-------|---------|---------|
+| **Vollautomatisch** | Zahlung erkannt + Foerder-Position vorhanden → Auto-Aufgabe an Andreas | Mittel |
+| **Halbautomatisch** | Taeglich pruefen: Auftraege mit Foerder-Position + Zahlung komplett + kein Erledigungsvermerk → Liste | Gering |
+| **Assistiert** | Manueller Haken "Foerderantrag vorhanden" → Erinnerung nach Zahlung | Gering |
+
+**SQL-Logik (Konzept):**
+```sql
+-- Auftraege mit Foerder-Position die vollstaendig bezahlt sind
+SELECT a.Nummer, k.Name, a.Betrag,
+       'NachweisService pruefen!' AS Aktion
+FROM dbo.Auftrag a
+JOIN dbo.Kunden k ON a.KundenCode = k.Code
+JOIN dbo.AuftragPos p ON a.Code = p.AuftragCode
+WHERE p.Bezeichnung LIKE '%Pauschale%Förder%'
+  AND a.BezahltKomplett = -1  -- oder entsprechendes Feld
+  AND a.Code NOT IN (
+    -- Bereits erledigte (Aufgabe oder eigenes Feld)
+    SELECT AuftragCode FROM dbo.BAFA_Erledigt  -- hypothetisch
+  )
+```
+
+### W4A-Erweiterung (optional)
+
+| Feld | Typ | Zweck |
+|------|-----|-------|
+| BAFA_Antrag | Ja/Nein | Foerderantrag vorhanden |
+| BAFA_NachweisErledigt | Datum | Wann NachweisService gemacht |
+| BAFA_Notizen | Text | Antragsnummer, Besonderheiten |
+
+→ Aktuell keine Felder vorhanden, aber W4A erweiterbar
+
+### Prozess-Checkliste
+
+**Vor Bestellung:**
+- [ ] Kunde hat Foerderung beantragt?
+- [ ] Hausdaten + Vollmacht erhalten?
+- [ ] Baumassnahme im Weru Portal angelegt?
+- [ ] BAFA-Bestaetigung abwarten!
+
+**Nach Zahlung:**
+- [ ] Montage komplett abgeschlossen?
+- [ ] Schlussrechnung bezahlt?
+- [ ] → NachweisService im Weru Portal!
+- [ ] Dokumente in W4A abgelegt?
+
+### Abhaengigkeiten
+- **Trigger:** Rechnungsprozess (Zahlung erkannt)
+- **Verknuepft:** #65 Anzahlungsrechnung (gleicher Trigger-Punkt)
+- **Nutzt:** #31 Rechnungsbuch (Zahlungsstatus)
+
+### Quelle
+Brainstorming 2025-12-16 (Andreas)
 
 ### Status
-**Idee**
+**Idee** - Mittel | **Prioritaet:** KRITISCH (Kundenschaden!)
 
 ---
 
@@ -661,13 +760,63 @@ Auto-Tickets aus E-Mails, Eskalation, SLA-Tracking inkl. Telefon-Schnellerfassun
 - Alle Kommunikation unter dieser Nummer auffindbar
 - SLA: Antwort-Ziel innerhalb X Stunden
 
+### Bestehende Checklisten als Grundlage (2025-12-16)
+
+> **Quellen:** `Z:\Vorlagen\Arbeitsabläufe\`
+
+| Checkliste | Datei | Status | Eingebunden in |
+|------------|-------|--------|----------------|
+| **Tel. Kundenanfragen** | `Checkliste telefonische Kundenanfragen.odt` | Vorlage, nicht konsequent | Anfrageprozess_Analyse.md |
+| **Reparaturen** | `Checkliste Reparaturen.odt` | Aktiv genutzt | Reparaturprozess_Analyse.md |
+
+### Felder aus Checklisten fuer digitale Erfassung
+
+**Anfragen (Neubau/Sanierung):**
+
+| Feld | Pflicht | Notizen |
+|------|---------|---------|
+| Kunde pruefen (Bestands/Neu) | Ja | Auto-Lookup aus W4A |
+| "Wie auf uns aufmerksam?" | Neu! | Marketing-Auswertung |
+| Projekttyp (Neubau/Sanierung/Reparatur) | Ja | Steuert weiteren Ablauf |
+| Projektbeginn | Ja | Fuer Priorisierung |
+| Produkte (Multi-Select) | Ja | Mit Mindestpreisen |
+| Budget | Optional | Qualifizierung |
+| Fremdangebot vorhanden? | Optional | Wenn ja → Ausstellungs-Termin |
+| Entscheider/Verantwortlicher | Wichtig! | Ohne Entscheider kein Abschluss |
+| Kontaktdaten | Pflicht | Name, Adresse, Tel/Mail |
+| Bauvorhaben (wenn ≠ Kunde) | Bei Bedarf | "BV:" Kennzeichen |
+
+**Reparaturen:**
+
+| Feld | Pflicht | Notizen |
+|------|---------|---------|
+| Kunde pruefen | Ja | Auto-Lookup |
+| "Wie auf uns aufmerksam?" | Neu! | Marketing |
+| Schadensbeschreibung | Ja | Freitext |
+| Etage | Ja | Doppelanfahrt vermeiden! |
+| Besonderheiten (Geruest, Leiter) | Ja | Ausruestung planen |
+| Kontaktdaten | Pflicht | Standard |
+| Bauvorhaben (Mietobjekt) | Bei Bedarf | Vermieter ≠ Mieter |
+| Prio-Einschaetzung | Auto | Bestand > Gewerbe > Dringend > Rest |
+
+### Erkenntnisse aus Checklisten-Review
+
+| Erkenntnis | Auswirkung auf Tool |
+|------------|---------------------|
+| Reparatur-Checkliste wird gelebt | Gute Vorlage, 1:1 digitalisieren |
+| Anfragen-Checkliste eher Vorlage | Digitalisierung erzwingt Nutzung |
+| Prio-Regeln existieren aber nicht aktiv | Tool kann auto-priorisieren |
+| "Wie gefunden" fehlt ueberall | NEU hinzufuegen → Marketing-Daten |
+| Entscheider-Feld wichtig | Pflichtfeld bei Anfragen |
+| Mindestpreise zur Qualifizierung | In Produkt-Auswahl integrieren |
+
 ### Abhaengigkeiten
 - **Input von:** #12 E-Mail
 - **Nutzt:** #25 Telefon-CRM (optional)
 - **Liefert an:** #23 Verkaufschancen
 
 ### Status
-**Idee** - Mittel
+**Idee** - Mittel (Checklisten-Grundlage vorhanden!)
 
 ---
 
@@ -2195,7 +2344,7 @@ Automatische Materialpauschale fuer Nicht-Fenster-Produkte (Innentuer, Markise, 
 ### Problem (IST-Zustand)
 | Produkt | Automation | Status |
 |---------|------------|--------|
-| **Fenster** | WoT berechnet Montagematerial automatisch (Laufmeter-basiert) | ✅ Funktioniert |
+| **Fenster** | WoT berechnet automatisch (aber veraltet) | ⚠️ Nicht aktuell |
 | **Innentuer** | KEINE Automation | ❌ Wird vergessen |
 | **Markise** | KEINE Automation | ❌ Wird vergessen |
 | **Raffstore** | KEINE Automation | ❌ Wird vergessen |
@@ -2203,23 +2352,40 @@ Automatische Materialpauschale fuer Nicht-Fenster-Produkte (Innentuer, Markise, 
 
 **Folge:** Montagematerial wird verbraucht aber nicht berechnet → Umsatzverlust!
 
+**Zusaetzliches Problem - Lager-Buchung:**
+| Aspekt | Details |
+|--------|---------|
+| Material-Buchung | Geht aufs LAGER, nicht aufs Projekt |
+| Grund | 1 Karton Kompriband reicht fuer ~30 Fenster |
+| Folge | Verbrauch pro Projekt NICHT direkt trackbar |
+| Loesung | Indirekte Analyse ueber Zeitraeume |
+
+**Aktuelle Datenquelle:**
+- Excel: `Montagematerial lfm.xlsx` (noch ausbaufaehig)
+- Enthaelt: Laufmeter-basierte Berechnung fuer WoT
+
 ### Loesung (3 Stufen)
 
-**Stufe 1 - Analyse (einmalig):**
-- Historische Einkaufsrechnungen (Material) analysieren
-- Korrelation mit Auftraegen (Produkttyp, Groesse) ermitteln
-- Durchschnittskosten pro Produkttyp berechnen
-- Formel erstellen: z.B. "Innentuer = X € Pauschale"
+**Stufe 1 - Analyse (Zeitraum-basiert):**
+- Zeitraum waehlen (z.B. letzte 12 Monate)
+- Material-Bestellungen summieren (Kompriband, Schaum, Schrauben, etc.)
+- Produkte mit Massen aus Auftraegen zaehlen (Anzahl Fenster, lfm Tuer, m² Markise)
+- Durchschnitt berechnen: Material-Kosten ÷ Produkt-Menge = €/Einheit
+- Formel erstellen: z.B. "Innentuer = X € pro lfm"
+
+**WICHTIG:** Da Material aufs Lager gebucht wird, ist nur Zeitraum-Analyse moeglich (nicht pro Projekt)
 
 **Stufe 2 - Automatik (dauerhaft):**
-- Bei Rechnung fuer Nicht-Fenster-Produkt → System fuegt automatisch Materialpauschale ein
-- Kann nicht vergessen werden (wie bei Fenster ueber WoT)
-- Pauschale je Produkttyp hinterlegt
+- Bei Angebot/Rechnung → System schlaegt Materialpauschale vor
+- ALLE Produkte (inkl. Fenster!) - nicht nur WoT
+- Grund: Eigene Berechnung ist AKTUELLER als WoT-Formel
+- Kann nicht vergessen werden
 
-**Stufe 3 - Kontrolle (quartalsweise):**
-- Einkauf (Material) vs. berechnete Pauschalen vergleichen
-- IST vs. SOLL Analyse
-- Pauschale anpassen wenn Abweichung zu gross
+**Stufe 3 - Preisanpassung (bei Bedarf):**
+- Bei Material-Preiserhoehung → Faktoren automatisch anpassen
+- Hinweis: "Kompriband +10% teurer → Pauschalen aktualisieren?"
+- Quartalsweise IST vs. SOLL Vergleich
+- Dashboard: Abweichungen sichtbar machen
 
 ### Datenquellen
 | Quelle | Inhalt | Nutzung |
@@ -2261,13 +2427,17 @@ def add_material_pauschale(rechnung):
 - **Liefert an:** Rechnungserstellung
 
 ### Offene Fragen
+- [x] Material projektbezogen trackbar? → NEIN, geht aufs Lager (Zeitraum-Analyse noetig)
+- [x] Produkte mit Massen erfasst? → JA, in Textform
 - [ ] Wo liegen die Einkaufsrechnungen? (W4A, Dateisystem, Excel?)
-- [ ] Wie sind Produkttypen in W4A klassifiziert?
-- [ ] Soll Pauschale pro Stueck oder pro Laufmeter?
-- [ ] Wie wird Pauschale in Rechnung eingefuegt? (W4A-Automatik oder manuell?)
+- [ ] Wie sind Produkttypen in W4A klassifiziert? (Artikelgruppen?)
+- [ ] Soll Pauschale pro Stueck, pro Laufmeter, oder pro m²?
+- [ ] Welche Material-Artikel gehoeren zu "Montagematerial"? (Artikelnummern?)
+- [ ] Wie wird Pauschale in Angebot/Rechnung eingefuegt? (W4A-Automatik oder Tool?)
 
 ### Quelle
-Lagerprozess-Brainstorming 2025-12-14 - Problem: Material fuer Nicht-Fenster wird vergessen
+- Lagerprozess-Brainstorming 2025-12-14 - Problem: Material fuer Nicht-Fenster wird vergessen
+- Brainstorming 2025-12-16 - Erweiterung: Zeitraum-Analyse, Preisanpassung, alle Produkte
 
 ### Status
 **Idee** - Mittel | **Phase:** Standalone/Kernprozesse | **Prioritaet:** Hoch (Umsatzverlust!)
@@ -2290,6 +2460,9 @@ Zentrales Tool fuer Einkaufs-Workflow: Preisanfragen tracken, Konditionen verwal
 | **Grossmengen-Rabatt vergessen** | Geld verschenkt | Manchmal |
 | **Konditionen verstreut** | W4A-Dokumente + Artikel + Excel | Dauerhaft |
 | **Keine Uebersicht offener Anfragen** | Anfragen "versanden" | Regelmaessig |
+| **Preiserhoehungen per Post** | Nicht alle informiert → falsche Preise in Angeboten | Gelegentlich |
+
+**NEU (2025-12-16):** Preiserhoehungen kommen manchmal per Brief statt E-Mail (Bsp: Weru TZ). Dadurch wissen nicht alle relevanten Personen Bescheid → Feature "Preisinfo-Verteiler" noetig!
 
 ### Loesung (Features)
 
@@ -2319,6 +2492,25 @@ Zentrales Tool fuer Einkaufs-Workflow: Preisanfragen tracken, Konditionen verwal
 - Letzte Bestellungen
 - Offene Anfragen
 - Link zu Portal (wenn vorhanden)
+
+**6. Preisinfo-Verteiler (NEU 2025-12-16):**
+
+| Stufe | Loesung | Aufwand |
+|-------|---------|---------|
+| **Vollautomatisch** | Scan → OCR → KI erkennt "Preiserhoehung" → Auto-Verteiler | Hoch |
+| **Halbautomatisch** | Scan hochladen → Typ waehlen → Auto-E-Mail an Verteiler | Mittel |
+| **Assistiert** | Formular: Lieferant, Aenderung, Datum → Auto-E-Mail | Gering |
+
+**Empfaenger-Verteiler:**
+- Verkauf: Roland, Andreas, Enrico
+- Projektleiter: Jaroslaw, Andreas
+- Lagerist: Mario
+
+**Features:**
+- Empfaenger-Gruppen konfigurierbar
+- Auto-Benachrichtigung: "Weru TZ geaendert ab [Datum]"
+- Dokument wird automatisch archiviert
+- Historie: Wann wurde was geaendert?
 
 ### Datenquellen
 
@@ -2407,4 +2599,306 @@ Einkaufsprozess-Brainstorming 2025-12-14 - Schmerzpunkte: Preisanfragen, Wuerth,
 
 ### Status
 **Idee** - Mittel | **Phase:** Kernprozesse | **Prioritaet:** Mittel
+
+---
+
+## #72 Referenz-Automatik
+
+> **Phase:** Kommunikation | **Komplexitaet:** Einfach-Mittel | **Status:** NEU
+
+### Kurzbeschreibung
+Automatisierte Erinnerung nach abgeschlossener Montage: "Schoenes Projekt - Fotos fuer Website machen?" Workflow fuer Referenz-Pflege auf js-fenster.de.
+
+### Problem (IST-Zustand)
+
+| Problem | Auswirkung |
+|---------|------------|
+| **Referenzen werden vergessen** | Website veraltet, keine aktuellen Projekte |
+| **Kein Trigger** | Niemand denkt dran nach Montage |
+| **Schoene Projekte nicht dokumentiert** | Marketing-Potential verschenkt |
+| **Keine Kunden-Erlaubnis eingeholt** | Rechtlich unsicher |
+
+### Loesung (Features)
+
+**1. Auto-Trigger nach Montage:**
+- Montage abgeschlossen in System → Check: "Referenz-wuerdig?"
+- Kriterien: Grosses Projekt, interessantes Produkt, gute Ausfuehrung
+- Erinnerung an Projektleiter: "Fotos machen?"
+
+**2. Foto-Workflow:**
+- Checkliste: Welche Fotos (Aussen, Innen, Detail)?
+- Hochladen direkt in Referenz-Ordner
+- Auto-Zuordnung zu Projekt
+
+**3. Kunden-Einverstaendnis:**
+- Template E-Mail: "Duerfen wir Ihr Projekt als Referenz zeigen?"
+- Tracking: Erlaubnis erhalten? Ja/Nein
+- Ohne Erlaubnis → Keine Veroeffentlichung
+
+**4. Website-Workflow:**
+- Gesammelte Referenzen → Export fuer Website
+- Kategorien: Fenster, Haustueren, Sonnenschutz, etc.
+- Beschreibungstext-Vorlage
+
+### Technische Umsetzung
+
+```python
+# Nach Montage-Abschluss
+def check_referenz_potenzial(projekt):
+    kriterien = {
+        "wert_ueber": 5000,        # Groesseres Projekt
+        "produkte": ["Haustu  er", "Fensterfront", "Terrassendach"],
+        "kundenfeedback": "positiv"
+    }
+    if erfuellt_kriterien(projekt, kriterien):
+        erstelle_referenz_aufgabe(projekt)
+
+# Workflow-Status
+class ReferenzWorkflow:
+    projekt_id: int
+    status: str  # "vorgeschlagen", "fotos_noetig", "erlaubnis_angefragt", "veroeffentlicht", "abgelehnt"
+    fotos: List[str]
+    erlaubnis_datum: Optional[date]
+```
+
+### Abhaengigkeiten
+
+- **Nutzt:** #41 Montage-Status Live (Trigger), #42 Foto-Zuordnung
+- **Liefert an:** Website, Marketing
+
+### Offene Fragen
+
+- [ ] Wie wird Website aktuell gepflegt? CMS?
+- [ ] Soll Kunde um Fotos gebeten werden oder nur eigene?
+- [ ] Wer entscheidet "referenz-wuerdig"?
+- [ ] Google-Bewertung parallel anfragen? (→ #73)
+
+### Quelle
+Brainstorming 2025-12-16 - Problem: Referenzen veraltet, schoene Projekte nicht dokumentiert
+
+### Status
+**Idee** - Einfach-Mittel | **Phase:** Kommunikation | **Prioritaet:** Mittel
+
+---
+
+## #73 Google-Bewertung Vorschlag
+
+> **Phase:** Kommunikation | **Komplexitaet:** Mittel | **Status:** NEU
+
+### Kurzbeschreibung
+Automatische Erkennung von positiver Kundenkommunikation → Vorschlag: "Kunden um Google-Bewertung bitten?"
+
+### Problem (IST-Zustand)
+
+| Problem | Auswirkung |
+|---------|------------|
+| **Gute Bewertungen nicht aktiv eingeholt** | Weniger Sichtbarkeit, potentielle Kunden lesen nur bestehende Reviews |
+| **Positive Rueckmeldungen nicht genutzt** | Kunde freut sich, aber kein Review daraus |
+| **Kein systematischer Prozess** | Abhaengig von Erinnerung einzelner Mitarbeiter |
+| **Timing verpasst** | Nach 2 Wochen denkt Kunde nicht mehr dran |
+
+### Loesung (Features)
+
+**1. Trigger-Erkennung (manuell oder automatisch):**
+- Manuell: "Kunde hat positives Feedback gegeben" → Button klicken
+- Automatisch (KI): E-Mail-Analyse auf positive Keywords ("super", "danke", "empfehle weiter")
+- Nach erfolgreicher Montage ohne Reklamation
+
+**2. Bewertungs-Anfrage Template:**
+- Freundliche E-Mail mit direktem Link zu Google-Bewertung
+- Personalisiert: Projektbezug
+- Timing: 2-3 Tage nach Montage-Abschluss
+
+**3. Tracking:**
+- Wem wurde Anfrage geschickt?
+- Hat Kunde bewertet? (Manuelles Update oder Google-API Check)
+- Erfolgsquote ueber Zeit
+
+**4. Integration mit #49 Google-Reviews Alerts:**
+- Neue Bewertung → Benachrichtigung
+- Response-Vorschlag fuer Antwort
+
+### E-Mail-Template (Beispiel)
+
+```
+Betreff: Wie war Ihre Erfahrung mit JS Fenster & Tueren?
+
+Sehr geehrte/r [Kunde],
+
+wir freuen uns, dass wir [Projekt: z.B. "Ihre neuen Fenster"] erfolgreich
+abschliessen konnten.
+
+Wenn Sie mit unserer Arbeit zufrieden waren, wuerden wir uns sehr ueber
+eine kurze Bewertung auf Google freuen:
+
+[LINK zu Google-Bewertung]
+
+Das hilft anderen Kunden, uns zu finden - vielen Dank!
+
+Mit freundlichen Gruessen,
+Ihr Team von JS Fenster & Tueren
+```
+
+### Technische Umsetzung
+
+```python
+# Positive Kommunikation erkennen
+POSITIVE_KEYWORDS = ["danke", "super", "toll", "zufrieden", "empfehle",
+                      "klasse", "perfekt", "grossartig", "top"]
+
+def check_positive_feedback(email_text):
+    score = sum(1 for kw in POSITIVE_KEYWORDS if kw in email_text.lower())
+    return score >= 2  # Mind. 2 positive Keywords
+
+# Bewertungs-Anfrage
+class BewertungsAnfrage:
+    kunde_id: int
+    projekt_id: int
+    gesendet_am: date
+    hat_bewertet: bool = False
+    google_review_link: str
+```
+
+### Abhaengigkeiten
+
+- **Nutzt:** #12 E-Mail-Verarbeitung (Trigger), #41 Montage-Status (Abschluss)
+- **Ergaenzt:** #49 Google-Reviews Alerts
+- **Liefert an:** Marketing, Reputation
+
+### Offene Fragen
+
+- [ ] Wie lautet der direkte Google-Bewertungs-Link?
+- [ ] Soll E-Mail automatisch oder nach Bestaetigung gesendet werden?
+- [ ] Nur nach Montage oder auch nach Beratung/Angebot?
+- [ ] Koennen negative Erfahrungen erkannt werden? (dann NICHT fragen)
+
+### Quelle
+Brainstorming 2025-12-16 - Problem: Positive Rueckmeldungen nicht fuer Reviews genutzt
+
+### Status
+**Idee** - Mittel | **Phase:** Kommunikation | **Prioritaet:** Mittel
+
+---
+
+## #74 Prueffristen-Automatik
+
+> **Phase:** Kernprozesse | **Komplexitaet:** Mittel | **Status:** NEU
+
+### Kurzbeschreibung
+Automatische Erinnerungen fuer pruefpflichtige Geraete: Leitern, Elektrowerkzeug (DGUV V3), Fahrzeuge (TUeV, UVV). X Wochen vorher an zentrale Person (Mario). Optional: Wanderinventar-Checkout-Log.
+
+### Problem (IST-Zustand)
+
+| Problem | Auswirkung |
+|---------|------------|
+| **Keine Prueffristen im System** | Pruefungen werden vergessen |
+| **Kein Wartungs-Tracking** | Keine Uebersicht wann was gewartet |
+| **Keine Automation** | Jaehrliche Untersuchungen manuell |
+| **W4A unzureichend** | Inventar-Modul hat keine Frist-Verwaltung |
+| **Wanderinventar ohne Historie** | Bei Verlust/Defekt unklar wer es zuletzt hatte |
+
+### Pruefpflichtige Geraete
+
+| Kategorie | Pruefung | Intervall | Rechtsgrundlage |
+|-----------|----------|-----------|-----------------|
+| **Leitern/Tritte** | Sichtpruefung + Doku | Jaehrlich | DGUV Info 208-016 |
+| **Elektrowerkzeug** | DGUV V3 | Jaehrlich | DGUV Vorschrift 3 |
+| **Fahrzeuge** | TUeV/HU | 2 Jahre (Nutzfz: 1 Jahr) | StVZO |
+| **Fahrzeuge** | UVV-Pruefung | Jaehrlich | DGUV Vorschrift 70 |
+| **Anhaenger** | TUeV/HU | 2 Jahre | StVZO |
+| **Hebezeuge** | Sachkundigen-Pruefung | Jaehrlich | BetrSichV |
+
+### Loesung (Features)
+
+**1. Prueffristen-Erfassung:**
+- Pro Inventar: Naechste Pruefung (Datum)
+- Pruefart (DGUV V3, TUeV, UVV, etc.)
+- Intervall (jaehrlich, 2-jaehrlich, etc.)
+
+**2. Auto-Erinnerungen:**
+- X Wochen vor Faelligkeit: E-Mail an Mario
+- Eskalation: 2 Wochen, 1 Woche, ueberfaellig
+- Dashboard: Alle faelligen Pruefungen auf einen Blick
+
+**3. Pruefprotokoll:**
+- Pruefung durchgefuehrt → Datum eintragen
+- Ergebnis: Bestanden / Maengel / Ausgemustert
+- Dokument hochladen (Pruefprotokoll)
+- Auto-Berechnung naechste Pruefung
+
+**4. Wanderinventar-Checkout (optional):**
+- Ausleihe: Wer, Wann, Welches Geraet
+- Rueckgabe: Datum, Zustand
+- Historie: Wer hatte es wann?
+- Aufwand-Abwaegung: Nur wenn einfach genug (QR-Scan?)
+
+### Technische Umsetzung
+
+```python
+# Prueffrist-Model
+class Prueffrist:
+    inventar_id: int
+    pruefart: str        # "DGUV_V3", "TUEV", "UVV", "LEITER"
+    letzte_pruefung: date
+    intervall_monate: int
+    naechste_pruefung: date  # Auto-berechnet
+    erinnerung_wochen: int = 4
+
+# Erinnerungs-Job (taeglich)
+def check_faellige_pruefungen():
+    heute = date.today()
+    faellig = Prueffrist.objects.filter(
+        naechste_pruefung__lte=heute + timedelta(weeks=4)
+    )
+
+    for p in faellig:
+        tage_bis = (p.naechste_pruefung - heute).days
+        if tage_bis <= 0:
+            sende_email(mario, f"UEBERFAELLIG: {p.inventar}", prio="hoch")
+        elif tage_bis <= 7:
+            sende_email(mario, f"DRINGEND: {p.inventar} in {tage_bis} Tagen")
+        elif tage_bis <= 14:
+            sende_email(mario, f"Bald faellig: {p.inventar}")
+        elif tage_bis <= 28:
+            sende_email(mario, f"Vorwarnung: {p.inventar}")
+
+# Wanderinventar (optional)
+class InventarCheckout:
+    inventar_id: int
+    mitarbeiter: str
+    checkout_datum: datetime
+    checkin_datum: Optional[datetime]
+    zustand_bei_rueckgabe: Optional[str]
+```
+
+### Wanderinventar - Aufwand-Analyse
+
+| Option | Aufwand User | Aufwand Entwicklung | Nutzen |
+|--------|--------------|---------------------|--------|
+| **A: Immer "Lager"** | Keiner | Keiner | Keine Historie |
+| **B: Freitext aendern** | Gering (W4A oeffnen) | Keiner | Aktuell, keine Historie |
+| **C: QR-Scan App** | Minimal (Handy) | Mittel | Volle Historie |
+| **D: Web-Formular** | Gering (Browser) | Gering | Volle Historie |
+
+**Empfehlung:** Option D (Web-Formular) - einfach, Historie vorhanden, geringer Aufwand
+
+### Abhaengigkeiten
+
+- **Nutzt:** #13 Inventar-Verwaltung (Basis-Daten), W4A Inventar
+- **Ergaenzt:** Inventarprozess
+- **Optional:** #58 Web-Plattform (fuer Dashboard/Checkout)
+
+### Offene Fragen
+
+- [ ] Prueffristen: In W4A eintragbar oder eigene DB noetig?
+- [ ] Wer fuehrt Pruefungen durch? (Intern/Extern?)
+- [ ] Erinnerungs-Vorlauf: 4 Wochen OK oder mehr?
+- [ ] Wanderinventar: QR-Code auf Geraeten bereits vorhanden?
+- [ ] Soll Checkout per App oder Web-Formular?
+
+### Quelle
+Brainstorming 2025-12-16 - Inventar-Prozess, Luecken in W4A
+
+### Status
+**Idee** - Mittel | **Phase:** Kernprozesse | **Prioritaet:** Mittel (Rechtlich relevant!)
 

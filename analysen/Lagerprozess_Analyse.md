@@ -143,8 +143,9 @@ MONTAGE (naechster Prozess)
 | 6 | **Kein Gestell-Tracking** | "Welches Element auf welchem Gestell?" | #38 erweitern |
 | 7 | **Medienbruch LS → Outlook** | Manueller Aufwand, Fehlerquelle | #36 Beschaffungs-Dashboard |
 | 8 | **Pruefung nur gegen LS** | Abweichungen zur Bestellung unentdeckt | #56 AB-Abgleich |
-| 9 | **Lieferankuendigungen fehlen/spontan** | Ware kommt unangekuendigt, Abladen ohne Bescheid | - |
+| 9 | **Lieferankuendigungen fehlen/spontan** | Arbeit pausieren, ins Lager fahren, oder Ware nicht annehmbar | #36 Beschaffungs-Dashboard |
 | 10 | **Fahrer-Telefonnummern falsch** | Keine Rueckfragen moeglich | - |
+| 11 | **Teilmengen-Erfassung bei Roland** | Mario kann nicht uebernehmen (Teilzeit, andere Projekte) | - |
 
 ---
 
@@ -207,3 +208,35 @@ MONTAGE (naechster Prozess)
 
 ### Relevante Idee
 → **#39 Montage-Mappe** erweitern um Material-Rueckmeldung
+
+---
+
+## Lieferankuendigungen (Detail)
+
+| Aspekt | IST-Zustand |
+|--------|-------------|
+| **Kanal** | Per E-Mail |
+| **Haeufigkeit** | 2-6x pro Woche |
+| **Problem** | Oft spontan oder fehlen komplett |
+
+**Auswirkungen wenn Lieferung unangekuendigt:**
+| Situation | Folge |
+|-----------|-------|
+| Mario im Buero (nicht im Lager) | Arbeit pausieren, ins Lager fahren |
+| Kunde in Ausstellung + Vater auf Termin | Ware kann nicht angenommen werden |
+| Fahrer-Telefon falsch | Keine Rueckfragen moeglich |
+
+---
+
+## Teilmengen-Problematik (Detail)
+
+**Warum Roland zustaendig bleibt (statt Mario):**
+
+| Aspekt | Details |
+|--------|---------|
+| **Mario** | Teilzeitkraft |
+| **Andere Projekte** | Hat laufende Projekte die stocken wuerden |
+| **Einarbeitung** | Noch nicht lange dabei, kennt Prozesse noch nicht |
+| **Folge** | Mehr Tagesaufgaben = weniger Projektfortschritt |
+
+→ Teilmengen-Problem bleibt vorerst bestehen, Loesung ueber #33 Bestellwesen noetig
