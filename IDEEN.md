@@ -1,6 +1,6 @@
 # Ideen fuer KI-Automatisierungen
 
-**Erstellt:** 2025-12-09 | **Aktualisiert:** 2025-12-16 | **Stand:** 67 offen, 1 umgesetzt, 5 integriert
+**Erstellt:** 2025-12-09 | **Aktualisiert:** 2025-12-21 | **Stand:** 82 offen, 1 umgesetzt, 5 integriert
 
 ---
 
@@ -186,8 +186,8 @@ Anrufer-Erkennung, Kundendaten-Popup, Notizen.
 Auto-Klassifizierung, OCR, Metadaten, Volltextsuche.
 → [Details](IDEEN_DETAILS.md#27-dokument-intelligenz)
 
-### #30 After Sales Service
-Proaktive Kundenbetreuung: Wartungs-Reminder, Cross-Selling.
+### #30 After Sales Service ⭐ LUECKE
+Proaktive Kundenbetreuung: Aktuell NICHT vorhanden! Siehe #83, #84, #85 fuer konkrete Module.
 → [Details](IDEEN_DETAILS.md#30-after-sales-service)
 
 ### #47 Kunden-Historie + Wiederkauf
@@ -362,6 +362,66 @@ Auto-Erinnerungen fuer Geraete (DGUV, TUeV, UVV) + Mitarbeiter-Zertifikate (EFK,
 ### #75 Fuehrerschein-Kontrolle ⭐ NEU
 Gesetzliche Pflicht! Arbeitgeber muss Fuehrerscheine pruefen. Auto-Erinnerung, Nachweis-Dokumentation.
 → [Details](IDEEN_DETAILS.md#75-fuehrerschein-kontrolle)
+
+### #76 Inventar-Checkout mit Bilderkennung ⭐ NEU
+Wanderinventar ausleihen: Mario macht Foto → KI erkennt Maschine → Auto-Buchung auf Mitarbeiter. Keine manuelle Eingabe.
+→ [Details](IDEEN_DETAILS.md#76-inventar-checkout-bilderkennung)
+
+### #77 Schadens-ChatBot ⭐ NEU
+Fahrer schickt Bilder + Sprachnachricht an Bot → Schaden wird automatisch angelegt + an Versicherung gemeldet. Komplett autonom.
+→ [Details](IDEEN_DETAILS.md#77-schadens-chatbot)
+
+### #78 Jahresuebertrag-Automatik ⭐ NEU
+Resturlaub + Ueberstunden automatisch ins neue Jahr uebertragen. Aktuell: Manuell fuer jeden Mitarbeiter einzeln.
+→ [Details](IDEEN_DETAILS.md#78-jahresuebertrag-automatik)
+
+### #79 Zeitnachweis-Generator ⭐ NEU
+A4-PDF direkt aus W4A-Zeitdaten. Aktuell: Excel-Export + manuelle Bearbeitung + Druck = umstaendlich.
+→ [Details](IDEEN_DETAILS.md#79-zeitnachweis-generator)
+
+### #80 Eigene Zeiterfassung ⭐ NEU
+Alternative zu W4A/Stempeluhr. Probleme: RFID-Missbrauch, kein Auto-Popup, Sollzeit nicht aenderbar. Moderne Loesung angestrebt.
+→ [Details](IDEEN_DETAILS.md#80-eigene-zeiterfassung)
+
+### #81 PDF-Merger fuer DATEV ⭐ NEU
+W4A uebertraegt nur 1 Datei an DATEV. Tool fasst Rechnung + Anhaenge (Tankbelege, Teilnehmerlisten) automatisch zusammen.
+→ [Details](IDEEN_DETAILS.md#81-pdf-merger-datev)
+
+### #82 Buchungskonto-Assistent ⭐ NEU
+Roland bucht oft falsch (z.B. Maschinen auf 3400 statt 4985). Tool schlaegt Konto vor basierend auf Lieferant/Artikelart.
+→ [Details](IDEEN_DETAILS.md#82-buchungskonto-assistent)
+
+### #83 Wartungsvertrags-Modul ⭐⭐ NEU
+Verwaltung von Wartungsvertraegen: Kunde, Intervall, Preis, Auto-Terminplanung fuer Stefan. Planbare Auslastung + regelmaessige Einnahmen.
+→ [Details](IDEEN_DETAILS.md#83-wartungsvertrags-modul)
+
+### #84 Kunden-Reaktivierung ⭐ NEU
+Automatisch Kunden kontaktieren deren Projekt > X Jahre alt. "Ihre Fenster sind 10 Jahre alt..." Potenzial: 2.700 Projekte!
+→ [Details](IDEEN_DETAILS.md#84-kunden-reaktivierung)
+
+### #85 Garantie-Tracker ⭐ NEU
+Herstellerfristen zentral hinterlegen, pro Projekt Garantie-Ende sichtbar. Bei Reklamation: Sofort-Anzeige ob Garantie gilt.
+→ [Details](IDEEN_DETAILS.md#85-garantie-tracker)
+
+### #86 Projekt-Controlling Alerts ⭐ NEU
+Auto-Warnung wenn Projekt-Budget ueberschritten oder Kosten aus dem Ruder laufen. Aktuell: Keine Benachrichtigung, nur manuelles Pruefen.
+→ [Details](IDEEN_DETAILS.md#86-projekt-controlling-alerts)
+
+### #87 Vertrags-Dashboard ⭐ NEU
+Zentrale Uebersicht aller Vertraege (Miete, Leasing, Software) mit Kuendigungsfristen-Erinnerung. Frueher wurden Fristen verpasst.
+→ [Details](IDEEN_DETAILS.md#87-vertrags-dashboard)
+
+### #88 Dokumenten-Volltextsuche ⭐ NEU
+Uebergreifende Suche ueber alle Projektdokumente. W4A kann nur in Listen suchen, nicht in Dateiinhalten.
+→ [Details](IDEEN_DETAILS.md#88-dokumenten-volltextsuche)
+
+### #89 Schulungs-Planer ⭐ NEU
+Ueberblick ueber Schulungsangebote, Termine planen, Erinnerungen. Aktuell: Andreas organisiert muehsam, Fuelle schwer zu ueberblicken.
+→ [Details](IDEEN_DETAILS.md#89-schulungs-planer)
+
+### #90 Werkstatt-Auftragsplanung ⭐⭐ NEU
+Liste offener Werkstatt-Arbeiten (Reparaturen, Blenden, Zuschnitte). Aktuell: Nicht koordiniert, wird vergessen, muss improvisiert werden!
+→ [Details](IDEEN_DETAILS.md#90-werkstatt-auftragsplanung)
 
 ---
 

@@ -106,15 +106,19 @@ NIE "mach es halt manuell" als Loesung!
 | `Buergschaftsprozess_Analyse.md` | R+V Portal → Urkunde → W4A-Tracking | ✅ IST dokumentiert |
 | `BAFA_Foerderantrag_Analyse.md` | Weru Portal → BAFA → NachweisService ⭐ KRITISCH | ✅ IST dokumentiert |
 | `Fuhrparkprozess_Analyse.md` | Fahrzeuge → Wartung → TUeV/UVV → Tanken | ✅ IST dokumentiert |
+| `Personalprozess_Analyse.md` | Urlaub → Zeiterfassung → Krankmeldung | ✅ IST dokumentiert |
+| `Buchhaltungsprozess_Analyse.md` | Eingangsrechnung → Pruefung → Zahlung → DATEV | ✅ IST dokumentiert |
+| `After-Sales_Analyse.md` | LUECKE! Keine Wartungsvertraege, keine Reaktivierung | ✅ Luecken dokumentiert |
+| `Unterstuetzungsprozesse_Analyse.md` | 12 Prozesse: Marketing, Controlling, QM, IT, etc. | ✅ Sammel-Analyse |
 
 ### Offene Prozesse (fuer Brainstorming)
 
 | Prozess | Notizen/Fragen | Erkannt am |
 |---------|----------------|------------|
-| Personal/Urlaub | Urlaubsantraege, Kapazitaet, Krankmeldung | 2025-12-14 |
+| ~~Personal/Urlaub~~ | ~~Dokumentiert! W4A-Modul vorhanden, Schmerzpunkte erkannt → #78, #79, #80~~ | ~~2025-12-20~~ |
 | ~~Fuhrpark~~ | ~~Dokumentiert! #74 erweitert (Verbandskästen), #75 neu (Fuehrerschein)~~ | ~~2025-12-16~~ |
-| Buchhaltung | Eingangsrechnungen, DATEV, Konten | 2025-12-14 |
-| After-Sales | Wartungsvertraege, Nachbetreuung | 2025-12-14 |
+| ~~Buchhaltung~~ | ~~Dokumentiert! DATEV-Anbindung, Schmerzpunkte → #81, #82~~ | ~~2025-12-20~~ |
+| ~~After-Sales~~ | ~~Dokumentiert! Komplette Luecke → #83, #84, #85 neu~~ | ~~2025-12-20~~ |
 | ~~BAFA-Foerderantrag~~ | ~~Dokumentiert als eigener Prozess, #3 erweitert (KRITISCH!)~~ | ~~2025-12-16~~ |
 | ~~Inventar-Prozess~~ | ~~W4A Inventar wird genutzt → dokumentiert, #74 erstellt~~ | ~~2025-12-16~~ |
 | ~~Buergschaften~~ | ~~R+V Portal, W4A-Tracking → dokumentiert~~ | ~~2025-12-16~~ |
@@ -306,3 +310,26 @@ Wenn User groessere Ablauf-Details erklaert:
 | 2025-12-16 | Philosophie | Autonom > Automatisch > Halbautomatisch > Manuell |
 | 2025-12-16 | #74 erweitert | + Mitarbeiter-Zertifikate (EFK, Arbeitsbuehne, Staplerschein, Erste Hilfe) |
 | 2025-12-16 | Automatisierungs-Stufen | Komplette Uebersicht aller 75 Ideen mit empfohlener Stufe |
+| 2025-12-20 | Personalprozess | Neue Analyse: W4A Urlaubsmodul, Zeiterfassung, Krankmeldung |
+| 2025-12-20 | Idee #76 | Inventar-Checkout mit Bilderkennung (KI erkennt Maschine) |
+| 2025-12-20 | Idee #77 | Schadens-ChatBot (Bilder + Sprache → auto. Meldung) |
+| 2025-12-20 | Idee #78 | Jahresuebertrag-Automatik (Resturlaub + Ueberstunden) |
+| 2025-12-20 | Idee #79 | Zeitnachweis-Generator (A4-PDF statt Excel-Umweg) |
+| 2025-12-20 | Idee #80 | Eigene Zeiterfassung (Alternative zu W4A/Stempeluhr) |
+| 2025-12-20 | Aufmassprozess | Zusammenlegung moeglich wenn Auftrag wahrscheinlich |
+| 2025-12-20 | Fuhrpark | Schadensmeldung: Autonome Variante bevorzugt (#77) |
+| 2025-12-20 | Buchhaltungsprozess | Neue Analyse: Eingangsrechnungen, DATEV, Zahlungskonten |
+| 2025-12-20 | Idee #81 | PDF-Merger fuer DATEV (1-Datei-Limitierung umgehen) |
+| 2025-12-20 | Idee #82 | Buchungskonto-Assistent (Vorschlag basierend auf Lieferant/Artikelart) |
+| 2025-12-20 | After-Sales Prozess | Luecken-Analyse: Keine Wartungsvertraege, keine Reaktivierung |
+| 2025-12-20 | Idee #83 | Wartungsvertrags-Modul (planbare Auslastung Stefan) |
+| 2025-12-20 | Idee #84 | Kunden-Reaktivierung (2.700 Projekte reaktivieren) |
+| 2025-12-20 | Idee #85 | Garantie-Tracker (Herstellerfristen zentral) |
+| 2025-12-20 | Alle Prozesse dokumentiert | 15 Prozess-Analysen abgeschlossen! |
+| 2025-12-21 | Unterstuetzungsprozesse | Sammel-Analyse: 12 weitere Prozesse (Marketing, Controlling, QM, IT, etc.) |
+| 2025-12-21 | Idee #86 | Projekt-Controlling Alerts |
+| 2025-12-21 | Idee #87 | Vertrags-Dashboard |
+| 2025-12-21 | Idee #88 | Dokumenten-Volltextsuche |
+| 2025-12-21 | Idee #89 | Schulungs-Planer |
+| 2025-12-21 | Idee #90 | Werkstatt-Auftragsplanung (Schmerzpunkt: wird vergessen!) |
+| 2025-12-21 | Gesamt | 17 Prozess-Analysen, 82 Tool-Ideen |

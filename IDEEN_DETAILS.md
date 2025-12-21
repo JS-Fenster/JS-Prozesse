@@ -1,6 +1,6 @@
 # Ideen für KI-Automatisierungen - Technische Details
 
-**Erstellt:** 2025-12-09 | **Aktualisiert:** 2025-12-16 | **Status:** Brainstorming-Phase | **Anzahl:** 67 Ideen (4 merged)
+**Erstellt:** 2025-12-09 | **Aktualisiert:** 2025-12-21 | **Status:** Brainstorming-Phase | **Anzahl:** 82 Ideen (4 merged)
 
 ---
 
@@ -35,7 +35,7 @@
 | 13 | Inventar-Verwaltung | Vorhanden | Erweitern |
 | 14 | Command Center ⭐ | Nicht vorhanden | Eigenbau (Phase 4) |
 | 15 | Zeiterfassung | Vorhanden | Pruefen |
-| 16 | Urlaubsverwaltung | Vorhanden | Pruefen |
+| 16 | Urlaubsverwaltung | Vorhanden (Schmerzpunkte!) | → #78, #79, #80 |
 | 17 | Projekt-Deckungsbeitrag | Vorhanden | Pruefen |
 | 18 | Kundenportal | Nicht vorhanden | Eigenbau |
 | 19 | Lieferanten-Bewertung | Nicht vorhanden | Eigenbau |
@@ -95,6 +95,21 @@
 | 73 | Google-Bewertung Vorschlag | Nicht vorhanden | Eigenbau |
 | 74 | Prueffristen-Automatik | Nicht vorhanden | Eigenbau ⭐ |
 | 75 | Fuehrerschein-Kontrolle | Nicht vorhanden | Eigenbau ⭐ (Rechtspflicht!) |
+| 76 | Inventar-Checkout Bilderkennung | Nicht vorhanden | Eigenbau (KI-Vision) |
+| 77 | Schadens-ChatBot | Nicht vorhanden | Eigenbau ⭐ (Autonom) |
+| 78 | Jahresuebertrag-Automatik | W4A: Manuell | Eigenbau/Script |
+| 79 | Zeitnachweis-Generator | W4A: Export umstaendlich | Eigenbau |
+| 80 | Eigene Zeiterfassung | W4A: Probleme | Eigenbau ⭐⭐ |
+| 81 | PDF-Merger fuer DATEV | W4A: Limitiert (1 Datei) | Eigenbau |
+| 82 | Buchungskonto-Assistent | W4A: Manuell | Eigenbau |
+| 83 | Wartungsvertrags-Modul | Nicht vorhanden | Eigenbau ⭐⭐ |
+| 84 | Kunden-Reaktivierung | Nicht vorhanden | Eigenbau ⭐ |
+| 85 | Garantie-Tracker | Nicht vorhanden | Eigenbau |
+| 86 | Projekt-Controlling Alerts | W4A: Manuell | Eigenbau |
+| 87 | Vertrags-Dashboard | Nicht vorhanden | Eigenbau |
+| 88 | Dokumenten-Volltextsuche | W4A: Limitiert | Eigenbau |
+| 89 | Schulungs-Planer | Nicht vorhanden | Eigenbau |
+| 90 | Werkstatt-Auftragsplanung | Nicht vorhanden | Eigenbau ⭐⭐ |
 
 **Legende:** Eigenbau = Selbst entwickeln | Erweitern = W4A-Funktion ausbauen | Pruefen = W4A-Status klaeren | ⭐ = Prioritaet | ⭐⭐ = Infrastruktur (ZUERST) | 🔴 = KI-Komplex
 
