@@ -1,6 +1,6 @@
 # Architektur-Strategie
 
-**Stand:** 2025-12-13 | **Entscheidung:** W4A behalten + eigene Tools
+**Stand:** 2025-12-21 | **Entscheidung:** W4A behalten + eigene Tools + LLM-Automation
 
 ---
 
@@ -134,6 +134,148 @@
 
 ---
 
+## Source of Truth Prinzip (WICHTIG!)
+
+> **Kernregel:** Jedes Datum hat genau EIN System als "Quelle der Wahrheit". Das andere System liest nur.
+
+### Aufteilung
+
+| System | Source of Truth fuer | Lesen erlaubt |
+|--------|----------------------|---------------|
+| **W4A** | Stammdaten (Kunden, Lieferanten, Artikel) | ✅ Eigenes System |
+| **W4A** | Angebote, Auftraege, Rechnungen | ✅ Eigenes System |
+| **W4A** | Buchhaltung, DATEV | ✅ Eigenes System |
+| **W4A** | Historische Daten | ✅ Eigenes System |
+| **Eigenes System** | Operative Planung (Termine, Montage) | ❌ W4A nicht |
+| **Eigenes System** | Tickets, Aufgaben | ❌ W4A nicht |
+| **Eigenes System** | Echtzeit-Status | ❌ W4A nicht |
+| **Eigenes System** | Workflow-Daten | ❌ W4A nicht |
+| **Eigenes System** | LLM-generierte Inhalte | ❌ W4A nicht |
+
+### Warum?
+
+Problem bei Hybrid-Systemen: Wenn W4A-Daten geloescht/geaendert werden, koennte eigenes System inkonsistent werden → Auftraege gehen unter!
+
+**Loesung:** Klare Trennung + Konsistenz-Checks (siehe unten).
+
+---
+
+## LLM-Architektur (Agentic AI)
+
+> **Ziel:** Vollautomation wo moeglich, aber mit Sicherheitsnetz.
+
+### Ablauf
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    EINGANG                              │
+│  E-Mail │ Datei │ Foto │ Sprache │ Formular            │
+└────────────────────────┬────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│                 LLM-VERARBEITUNG                        │
+│                                                         │
+│  1. Analysieren (was ist das?)                          │
+│  2. Extrahieren (Daten rausziehen)                      │
+│  3. Klassifizieren (wohin gehoert es?)                  │
+│  4. Vorschlag machen (was tun?)                         │
+│                                                         │
+│  OUTPUT: Strukturierte Daten + Confidence-Score         │
+└────────────────────────┬────────────────────────────────┘
+                         │
+              ┌──────────┴──────────┐
+              │                     │
+         Confidence              Confidence
+         > 95%                   < 95%
+              │                     │
+              ▼                     ▼
+┌─────────────────────┐  ┌─────────────────────┐
+│  AUTO-AKTION        │  │  MENSCH-REVIEW      │
+│  (mit Audit-Log)    │  │  (Vorschlag zeigen) │
+└─────────────────────┘  └─────────────────────┘
+```
+
+### Confidence-Score Regeln
+
+| Confidence | Aktion |
+|------------|--------|
+| > 95% | Auto-Ausfuehrung, nur Logging |
+| 80-95% | Auto-Ausfuehrung, aber in "Review-Queue" |
+| < 80% | Mensch muss bestaetigen |
+| < 50% | Warnung: "LLM unsicher, bitte pruefen" |
+
+### Stufenweise Einfuehrung
+
+| Stufe | Beschreibung | Wann |
+|-------|--------------|------|
+| **1** | LLM schlaegt vor, Mensch bestaetigt | Start |
+| **2** | LLM handelt autonom bei "sicheren" Aufgaben | Nach 3-6 Monaten |
+| **3** | Volle Autonomie mit Ausnahme-Eskalation | Spaeter |
+
+---
+
+## Sicherheitsmechanismen
+
+### 1. Audit-Log (PFLICHT!)
+
+Jede LLM-Aktion wird protokolliert:
+
+```
+{
+  "timestamp": "2025-12-21T10:30:00Z",
+  "action": "ticket_created",
+  "source": "email",
+  "source_id": "msg-123456",
+  "llm_model": "claude-sonnet-4",
+  "confidence": 0.92,
+  "auto_executed": true,
+  "data": { "kunde": "Müller", "betreff": "Fenster klemmt" },
+  "w4a_projekt": "P241234"
+}
+```
+
+### 2. Konsistenz-Check (Taeglich)
+
+Automatischer Abgleich jeden Morgen:
+
+```
+07:00 Uhr - KONSISTENZ-CHECK
+┌─────────────────────────────────────────┐
+│ ✅ 45 Auftraege synchron                │
+│ ⚠️  2 nur in Supabase (W4A fehlt)      │
+│ ⚠️  1 nur in W4A (nicht importiert)    │
+│ ❌ 0 mit Daten-Konflikt                 │
+└─────────────────────────────────────────┘
+→ Bei Warnungen: E-Mail an Andreas
+```
+
+### 3. W4A nur LESEN
+
+| Operation | Erlaubt? |
+|-----------|----------|
+| Kunde suchen | ✅ |
+| Projekt-Status lesen | ✅ |
+| Bestellung anlegen | ❌ Nur durch Menschen |
+| Rechnung erstellen | ❌ Nur durch Menschen |
+| Daten loeschen | ❌ NIEMALS |
+
+**Grund:** Wenn LLM in W4A schreibt und Fehler macht → schwer rueckgaengig, DATEV-Probleme.
+
+---
+
+## LLM-geeignete Aufgaben (Priorisiert)
+
+| Prio | Aufgabe | Idee | Risiko |
+|------|---------|------|--------|
+| 1 | E-Mail klassifizieren + Ticket erstellen | #12, #24 | Niedrig |
+| 2 | Dokumente analysieren (AB, Rechnung) | #27, #56 | Niedrig |
+| 3 | Buchungskonto vorschlagen | #82 | Niedrig |
+| 4 | Schadensmeldung aus Foto/Sprache | #77 | Mittel |
+| 5 | Bauplan analysieren | #5 | Hoch |
+
+---
+
 ## Warum nicht neues ERP?
 
 | Risiko | Auswirkung |
@@ -186,6 +328,9 @@ Statt 64 separate Tools → 6-8 groessere Module mit Tabs/Views:
 
 | Datum | Aenderung |
 |-------|-----------|
+| 2025-12-21 | LLM-Architektur: Agentic AI, Confidence-Score, Audit-Log |
+| 2025-12-21 | Source of Truth Prinzip: W4A vs. eigenes System |
+| 2025-12-21 | Sicherheitsmechanismen: Konsistenz-Check, W4A nur lesen |
 | 2025-12-16 | Grundsatzentscheidungen: Outlook ersetzen, Responsive Web, Cloud |
 | 2025-12-13 | Modul-Struktur als Zukunfts-Ueberlegung dokumentiert |
 | 2025-12-13 | Dokument erstellt, ERP-Strategie dokumentiert |
