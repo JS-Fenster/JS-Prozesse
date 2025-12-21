@@ -276,7 +276,115 @@ Automatischer Abgleich jeden Morgen:
 
 ---
 
-## Warum nicht neues ERP?
+## W4A-Kosten & Strategie-Optionen
+
+### Aktuelle Kosten
+
+| Posten | Kosten/Jahr |
+|--------|-------------|
+| **W4A Lizenz** | >4.000€ netto |
+| Server, Wartung | Zusaetzlich |
+
+### Kosten eigenes System (Cloud)
+
+| Posten | Kosten/Jahr |
+|--------|-------------|
+| Supabase Pro | ~300€ |
+| Cloudflare | ~100€ |
+| Sonstiges | ~50€ |
+| **Summe** | **~450€/Jahr** |
+
+---
+
+## Option A: W4A behalten + eigene Tools
+
+> **Strategie:** W4A bleibt Kernsystem, eigene Tools nur fuer operative Prozesse.
+
+```
+┌─────────────────────────────────────────┐
+│           EIGENE TOOLS                  │
+│  Planung, Tickets, Dashboards, LLM      │
+│            (~450€/Jahr)                 │
+└────────────────┬────────────────────────┘
+                 │ lesen
+                 ▼
+┌─────────────────────────────────────────┐
+│              W4A (ERP)                  │
+│  Stammdaten, Angebote, Auftraege,       │
+│  Rechnungen, Buchhaltung, DATEV         │
+│            (>4.000€/Jahr)               │
+└─────────────────────────────────────────┘
+```
+
+| Pro | Contra |
+|-----|--------|
+| Kein Migrationsrisiko | 4.000€+/Jahr bleiben |
+| Schnell umsetzbar | Zwei Systeme parallel |
+| DATEV funktioniert | Abhaengigkeit bleibt |
+| Team kennt W4A | |
+
+**Gesamtkosten: ~4.500€/Jahr**
+
+---
+
+## Option B: W4A schrittweise ersetzen
+
+> **Strategie:** Modul fuer Modul aus W4A raus, am Ende nur noch FIBU-Loesung.
+
+```
+Phase 1-3 (18-24 Monate)
+┌─────────────────────────────────────────┐
+│         EIGENES SYSTEM                  │
+│  Stammdaten, Angebote, Auftraege,       │
+│  Bestellungen, Planung, Tickets, LLM    │
+│            (~450€/Jahr)                 │
+└────────────────┬────────────────────────┘
+                 │
+                 ▼
+┌─────────────────────────────────────────┐
+│         FIBU-LOESUNG                    │
+│  lexoffice / sevDesk / W4A-FIBU-only    │
+│          (200-500€/Jahr?)               │
+└─────────────────────────────────────────┘
+```
+
+### Phasen
+
+| Phase | Dauer | Was raus aus W4A |
+|-------|-------|------------------|
+| **1** | 3-6 Mon | Planung, Tickets, Operative Tools |
+| **2** | 6-12 Mon | Stammdaten, Dokumente |
+| **3** | 6-12 Mon | Angebote, Auftraege, Bestellungen |
+| **4** | Entscheidung | Buchhaltung (siehe Optionen) |
+
+### FIBU-Optionen (Phase 4)
+
+| Option | Kosten/Jahr | Bemerkung |
+|--------|-------------|-----------|
+| W4A nur FIBU-Lizenz | ? | Nachfragen ob moeglich |
+| lexoffice / sevDesk | 200-500€ | Steuerberater muss OK geben |
+| Eigene FIBU | ❌ | Nicht empfohlen (GoBD!) |
+
+| Pro | Contra |
+|-----|--------|
+| **~3.000€+ Ersparnis/Jahr** | Migrationsaufwand |
+| Volle Kontrolle | 18-24 Monate Entwicklung |
+| Keine W4A-Abhaengigkeit | Steuerberater muss mitspielen |
+| Moderne Technologie | Risiko bei FIBU-Wechsel |
+
+**Gesamtkosten Ziel: ~650-950€/Jahr**
+
+---
+
+### Offene Fragen (vor Entscheidung klaeren)
+
+- [ ] Gibt es W4A reine FIBU-Lizenz? Kosten?
+- [ ] Steuerberater: Akzeptiert er lexoffice/sevDesk?
+- [ ] Wie komplex ist die Buchhaltung?
+
+---
+
+## Warum nicht komplett neues ERP kaufen?
 
 | Risiko | Auswirkung |
 |--------|------------|
@@ -328,6 +436,9 @@ Statt 64 separate Tools → 6-8 groessere Module mit Tabs/Views:
 
 | Datum | Aenderung |
 |-------|-----------|
+| 2025-12-21 | W4A-Kosten dokumentiert: >4.000€/Jahr, zwei Strategie-Optionen |
+| 2025-12-21 | Option A: W4A behalten + eigene Tools |
+| 2025-12-21 | Option B: W4A schrittweise ersetzen (Phasen, FIBU-Optionen) |
 | 2025-12-21 | LLM-Architektur: Agentic AI, Confidence-Score, Audit-Log |
 | 2025-12-21 | Source of Truth Prinzip: W4A vs. eigenes System |
 | 2025-12-21 | Sicherheitsmechanismen: Konsistenz-Check, W4A nur lesen |
