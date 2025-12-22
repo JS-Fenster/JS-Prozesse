@@ -32,8 +32,6 @@ JS_Prozesse/
 ├── ARCHITEKTUR.md               # ERP-Strategie (W4A + eigene Tools)
 ├── IDEEN.md                     # 65 Tool-Ideen (verdichtet)
 ├── IDEEN_DETAILS.md             # Technische Details + W4A-Status
-├── IDEEN_UEBERSICHT.html        # Ideen-Katalog (Karten, Filter)
-├── PROZESS_VISUALISIERUNG.html  # IST vs SOLL, Tool-Matrix
 └── CLAUDE.md                    # Diese Datei
 ```
 
@@ -49,14 +47,12 @@ JS_Prozesse/
 3. Verwandte Kategorien checken
 4. Ergebnis: "Aehnlich zu #X - dort ergaenzen?" ODER "Neue Idee #Y"
 
-**2. Bei neuer Idee - ALLE 4 Dateien pflegen:**
+**2. Bei neuer Idee - BEIDE Dateien pflegen:**
 
 | Datei | Aktion |
 |-------|--------|
 | `IDEEN.md` | Kurzversion (max 3 Zeilen), Phase zuordnen |
 | `IDEEN_DETAILS.md` | Technische Details + Quick-Reference Tabelle aktualisieren |
-| `IDEEN_UEBERSICHT.html` | Neue Karte hinzufuegen |
-| `PROZESS_VISUALISIERUNG.html` | Tool-Matrix + betroffene Prozesse aktualisieren |
 
 **3. Ideen proaktiv erkennen:**
 - User hat Problem/Wunsch? → Potentielle Idee!

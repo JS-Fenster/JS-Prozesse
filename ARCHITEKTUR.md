@@ -330,6 +330,8 @@ Automatischer Abgleich jeden Morgen:
 ## Option B: W4A schrittweise ersetzen
 
 > **Strategie:** Modul fuer Modul aus W4A raus, am Ende nur noch FIBU-Loesung.
+>
+> **Detail-Konzept:** Siehe [W4A_ERSATZ_KONZEPT.md](W4A_ERSATZ_KONZEPT.md)
 
 ```
 Phase 1-3 (18-24 Monate)
@@ -402,7 +404,7 @@ Phase 1-3 (18-24 Monate)
 2. **Phase 1:** Kritische Tools (#36 Beschaffung, Montage-Suite)
 3. **Phase 2-5:** Schrittweise weitere Tools
 
-→ Details: [IDEEN.md](IDEEN.md) | [PROZESS_VISUALISIERUNG.html](PROZESS_VISUALISIERUNG.html)
+→ Details: [IDEEN.md](IDEEN.md)
 
 ---
 

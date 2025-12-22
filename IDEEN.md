@@ -10,7 +10,6 @@
 |-------|--------|
 | **IDEEN.md** (diese Datei) | Kurzuebersicht (max 3 Zeilen/Idee) |
 | **[IDEEN_DETAILS.md](IDEEN_DETAILS.md)** | Technische Details, SQL, W4A-Status |
-| **[IDEEN_UEBERSICHT.html](IDEEN_UEBERSICHT.html)** | Interaktive Ansicht + Architektur |
 
 ---
 

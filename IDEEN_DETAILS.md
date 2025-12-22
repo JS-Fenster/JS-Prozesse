@@ -10,9 +10,6 @@
 |-------|--------|------------|
 | **[IDEEN.md](IDEEN.md)** | Verdichtete Uebersicht | Schneller Ueberblick, neue Ideen eintragen |
 | **IDEEN_DETAILS.md** (diese Datei) | Technische Details + W4A-Status | SQL, Logik, Abhaengigkeiten, Eigenbau-Empfehlung |
-| **[IDEEN_UEBERSICHT.html](IDEEN_UEBERSICHT.html)** | Interaktive Ansicht + **Architektur** | Filtern nach Phase, Phasen-Diagramm |
-
-> **Wichtig:** Bei Phasen-Aenderungen oder strukturellen Ideen (#58-60, #14) auch die **Architektur-Seite** in der HTML pruefen!
 
 ---
 
